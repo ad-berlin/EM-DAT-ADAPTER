@@ -60,7 +60,7 @@ losses for disasters with :blue-background[at least one of the following criteri
 - a declaration of :blue[state of emergency];
 - a call for :green[international assistance].
 
-For more information: *https://doi.org/10.1016/j.ijdrr.2025.105509*
+For more information: *https://doi.org/10.1016/j.ijdrr.2025.105509*  
 Source: EM-DAT, CRED / UCLouvain, Brussels, Belgium – www.emdat.be
 '''
 
@@ -74,35 +74,51 @@ TEXT_LIVE = '''
 Explore data with caution! Behind every number hides a life!
 '''
 
-SELECT_REGION = '''
+TEXT_IMPRESSUM = '''
+Impresum follows...
+'''
+
+select_dict = {
+'SELECT_REGION' : '''
 🌍 Choose Region
-'''
+''',
 
-SELECT_SUBREGION = '''
+'SELECT_SUBREGION' : '''
 🌍 Choose Subregion
-'''
+''',
 
-SELECT_COUNTRY = '''
+'SELECT_COUNTRY' : '''
 🌍 Choose Country
-'''
+''',
 
-SELECT_LOCAL = '''
+'SELECT_LOCAL' : '''
 📍 Choose Focus Regions
-'''
+''',
 
-SELECT_TIME = '''
+'SELECT_DIS_SCOPE' : '''
+🐢 Choose Scope
+''',
+
+'SELECT_TIME' : '''
 ⏱️ Timespan of Interest
 '''
+}
 
-EMOJI_HEADER = '🦥'
 
-EMOJI_SUBHEADER = '🪳'
+emoji_dict = {
+'EMOJI_HEADER' : '🦥',
 
-ERROR_DATA = '''
-🚨 Please, upload your dataset first on the main page
-'''
+'EMOJI_SUBHEADER' : '🐛'  # 🪳
+}
 
-ERROR_FILTER = '''
+
+error_dict = {
+'ERROR_DATA' : '''
+🚨 Please, upload your dataset first on the start page!
+''',
+
+'ERROR_FILTER' : '''
 🚨 Your chosen filters are too specific to plot. Please,
 generalise your request!
 '''
+}
