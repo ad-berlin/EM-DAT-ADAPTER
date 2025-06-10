@@ -78,6 +78,18 @@ TEXT_IMPRESSUM = '''
 Impresum follows...
 '''
 
+TEXT_HELP = '''
+HELP: How to find my way around!
+'''
+
+help_dict = {
+    'HELP_DIS_TYPE' : '''to be filled''',
+    'HELP_REGION': '''to be filled''',
+    'HELP_TIME': '''to be filled''',
+    'HELP_TABLE': '''to be filled''',
+    'HELP_EXPLORE': '''to be filled''',
+}
+
 select_dict = {
 'SELECT_REGION' : '''
 🌍 Choose Region

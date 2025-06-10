@@ -1,4 +1,3 @@
-from datetime import datetime
 import pandas as pd
 import streamlit as st
 
@@ -6,6 +5,7 @@ from utils.variables import (YEAR_START, MONTH_START, DAY_START, YEAR_END, MONTH
                              SUBREGION, LOCATION, RIVER, NUM, DIS_NAT_TECH, DIS_SUBGROUP, DIS_TYPE, DIS_SUBTYPE, ORIGIN,
                              ASS_TYPES, AID, RECONSTRUCTION, RECONSTRUCTION_ADJ, INSURED, INSURED_ADJ, DAMAGE,
                              DAMAGE_ADJ, MAG, MAG_SCALE, DEATHS, INJURED, AFFECTED, HOMELESS)
+from text.text_info import help_dict, TEXT_HELP
 
 st.cache_data()
 def get_data(file) -> pd.DataFrame:
@@ -49,3 +49,7 @@ def get_filtered_data(start, end, location: list, dis_type: list, df: pd.DataFra
     data = "123"
     return data
 
+
+def write_help(page_in_capitals) -> None:
+    with st.expander(TEXT_HELP, icon=':material/info:'):
+        st.markdown(help_dict.get(f'HELP_{page_in_capitals}'))

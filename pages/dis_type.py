@@ -8,6 +8,7 @@ from utils.variables import (YEAR_START, MONTH_START, DAY_START, YEAR_END, MONTH
                              DIS_DURATION,)
 from utils.variables import bar_list, plot_list, money_list, info_list
 from text.text_info import info_dict, error_dict, select_dict, emoji_dict, TEXT_IMPRESSUM
+from utils.utils import write_help
 
 if 'data' not in st.session_state:
     st.error(error_dict.get('ERROR_DATA'))
@@ -24,6 +25,8 @@ else:
     latest_year = df[YEAR_START].max()
     earliest_year = df[YEAR_START].min()
     all_years = df[YEAR_START].unique()
+
+    write_help('DIS_TYPE')
 
     with st.container(border=True):
         st.write(select_dict.get('SELECT_DIS_SCOPE'))
@@ -61,42 +64,44 @@ else:
     st.plotly_chart(target_bar)
 
     st.subheader(f":blue[Find out more about certain {target}s]", divider="green")
-    selected_subtarget = st.multiselect(label="Find out more about a certain Disaster Subtype...",
-                                        options=sorted(df[target].unique()),
-                                        label_visibility="collapsed")
+    selected_subtargets = st.multiselect(label="Find out more about a certain Disaster Subtype...",
+                                         options=sorted(df[target].unique()),
+                                         label_visibility="collapsed")
+    if len(selected_subtargets) > 0:
+        tabs = st.tabs(selected_subtargets)
 
-    for dis_target in selected_subtarget:
-        with st.container(border=True):
-            st.subheader(f"{emoji_dict.get('EMOJI_SUBHEADER')} {dis_target}", divider="grey")
-            fig_death = px.bar(
-                data_frame=df.loc[df[DIS_SUBTYPE] == dis_target],
-                x=SUBREGION,
-                y=DEATHS,
-                title=f"{DEATHS} of {dis_target} per {SUBREGION}",
-                hover_data=[COUNTRY, YEAR_START, NUM]
-            )
-            st.plotly_chart(fig_death)
+        for ix, dis_target in enumerate(selected_subtargets):
+            with tabs[ix]:
+                st.subheader(f"{emoji_dict.get('EMOJI_SUBHEADER')} {dis_target}", divider="grey")
+                fig_death = px.bar(
+                    data_frame=df.loc[df[target] == dis_target],
+                    x=SUBREGION,
+                    y=DEATHS,
+                    title=f"{DEATHS} of {dis_target} per {SUBREGION}",
+                    hover_data=[COUNTRY, YEAR_START, NUM]
+                )
+                st.plotly_chart(fig_death)
 
-            st.write("Explore further parameters:")
-            selected_parameter = st.multiselect(label="more parameters",
-                                                options=sorted(plot_list),
-                                                label_visibility="collapsed",
-                                                key=f"parameter box {dis_target}")
-            for parameter in selected_parameter:
-                st.subheader(f"{parameter}")
-                st.write(f"{info_dict.get(parameter)}")
-                if parameter in bar_list:
-                    fig_bar = px.bar(
-                        data_frame=df.loc[df[DIS_SUBTYPE] == dis_target],
-                        x=SUBREGION,
-                        y=parameter,
-                        title=f"{parameter} of {dis_target} per {SUBREGION}",
-                        hover_data=[COUNTRY, YEAR_START, NUM]
-                    )
-                    st.plotly_chart(fig_bar)
-                if parameter in info_list:
-                    info = df.loc[df[DIS_SUBTYPE] == dis_target][parameter].dropna().unique()
-                    st.write(f'{', '.join(info)}')
+                st.write("Explore further parameters:")
+                selected_parameter = st.multiselect(label="more parameters",
+                                                    options=sorted(plot_list),
+                                                    label_visibility="collapsed",
+                                                    key=f"parameter box {dis_target}")
+                for parameter in selected_parameter:
+                    st.subheader(f"{parameter}")
+                    st.write(f"{info_dict.get(parameter)}")
+                    if parameter in bar_list:
+                        fig_bar = px.bar(
+                            data_frame=df.loc[df[target] == dis_target],
+                            x=SUBREGION,
+                            y=parameter,
+                            title=f"{parameter} of {dis_target} per {SUBREGION}",
+                            hover_data=[COUNTRY, YEAR_START, NUM]
+                        )
+                        st.plotly_chart(fig_bar)
+                    if parameter in info_list:
+                        info = df.loc[df[DIS_SUBTYPE] == dis_target][parameter].dropna().unique()
+                        st.write(f'{', '.join(info)}')
 
 st.divider()
 st.write(TEXT_IMPRESSUM)
