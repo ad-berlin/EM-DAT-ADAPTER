@@ -19,14 +19,14 @@ else:
 
     target = st.session_state['dis_type_scope']
 
-    st.header(f":violet[Explore {target}s all over the world!]", divider="rainbow")
+    st.header(f":violet[Explore {target}s all over the World!]", divider="rainbow")
     df = st.session_state['data'].copy()
 
     latest_year = df[YEAR_START].max()
     earliest_year = df[YEAR_START].min()
     all_years = df[YEAR_START].unique()
 
-    write_help('DIS_TYPE')
+    write_help(page_in_capitals='DIS_TYPE')
 
     with st.container(border=True):
         st.write(select_dict.get('SELECT_DIS_SCOPE'))
@@ -46,6 +46,7 @@ else:
         df = df.loc[df[YEAR_START] <= end]
 
     st.subheader(f":blue[Overview per {target}s]", divider="green")
+
     df_target_count = df[target].value_counts()
     target_bar = px.bar(
         df_target_count,
@@ -54,14 +55,14 @@ else:
         title=f"Number of Events Worldwide per {target}s")
     st.plotly_chart(target_bar)
 
-    target_bar = px.scatter(
+    target_scatter = px.scatter(
         df,
         x=DATE_START,
         y=DEATHS,
         color=target,
         hover_data=[COUNTRY, NUM],
         title=f"{DEATHS} Worldwide per {target}s")
-    st.plotly_chart(target_bar)
+    st.plotly_chart(target_scatter)
 
     st.subheader(f":blue[Find out more about certain {target}s]", divider="green")
     selected_subtargets = st.multiselect(label="Find out more about a certain Disaster Subtype...",
@@ -81,6 +82,19 @@ else:
                     hover_data=[COUNTRY, YEAR_START, NUM]
                 )
                 st.plotly_chart(fig_death)
+
+                # TODO: make it work!
+                # event_count = df.loc[df[target] == dis_target][SUBREGION].value_counts()
+                # for cat, count in event_count.items():
+                #     fig_death.add_annotation(
+                #         x=str(cat),
+                #         xshift=0,
+                #         y=df.loc[df[SUBREGION] == cat][DEATHS].max() + 10,
+                #         text=count,
+                #         showarrow=False,
+                #         font=dict(size=12, color="grey"),
+                #     )
+                # fig_death.update_layout(margin=dict(t=25, b=0))
 
                 st.write("Explore further parameters:")
                 selected_parameter = st.multiselect(label="more parameters",

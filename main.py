@@ -8,7 +8,6 @@ st.set_page_config(
     page_icon=emoji_dict.get('EMOJI_HEADER'),
     layout='wide',
     menu_items={
-        'Get Help': 'https://doc.emdat.be/',
         'About': TEXT_ABOUT})
 
 # single page setup

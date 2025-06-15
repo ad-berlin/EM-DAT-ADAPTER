@@ -66,7 +66,7 @@ Source: EM-DAT, CRED / UCLouvain, Brussels, Belgium – www.emdat.be
 
 TEXT_ABOUT = '''
 This app has been developed to allow an insightful analysis of disaster data. This app has
-been developed by Anais Diaz and is inspired by the first app for EM-DAT visualisation by
+been developed by Anais Diaz in 2025 and is inspired by the first app for EM-DAT visualisation by
 Damien Delforge.
 '''
 
@@ -75,7 +75,13 @@ Explore data with caution! Behind every number hides a life!
 '''
 
 TEXT_IMPRESSUM = '''
-Impresum follows...
+:blue[**Impresum**]
+
+**Declaration of competing interest**  
+*The author declares no known competing financial interests or personal relationships that could have appeared to 
+influence the work reported in this project.*
+
+:violet[**Anais Diaz, 2025**]
 '''
 
 TEXT_HELP = '''
@@ -108,7 +114,7 @@ select_dict = {
 ''',
 
 'SELECT_DIS_SCOPE' : '''
-🐢 Choose Scope
+🔍 Choose Scope
 ''',
 
 'SELECT_TIME' : '''
@@ -120,7 +126,7 @@ select_dict = {
 emoji_dict = {
 'EMOJI_HEADER' : '🦥',
 
-'EMOJI_SUBHEADER' : '🐛'  # 🪳
+'EMOJI_SUBHEADER' : '🦖'  # 🪳
 }
 
 
