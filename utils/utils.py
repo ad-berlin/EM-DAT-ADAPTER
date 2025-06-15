@@ -1,5 +1,6 @@
 import pandas as pd
 import streamlit as st
+import numpy as np
 
 from utils.variables import (YEAR_START, MONTH_START, DAY_START, YEAR_END, MONTH_END, DAY_END, COUNTRY, REGION,
                              SUBREGION, LOCATION, RIVER, NUM, DIS_NAT_TECH, DIS_SUBGROUP, DIS_TYPE, DIS_SUBTYPE, ORIGIN,
@@ -11,9 +12,9 @@ st.cache_data()
 def get_data(file) -> pd.DataFrame:
     data = pd.read_excel(file, sheet_name=0)
 
-    data[DEATHS] = data[DEATHS].fillna(0)  # WARNING! But to be visible in plots!
-    data[INJURED] = data[INJURED].fillna(0)  # WARNING! But to be visible in plots!
-    data[AFFECTED] = data[AFFECTED].fillna(0)  # WARNING! But to be visible in plots!
+    # data[DEATHS] = data[DEATHS].fillna(0)  # WARNING! But to be visible in scatter!
+    # data[INJURED] = data[INJURED].fillna(0)  # WARNING! But to be visible in scatter!
+    # data[AFFECTED] = data[AFFECTED].fillna(0)  # WARNING! But to be visible in scatter!
 
     # fill nan in dates to first of month and first of year, even if unknown
     data[YEAR_START] = data[YEAR_START].astype(int)
@@ -53,3 +54,15 @@ def get_filtered_data(start, end, location: list, dis_type: list, df: pd.DataFra
 def write_help(page_in_capitals) -> None:
     with st.expander(TEXT_HELP, icon=':material/info:'):
         st.markdown(help_dict.get(f'HELP_{page_in_capitals}'))
+
+def remove_outliner(data: pd.DataFrame, q_low, q_high, parameter, target):
+    for disaster_type in data[target].unique():
+        mask = data[target] == disaster_type
+
+        high = data.loc[mask][parameter].quantile(q_high)
+        low = data.loc[mask][parameter].quantile(q_low)
+
+        outliner_mask = (data[parameter] < low) | (data[parameter] > high)
+
+        data.loc[mask & outliner_mask][parameter] = np.nan
+    return data

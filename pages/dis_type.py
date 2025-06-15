@@ -1,11 +1,12 @@
 import streamlit as st
 import plotly.express as px
+import numpy as np
 
 from utils.variables import (YEAR_START, MONTH_START, DAY_START, YEAR_END, MONTH_END, DAY_END, COUNTRY, REGION,
                              SUBREGION, LOCATION, RIVER, NUM, DIS_NAT_TECH, DIS_SUBGROUP, DIS_TYPE, DIS_SUBTYPE, ORIGIN,
                              ASS_TYPES, AID, RECONSTRUCTION, RECONSTRUCTION_ADJ, INSURED, INSURED_ADJ, DAMAGE,
                              DAMAGE_ADJ, MAG, MAG_SCALE, DEATHS, INJURED, AFFECTED, HOMELESS, DATE_START, DATE_END,
-                             DIS_DURATION,)
+                             DIS_DURATION, )
 from utils.variables import bar_list, plot_list, money_list, info_list
 from text.text_info import info_dict, error_dict, select_dict, emoji_dict, TEXT_IMPRESSUM
 from utils.utils import write_help
@@ -74,27 +75,31 @@ else:
         for ix, dis_target in enumerate(selected_subtargets):
             with tabs[ix]:
                 st.subheader(f"{emoji_dict.get('EMOJI_SUBHEADER')} {dis_target}", divider="grey")
+                target_df = df.loc[df[target] == dis_target]
+
                 fig_death = px.bar(
-                    data_frame=df.loc[df[target] == dis_target],
+                    data_frame=target_df,
                     x=SUBREGION,
                     y=DEATHS,
                     title=f"{DEATHS} of {dis_target} per {SUBREGION}",
-                    hover_data=[COUNTRY, YEAR_START, NUM]
-                )
-                st.plotly_chart(fig_death)
+                    subtitle="with number of events provided",
+                    hover_data=[COUNTRY, YEAR_START, NUM])
 
-                # TODO: make it work!
-                # event_count = df.loc[df[target] == dis_target][SUBREGION].value_counts()
-                # for cat, count in event_count.items():
-                #     fig_death.add_annotation(
-                #         x=str(cat),
-                #         xshift=0,
-                #         y=df.loc[df[SUBREGION] == cat][DEATHS].max() + 10,
-                #         text=count,
-                #         showarrow=False,
-                #         font=dict(size=12, color="grey"),
-                #     )
-                # fig_death.update_layout(margin=dict(t=25, b=0))
+                # TODO: Fix difference between plotly and manual aggregation
+                event_count = target_df[SUBREGION].value_counts()
+                death_count = target_df.groupby(SUBREGION)[DEATHS].sum()
+
+                for cat in target_df[SUBREGION].unique():
+                    fig_death.add_annotation(
+                        x=cat,
+                        y=int(death_count.max()),
+                        yshift=10,
+                        text=str(event_count.get(cat, 0)),
+                        showarrow=False,
+                        font=dict(size=12, color="grey"),
+                    )
+                fig_death.update_layout()
+                st.plotly_chart(fig_death)
 
                 st.write("Explore further parameters:")
                 selected_parameter = st.multiselect(label="more parameters",
@@ -117,5 +122,50 @@ else:
                         info = df.loc[df[DIS_SUBTYPE] == dis_target][parameter].dropna().unique()
                         st.write(f'{', '.join(info)}')
 
+    st.subheader(f":blue[Compare {target}s in impact per chosen parameter]", divider="green")
+    request_subgroups = st.multiselect(label="subgroup for box comparison",
+                                       options=df[target].unique(),
+                                       label_visibility="collapsed",
+                                       key=f"subgroup select")
+
+    request_parameter = st.selectbox(label="parameters for box comparison",
+                                     options=sorted(bar_list),
+                                     label_visibility="collapsed",
+                                     key=f"parameter select")
+
+    if len(request_subgroups) > 0:
+        df["request"] = np.where(df[target].isin(request_subgroups), 'request', 'no')
+        df_request = df.loc[df[f"request"] == "request"]
+        event_count = df_request[target].value_counts()
+
+        box, table = st.tabs(['Plot', 'Table'])
+
+        with box:
+            fig_box = px.box(
+                data_frame=df_request,
+                x=target,
+                y=request_parameter,
+                title=f"{request_parameter} per selected {target}s",
+                hover_data=[YEAR_START, COUNTRY, NUM])
+
+            for cat in request_subgroups:
+                fig_box.add_annotation(
+                    x=cat,
+                    y=df_request[request_parameter].max(),
+                    yshift=10,
+                    text=f'{str(event_count.get(cat, 0))} events',
+                    showarrow=False,
+                    font=dict(size=12, color="grey"),
+                )
+            fig_box.update_layout()
+            st.write("")
+            st.plotly_chart(fig_box)
+
+        with table:
+            st.write("A table will follow!")
+
 st.divider()
 st.write(TEXT_IMPRESSUM)
+
+# TODO: remember
+# death_count_1 = target_df.groupby(SUBREGION).agg({DEATHS : ['sum']})
