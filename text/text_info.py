@@ -45,6 +45,7 @@ info_dict = {
     "Admin Units": "Collection of impacted Administrative Units from the FAO GAUL 2015 referential. Individual objects correspond to Level-1 or Level-2 Administrative Units. Geocoding is maintained for non-biological natural hazards from 2000 onwards.",
     "Entry Date": "The day on which the event record was created in EM-DAT.",
     "Last Update": "The last date of modification of the event or one of its associated records in EM-DAT",
+    "Duration of Disaster": "Difference between start date and end date in days."
 }
 
 TEXT_INTRO = '''
@@ -139,4 +140,19 @@ error_dict = {
 🚨 Your chosen filters are too specific to plot. Please,
 generalise your request!
 '''
+}
+
+month_dict = {
+    "1": "January",
+    "2": "February",
+    "3": "March",
+    "4": "April",
+    "5": "May",
+    "6": "June",
+    "7": "July",
+    "8": "August",
+    "9": "September",
+    "10": "October",
+    "11": "November",
+    "12": "December"
 }

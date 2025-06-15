@@ -6,7 +6,7 @@ from utils.variables import (YEAR_START, MONTH_START, DAY_START, YEAR_END, MONTH
                              ASS_TYPES, AID, RECONSTRUCTION, RECONSTRUCTION_ADJ, INSURED, INSURED_ADJ, DAMAGE,
                              DAMAGE_ADJ, MAG, MAG_SCALE, DEATHS, INJURED, AFFECTED, HOMELESS, DATE_START, DATE_END,
                              DIS_DURATION,)
-from utils.variables import bar_list, plot_list, money_list, info_list
+from utils.variables import int_list, plot_list, money_list, info_list
 from text.text_info import info_dict, error_dict, select_dict, emoji_dict, TEXT_IMPRESSUM
 from utils.utils import write_help
 

@@ -55,6 +55,7 @@ def write_help(page_in_capitals) -> None:
     with st.expander(TEXT_HELP, icon=':material/info:'):
         st.markdown(help_dict.get(f'HELP_{page_in_capitals}'))
 
+
 def remove_outliner(data: pd.DataFrame, q_low, q_high, parameter, target):
     for disaster_type in data[target].unique():
         mask = data[target] == disaster_type
@@ -65,4 +66,23 @@ def remove_outliner(data: pd.DataFrame, q_low, q_high, parameter, target):
         outliner_mask = (data[parameter] < low) | (data[parameter] > high)
 
         data.loc[mask & outliner_mask][parameter] = np.nan
+    return data
+
+def treat_text_column(data: pd.DataFrame, column: str):
+    data[column] = data[column].astype(str)
+    data[column] = (
+        data[column]
+        .str.replace(' | ', ', ')  # replace | with same separator
+        .str.replace(' and ', ', ')  # replace and with same separator
+        .str.replace(' + ', ', ')  # replace + with same separator
+        .str.replace(' & ', ', ')  # replace & with same separator
+        .str.replace('(', '')  # remove open round bracket
+        .str.replace(')', '')  # remove close round bracket
+        .str.replace('[', '')  # remove open square brackets (literal string)
+        .str.replace(']', '')  # remove close square brackets (literal string)
+        .str.replace(' ; ', ', ')
+        .str.replace('; ', ', ')
+        .str.replace(' ,', ',')
+        .str.replace('_', ' ')
+    )
     return data
