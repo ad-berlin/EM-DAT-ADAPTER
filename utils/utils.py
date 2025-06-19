@@ -42,6 +42,7 @@ def get_data(file) -> pd.DataFrame:
 
     add_col_duration = "Duration of Disaster"
     data[add_col_duration] = (data[add_col_end] - data[add_col_start]).dt.days + 1
+    data[add_col_duration] = np.where(data[add_col_duration] <= 0, np.nan, data[add_col_duration])
 
     return data
 

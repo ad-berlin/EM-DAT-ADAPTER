@@ -5,9 +5,8 @@ from utils.variables import (YEAR_START, MONTH_START, DAY_START, YEAR_END, MONTH
                              SUBREGION, LOCATION, RIVER, NUM, DIS_NAT_TECH, DIS_SUBGROUP, DIS_TYPE, DIS_SUBTYPE, ORIGIN,
                              ASS_TYPES, AID, RECONSTRUCTION, RECONSTRUCTION_ADJ, INSURED, INSURED_ADJ, DAMAGE,
                              DAMAGE_ADJ, MAG, MAG_SCALE, DEATHS, INJURED, AFFECTED, HOMELESS, DATE_START, DATE_END,
-                             DIS_DURATION,)
-from utils.variables import int_list, plot_list, money_list, info_list
-from text.text_info import info_dict, error_dict, select_dict, emoji_dict, TEXT_IMPRESSUM
+                             DIS_DURATION, int_list, plot_list, info_list)
+from text.text_info import info_dict, error_dict, select_dict, emoji_dict, TEXT_IMPRESSUM, country_local_name_un_2025_dict
 from utils.utils import write_help
 
 if 'data' not in st.session_state:
@@ -46,6 +45,14 @@ else:
         df = df.loc[df[YEAR_START] <= end]
 
     st.subheader(f":blue[Overview per {target}]", divider="green")
+
+    # info = df[target].value_counts()
+    # info.index = info.index.map(lambda x: country_local_un_dict.get(x, x))
+    # st.dataframe(info)
+
+    unique = sorted(df[target].unique())
+    st.dataframe(unique)
+
 
     df_target_count = df[target].value_counts()
     target_bar = px.bar(
