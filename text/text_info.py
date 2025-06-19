@@ -313,7 +313,7 @@ country_local_name_un_2025_dict = {
     "Portugal": "Portugal (Portugal)",
     # Q, R
     "Qatar": "Qatar (قطر/ Qaṭar)",
-    "Repuplic of Korea": "Republic of Korea (한국)",
+    "Republic of Korea": "Republic of Korea (한국)",
     "Republic of Moldova": "Republic of Moldova",  # double check!
     "Romania": "Romania (România)",
     "Russian Federation": "Russian Federation (Российская Федерация)",
@@ -378,8 +378,6 @@ overseas_terr_dict = {
     "Aruba": "Netherlands",  # integrated (non EU), caribbean
     "Azores Islands": "Portugal",  # autonomous, european islands
     "Canary Islands": "Spain",  # autonomous, north african island
-    # "China, Hong Kong Special Administrative Region": "China",  # special administrative, china mainland
-    # "China, Macao Special Administrative Region": "China",  # special administrative, china mainland
     "Cook Islands": "New Zealand",  # free association, oceania
     "Curaçao": "Netherlands",  # integrated (non EU), caribbean
     "French Guiana": "France",  # fully integrated, south american mainland
@@ -391,7 +389,7 @@ overseas_terr_dict = {
     "Netherlands Antilles": "Netherlands",  # historic/ new dissolved into Curaçao, Sint Maarten, etc.
     "Niue": "New Zealand",  # free association, oceania
     "Northern Mariana Islands": "United States of America",  # unincorporated organized territory, oceania
-    "Palau": "United States",  # free association, oceania
+    "Palau": "United States of America",  # free association, oceania
     "Puerto Rico": "United States of America",  # unincorporated organized territory, caribbean
     "Réunion": "France",  # fully integrated, south-eastern african island
     "Saint Barthélemy": "France",  # overseas collectivity (COM), caribbean
@@ -409,8 +407,8 @@ non_un_2025_states = {
     "Taiwan": "Taiwan (臺灣)",  # partially recognised
 }
 
-# UN non-self-governing territories
-occupation_un_2025_dict = {
+# UN non-self-governing territories and Hong Kong and Macau
+non_self_gov_2025_dict = {
     "American Samoa": "United States of America",  # unincorporated unorganized territory, caribbean, != Samoa (--> independent)
     "Anguilla": "United Kingdom",  # overseas territory, caribbean island
     "Bermuda": "United Kingdom",  # overseas territory, north american islands
@@ -420,6 +418,8 @@ occupation_un_2025_dict = {
     "French Polynesia": "France",  # free association, oceania
     "Gibraltar": "United Kingdom",  # overseas territory, european mainland
     "Guam": "United States of America",  # unincorporated organized territory, oceania
+    "Hong Kong (China)": "China",  # special administrative, china mainland
+    "Macao (China)": "China",  # special administrative, china mainland
     "Montserrat": "United Kingdom",  # overseas territory, caribbean
     "New Caledonia": "France",  # special status (closer to free association), oceania
     "Pitcairn": "United Kingdom",  # overseas territory, oceania
@@ -431,29 +431,27 @@ occupation_un_2025_dict = {
 }
 
 # historic labels comparable in borders and long to short UN labels
-label_dict = {
-    "Bolivia (Plurinationa State of)": "Bolivia",
+country_label_dict = {
+    "Bolivia (Plurinational State of)": "Bolivia",
     "Czech Republic": "Czechia",
-    "Democratic People's Republic of Korea": "North Korea",  # ?
+    "China, Hong Kong Special Administrative Region": "Hong Kong (China)",
+    "China, Macao Special Administrative Region": "Macao (China)",
+    "Democratic People's Republic of Korea": "North Korea",
     "German Democratic Republic": "Germany",
     "Germany Federal Republic": "Germany",
     "Iran (Islamic Republic of)": "Iran",
     "Lao People's Democratic Republic": "Lao People's D. R.",
-    "Micronesia (federated States of)": "Micronesia",
+    "Micronesia (Federated States of)": "Micronesia",
     "Netherlands (Kingdom of the)": "Netherlands",
-    # "Netherlands Antilles": "historic ???",
     "People's Democratic Republic of Yemen": "Yemen",
     "Taiwan (Province of China)": "Taiwan",
     "United Kingdom of Great Britain and Northern Ireland": "United Kingdom",
-    "Venezuela (Bolivarian Republic of": "",
+    "Venezuela (Bolivarian Republic of)": "Venezuela",
     "Yemen Arab Republic": "Yemen",
     "State of Palestine": "Palestine",
-}
-
-# historic labels comparable in borders
-historic_dict = {
-    "Czechoslovakia": "historic",
-    "Serbia Montenegro": "historic",
-    "Soviet Union": "historic",
-    "Yugoslavia": "historic",
+    "Czechoslovakia": "Czechoslovakia",
+    "Netherlands Antilles": "Netherlands Antilles (historic)",
+    "Serbia Montenegro": "Serbia Montenegro (historic)",
+    "Soviet Union": "Soviet Union (historic)",
+    "Yugoslavia": "Yugoslavia (historic)",
 }

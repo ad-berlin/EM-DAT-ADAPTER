@@ -12,9 +12,7 @@ st.cache_data()
 def get_data(file) -> pd.DataFrame:
     data = pd.read_excel(file, sheet_name=0)
 
-    # data[DEATHS] = data[DEATHS].fillna(0)  # WARNING! But to be visible in scatter!
-    # data[INJURED] = data[INJURED].fillna(0)  # WARNING! But to be visible in scatter!
-    # data[AFFECTED] = data[AFFECTED].fillna(0)  # WARNING! But to be visible in scatter!
+    # TODO: solve show NaN in scatter
 
     # fill nan in dates to first of month and first of year, even if unknown
     data[YEAR_START] = data[YEAR_START].astype(int)
@@ -43,6 +41,12 @@ def get_data(file) -> pd.DataFrame:
     add_col_duration = "Duration of Disaster"
     data[add_col_duration] = (data[add_col_end] - data[add_col_start]).dt.days + 1
     data[add_col_duration] = np.where(data[add_col_duration] <= 0, np.nan, data[add_col_duration])
+
+    add_col_continent = "Continent"  # North America, South America, Europe, Asia, Australia, Africa, Antarctica
+    add_col_equal_area = "Region with equal Area"
+    add_col_equal_population = "Region with equal Population"
+    add_col_subregion_geo = "Geographical Subregion"
+    add_col_subregion_pol = "Political Subregion"
 
     return data
 
