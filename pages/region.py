@@ -34,31 +34,53 @@ if 'data' not in st.session_state:
 else:
     if 'dis_region_scope' not in st.session_state:
         st.session_state['dis_region_scope'] = COUNTRY
+    if KEY_REGION_SPEC not in st.session_state:
+        st.session_state[KEY_REGION_SPEC] = OPT_CONTINENT
+    if KEY_SUBREGION_SPEC not in st.session_state:
+        st.session_state[KEY_SUBREGION_SPEC] = OPT_GEOGRAPH
     if KEY_COUNTRY_SPEC not in st.session_state:
         st.session_state[KEY_COUNTRY_SPEC] = OPT_SOVEREIGN
 
-
+    # specific page variables
     target = st.session_state['dis_region_scope']
+    region_view = st.session_state[KEY_REGION_SPEC]
+    subregion_view = st.session_state[KEY_SUBREGION_SPEC]
     country_view = st.session_state[KEY_COUNTRY_SPEC]
-
-    st.header(f":violet[Explore Disasters all over the World per {target}!]", divider="rainbow")
     df = st.session_state['data'].copy()
-
     latest_year = df[YEAR_START].max()
     earliest_year = df[YEAR_START].min()
     all_years = df[YEAR_START].unique()
 
+    # start actual content
+    st.header(f":violet[Explore Disasters all over the World per {target}!]", divider="rainbow")
     write_help(page_in_capitals='REGION')
 
     with st.container(border=True):
-        st.write(select_dict.get('SELECT_DIS_SCOPE'))
         col1, col2 = st.columns(2)
+        col1.write(select_dict.get('SELECT_DIS_SCOPE'))
         col1.radio(
             label="decision dis_type scope",
             options=[REGION, SUBREGION, COUNTRY],
             label_visibility="collapsed",
             horizontal=True,
             key="dis_region_scope")
+
+        col2.write(select_dict.get('SELECT_GROUPING'))
+        if target == REGION:
+            col2.radio(
+            label="decision region",
+            options=LST_REGION,
+            label_visibility="collapsed",
+            horizontal=True,
+            key=KEY_REGION_SPEC)
+
+        if target == SUBREGION:
+            col2.radio(
+            label="decision subregion",
+            options=LST_SUBREGION,
+            label_visibility="collapsed",
+            horizontal=True,
+            key=KEY_SUBREGION_SPEC)
 
         if target == COUNTRY:
             col2.radio(

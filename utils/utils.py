@@ -42,10 +42,10 @@ def get_data(file) -> pd.DataFrame:
     data[add_col_duration] = (data[add_col_end] - data[add_col_start]).dt.days + 1
     data[add_col_duration] = np.where(data[add_col_duration] <= 0, np.nan, data[add_col_duration])
 
-    add_col_continent = "Continent"  # North America, South America, Europe, Asia, Australia, Africa, Antarctica
+    add_col_continent = "Continent"  # North America, South America, Europe, Asia, Oceania, Africa, Antarctica
     add_col_equal_area = "Region with equal Area"
-    add_col_equal_population = "Region with equal Population"
-    add_col_subregion_geo = "Geographical Subregion"
+    add_col_equal_population = "Region with equal Population"  # 10 groups
+    add_col_subregion_geo = "Geographical Subregion"  #
     add_col_subregion_pol = "Political Subregion"
 
     return data

@@ -120,6 +120,10 @@ select_dict = {
 
 'SELECT_TIME' : '''
 ⏱️ Timespan of Interest
+''',
+
+'SELECT_GROUPING' : '''
+🧩 Choose Grouping
 '''
 }
 
@@ -455,3 +459,53 @@ country_label_dict = {
     "Soviet Union": "Soviet Union (historic)",
     "Yugoslavia": "Yugoslavia (historic)",
 }
+
+continent_list = [
+    "Africa",
+    "Europe",
+    "Asia",
+    "North America",
+    "South America",
+    "Oceania",
+    "Antarctica"
+]
+
+geograph_list = [
+    "North America",  # USA, Canada
+    "Central America",
+    "Caribbean",
+    "Northern South America",
+    "The Amazonas",  # Brasil,
+    "The Papas",
+    "The Andes",  #
+    "North-West Europe",  # split Oder River
+    "East Europe",  # split Oder River
+    "Mediterranean",  # south of Alps
+    "The Levant and Anatolia",  # The Levant, Turkey and Iraq
+    "Arabian Peninsula and Persia",  # Arabian Peninsula, Iran, Azerbaijan, Afghanistan, Armenia
+    "Southern Himalayas",  # Pakistan, India, Sri Lanka, Bangladesh, Nepal, Bhutan
+    "South East Asia",  # Myanmar, Lao, Thailand, Cambodia, Malaysia, Viet Nam, Singapore, Indonesia
+    "North-West Pacific (East Asia)",  # China, Taiwan, Japan, Korean Peninsula,
+    "Altai, Pamir and Tian Shan",  # central asia
+    "Australia and New Zealand",
+    "Micronesia, Polynesia and Melanesia",  # Micronesia, Polynesia, Melanesia
+    "Arab Maghreb",
+    "Niger Basin and Lake Chad",
+    "Nile Basin"
+    "Congo Basin",
+    "African West Coast and Gulf of Guinea"
+    "East African Highlands",
+    "South African Savannas and (Semi)Deserts"
+]
+
+population_list = []
+
+area_list = []
+
+political_list = []
+
+sovereign_list = []
+
+country_list = []
+
+admin_list = []
