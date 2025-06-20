@@ -51,8 +51,9 @@ def get_data(file) -> pd.DataFrame:
     return data
 
 
-def get_filtered_data(start, end, location: list, dis_type: list, df: pd.DataFrame):
-    data = "123"
+st.cache_data()
+def get_un_data(file) -> pd.DataFrame:
+    data = pd.read_csv(file)
     return data
 
 
@@ -72,6 +73,7 @@ def remove_outliner(data: pd.DataFrame, q_low, q_high, parameter, target):
 
         data.loc[mask & outliner_mask][parameter] = np.nan
     return data
+
 
 def treat_text_column(data: pd.DataFrame, column: str):
     data[column] = data[column].astype(str)

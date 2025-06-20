@@ -334,7 +334,7 @@ country_local_name_un_2025_dict = {
     "Serbia": "Serbia (Србија/ Srbija)",
     "Seychelles": "Seychelles (Sesel)",
     "Sierra Leone": "Sierra Leone",
-    "Singapore": "Singapore",  # double check (chinese)!
+    "Singapore": "Singapore (新加坡)",
     "Slovakia": "Slovakia (Slovensko)",
     "Slovenia": "Slovenia (Slovenija)",
     "Solomon Islands": "Solomon Islands",
@@ -404,7 +404,7 @@ overseas_terr_dict = {
 
 # UN permanent observers and none states
 non_un_2025_states = {
-    "Palestine": "Palestine (فلسطين)",  # partially recognised
+    "Palestine": "Palestine (دولة فلسطين)",  # partially recognised
     "Holy See": "Holy See (Sancta Sedes)",
     "North Korea": "North Korea (조선)",
     "Kosovo": "Kosovo (Republika e Kosovës/ Република Косово)",  # partially recognised
@@ -453,7 +453,7 @@ country_label_dict = {
     "Venezuela (Bolivarian Republic of)": "Venezuela",
     "Yemen Arab Republic": "Yemen",
     "State of Palestine": "Palestine",
-    "Czechoslovakia": "Czechoslovakia",
+    "Czechoslovakia": "Czechoslovakia (historic)",
     "Netherlands Antilles": "Netherlands Antilles (historic)",
     "Serbia Montenegro": "Serbia Montenegro (historic)",
     "Soviet Union": "Soviet Union (historic)",
@@ -467,6 +467,7 @@ continent_list = [  # 6 regions
     "North America",  # + Mexico, Caribbean
     "South America",  # - Mexico, Caribbean
     "Oceania",
+    "International Spaces"  # Sea, Air, Space (needed?)
 ]
 
 geograph_list = [  # 25 regions
@@ -503,32 +504,12 @@ geograph_list = [  # 25 regions
     "East African Islands",  # Madagascar, Comoros, Seychelles, Mayotte, Reunion, Mauritius,
 ]
 
-population_list = []
+population_list = []  # does this make sense? change in history?
 
-area_list = []  # does this make sense?
+area_list = []  # does this make sense? more likely as additional dataframe...
 
-political_list = [
-    # The Americas
-    "NAFTA",
-    "CAP",
-    "CARICOM",
-    "AC",
-    "MERCOSUR",
-    # Eurasia
-    "EFTA",  # EWR?
-    "EU",  # EWR?
-    "GCC",
-    "CIS",
-    "SAARC",
-    "ASEAN",
-    # Africa  # AU??
-    "AMU",
-    "ECOWAS",
-    "CEMAC",
-    "SADC",
-    "IGAD",
-    # Oceania
-    "PIF",
+political_list = [  # UN regions
+"== to SUBREGION"
 ]
 
 sovereign_list = []

@@ -78,3 +78,8 @@ st.sidebar.link_button(
     ":blue_book: EM-DAT Documentation",
     url="https://doc.emdat.be/",
     use_container_width=True)
+
+st.sidebar.link_button(
+    "➕ UN Data Download",
+    url="https://population.un.org/wpp/downloads?folder=Standard%20Projections&group=CSV%20format",
+    use_container_width=True)

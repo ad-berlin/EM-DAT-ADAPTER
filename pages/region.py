@@ -1,5 +1,6 @@
 import streamlit as st
 import plotly.express as px
+import numpy as np
 
 from utils.variables import (YEAR_START, MONTH_START, DAY_START, YEAR_END, MONTH_END, DAY_END, COUNTRY, REGION,
                              SUBREGION, LOCATION, RIVER, NUM, DIS_NAT_TECH, DIS_SUBGROUP, DIS_TYPE, DIS_SUBTYPE, ORIGIN,
@@ -16,15 +17,14 @@ KEY_REGION_SPEC = 'region_specification'
 KEY_SUBREGION_SPEC = 'subregion_specification'
 KEY_COUNTRY_SPEC = 'country_specification'
 OPT_CONTINENT = 'Continents'
-OPT_POPULATION = 'Equal Population Regions'
-OPT_AREA = 'Equal (Land) Area Regions'
+OPT_UN_M49_R = 'UN M49 Regions'
 OPT_GEOGRAPH = 'Geographical Regions'
-OPT_POLITICAL = 'Political Regions'
+OPT_UN_M49_SUBR = 'UN M49 Subregions'
 OPT_SOVEREIGN = 'UN Sovereign Countries'
-OPT_COUNTRY = 'Countries'
-OPT_ADMIN = 'Administrative Regions'
-LST_REGION = [OPT_CONTINENT, OPT_POPULATION, OPT_AREA]
-LST_SUBREGION = [OPT_GEOGRAPH, OPT_POLITICAL]
+OPT_COUNTRY = 'Countries'  # M49?
+OPT_ADMIN = 'Administrative Regions'  # M49?
+LST_REGION = [OPT_CONTINENT, OPT_UN_M49_R]
+LST_SUBREGION = [OPT_GEOGRAPH, OPT_UN_M49_SUBR]
 LST_COUNTRY = [OPT_SOVEREIGN, OPT_COUNTRY, OPT_ADMIN]
 
 
@@ -46,10 +46,12 @@ else:
     region_view = st.session_state[KEY_REGION_SPEC]
     subregion_view = st.session_state[KEY_SUBREGION_SPEC]
     country_view = st.session_state[KEY_COUNTRY_SPEC]
+
     df = st.session_state['data'].copy()
+
     latest_year = df[YEAR_START].max()
     earliest_year = df[YEAR_START].min()
-    all_years = df[YEAR_START].unique()
+    all_years = df[YEAR_START].unique()  # why not fully sorted??
 
     # start actual content
     st.header(f":violet[Explore Disasters all over the World per {target}!]", divider="rainbow")
@@ -92,7 +94,7 @@ else:
 
         st.write(select_dict.get('SELECT_TIME'))
         start, end = st.select_slider(label="timespan_region",
-                                      options=all_years,
+                                      options=sorted(all_years),
                                       value=(earliest_year, latest_year),
                                       label_visibility="collapsed")
         df = df.loc[df[YEAR_START] >= start]
@@ -113,7 +115,6 @@ else:
                      target: st.column_config.TextColumn(label=target, width="large"),
                      "count": st.column_config.NumberColumn(label="number of events")},
                  use_container_width=True)
-
 
     df_target_count = df[target].value_counts()
     target_bar = px.bar(
@@ -167,6 +168,14 @@ else:
         title=f"{DEATHS} (if no number available = 0) per {DIS_SUBGROUP}")
     history_of_death.update_traces(marker_size=10)
     st.plotly_chart(history_of_death)
+
+
+    if 'un_data' in st.session_state:
+        un_df = st.session_state['un_data'].copy()
+
+        un_df.loc[un_df['Time'] > latest_year] = np.nan
+        info = un_df.loc[un_df['Location'] == 'State of Palestine']
+        st.dataframe(info)
 
 st.divider()
 st.write(TEXT_IMPRESSUM)
