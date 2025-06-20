@@ -266,7 +266,7 @@ country_local_name_un_2025_dict = {
     "Kuwait": "Kuwait (الكويت/ Al-Kuwayt)",
     "Kyrgyzstan": "Kyrgyzstan (Кыргызстан)",
     # L
-    "Lao People's D. R.": "Lao People's D. R. (ລາວ)",  # double check!
+    "Lao People's D.R.": "Lao People's D.R. (ລາວ)",  # double check!
     "Latvia": "Latvia (Latvija)",
     "Lebanon": "Lebanon (لبنان/ Lubnān)",
     "Lesotho": "Lesotho",
@@ -444,7 +444,7 @@ country_label_dict = {
     "German Democratic Republic": "Germany",
     "Germany Federal Republic": "Germany",
     "Iran (Islamic Republic of)": "Iran",
-    "Lao People's Democratic Republic": "Lao People's D. R.",
+    "Lao People's Democratic Republic": "Lao People's D.R.",
     "Micronesia (Federated States of)": "Micronesia",
     "Netherlands (Kingdom of the)": "Netherlands",
     "People's Democratic Republic of Yemen": "Yemen",
@@ -460,49 +460,76 @@ country_label_dict = {
     "Yugoslavia": "Yugoslavia (historic)",
 }
 
-continent_list = [
+continent_list = [  # 6 regions
     "Africa",
-    "Europe",
-    "Asia",
-    "North America",
-    "South America",
+    "Europe",  # + Russia
+    "Asia",  # - Russia
+    "North America",  # + Mexico, Caribbean
+    "South America",  # - Mexico, Caribbean
     "Oceania",
-    "Antarctica"
 ]
 
-geograph_list = [
-    "North America",  # USA, Canada
-    "Central America",
+geograph_list = [  # 25 regions
+    # The Americas
+    "North America",  # USA, Canada, Greenland
+    "Central America",  # Mexico, Guatemala, El Salvador, Honduras, Nicaragua, Costa Rica, Panama
     "Caribbean",
-    "Northern South America",
-    "The Amazonas",  # Brasil,
-    "The Papas",
-    "The Andes",  #
-    "North-West Europe",  # split Oder River
-    "East Europe",  # split Oder River
-    "Mediterranean",  # south of Alps
-    "The Levant and Anatolia",  # The Levant, Turkey and Iraq
-    "Arabian Peninsula and Persia",  # Arabian Peninsula, Iran, Azerbaijan, Afghanistan, Armenia
+    "Northern South America",  # Colombia, Venezuela, Guyana, Suriname, French Guiana
+    "The Amazonas",  # Brasil, Bolivia
+    "The Andes",  # Chile, Peru, Ecuador
+    "The Papas",  # Argentina, Paraguay, Uruguay
+    # Europe
+    "North-West Europe",  # Scandinavia, UK, Ireland, Benelux, Switzerland, Liechtenstein, Germany, Austria, Czechia
+    "East Europe",  # Balkan States, Poland, Belarus, Slovakia, Ukraine, Hungary, Romania, Moldova, Serbia, Kosovo, North Macedonia, Russia, Georgia
+    "Mediterranean",  # Portugal, Spain, Andorra, France, Italy, Slovenia, Croatia, B&H, Montenegro, Albania, Greece
+    # Asia
+    "The Levant & Anatolia",  # Cyprus, Syria, Lebanon, Israel, Palestine, Jordan, Turkey, Iraq
+    "Arabian Peninsula & Persia",  # Arabian Peninsula, Iran, Azerbaijan, Afghanistan, Armenia, Turkmenistan
     "Southern Himalayas",  # Pakistan, India, Sri Lanka, Bangladesh, Nepal, Bhutan
-    "South East Asia",  # Myanmar, Lao, Thailand, Cambodia, Malaysia, Viet Nam, Singapore, Indonesia
-    "North-West Pacific (East Asia)",  # China, Taiwan, Japan, Korean Peninsula,
-    "Altai, Pamir and Tian Shan",  # central asia
-    "Australia and New Zealand",
-    "Micronesia, Polynesia and Melanesia",  # Micronesia, Polynesia, Melanesia
-    "Arab Maghreb",
-    "Niger Basin and Lake Chad",
-    "Nile Basin"
-    "Congo Basin",
-    "African West Coast and Gulf of Guinea"
-    "East African Highlands",
-    "South African Savannas and (Semi)Deserts"
+    "Altai, Pamir & Tian Shan",  # Uzbekistan, Tajikistan, Kazakhstan, Kyrgyzstan, Mongolia
+    "North-West Pacific (East Asia)",  # China, Taiwan, Japan, North Korea, Republic of Korea
+    "South East Asia",  # Myanmar, Lao, Thailand, Cambodia, Malaysia, Viet Nam, Singapore, Indonesia, East Timor, Philippines
+    # Oceania
+    "Australia & New Zealand",  # Australia, New Zealand
+    "Micronesia, Polynesia & Melanesia",  # Micronesia, Polynesia, Melanesia
+    # Africa
+    "Arab Maghreb",  # Mauritania, Western Sahara, Morocco, Algeria, Tunisia, Libya
+    "Nile Basin",  # Uganda, South Sudan, Sudan, Eritrea, Egypt
+    "East African Highlands",  # Djibouti, Somalia, Ethiopia, Kenya, Tanzania
+    "Niger Basin & Lake Chad",  # Mali, Burkina Faso, Niger, Nigeria, Chad
+    "African West Coast & Gulf of Guinea",  # CV, Senegal, The Gambia, Guinea Bissau, Guinea, Sierra Leone, Liberia, CI, Ghana, Togo, Benin, Cameroon, Eq. Guinea, STAP, Gabon, Angola
+    "Congo Basin",  # Congo, D.R. of the Congo, CAR, Rwanda, Burundi
+    "South African Savannas & (Semi)Deserts",  # Angola, Zambia, Malawi, Mozambique, Zimbabwe, Botswana, Namibia, South Africa, Lestho, Eswatini
+    "East African Islands",  # Madagascar, Comoros, Seychelles, Mayotte, Reunion, Mauritius,
 ]
 
 population_list = []
 
-area_list = []
+area_list = []  # does this make sense?
 
-political_list = []
+political_list = [
+    # The Americas
+    "NAFTA",
+    "CAP",
+    "CARICOM",
+    "AC",
+    "MERCOSUR",
+    # Eurasia
+    "EFTA",  # EWR?
+    "EU",  # EWR?
+    "GCC",
+    "CIS",
+    "SAARC",
+    "ASEAN",
+    # Africa  # AU??
+    "AMU",
+    "ECOWAS",
+    "CEMAC",
+    "SADC",
+    "IGAD",
+    # Oceania
+    "PIF",
+]
 
 sovereign_list = []
 
