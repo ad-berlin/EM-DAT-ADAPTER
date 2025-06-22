@@ -14,37 +14,37 @@ st.set_page_config(
 start_page = st.Page(  # data upload, general information about EM-DAT, useful tips
     page="pages/start.py",
     title="Start",
-    icon=emoji_dict.get('EMOJI_SUBHEADER'),
+    icon='🦥',
     default=True)
 
 dis_type_page = st.Page(  # visualisation per classification with different scopes (group, subgroup, type, or subtype)
     page="pages/dis_type.py",
     title="Per classification",
-    icon=emoji_dict.get('EMOJI_SUBHEADER'),
+    icon='🐢',
     default=False)
 
 region_page = st.Page(  # visualisation per region with different scopes (region, subregion, country, or location)
     page="pages/region.py",
     title="Per region",
-    icon=emoji_dict.get('EMOJI_SUBHEADER'),
+    icon='🦒',
     default=False)
 
 time_page = st.Page(
     page="pages/time.py",
     title="Over time",
-    icon=emoji_dict.get('EMOJI_SUBHEADER'),
+    icon='🦛',
     default=False)
 
 explore_page = st.Page(  # allow self conducted exploration based of free selection of column(s) and search terms
     page="pages/explore.py",
     title="Explore further",
-    icon=emoji_dict.get('EMOJI_SUBHEADER'),
+    icon='🐺',
     default=False)
 
 table_page = st.Page(  # view full table and restrict columns if needed
     page="pages/table.py",
     title="See full table",
-    icon=emoji_dict.get('EMOJI_SUBHEADER'),
+    icon='🌪️',
     default=False)
 
 

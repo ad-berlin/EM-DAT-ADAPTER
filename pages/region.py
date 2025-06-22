@@ -21,11 +21,12 @@ OPT_UN_M49_R = 'UN M49 Regions'
 OPT_GEOGRAPH = 'Geographical Regions'
 OPT_UN_M49_SUBR = 'UN M49 Subregions'
 OPT_SOVEREIGN = 'UN Sovereign Countries'
-OPT_COUNTRY = 'Countries'  # M49?
-OPT_ADMIN = 'Administrative Regions'  # M49?
+OPT_COUNTRY = 'EM-DAT Countries'
+OPT_ADMIN = 'Administrative Regions'
+OPT_M49_C = 'UN M49 Countries'
 LST_REGION = [OPT_CONTINENT, OPT_UN_M49_R]
 LST_SUBREGION = [OPT_GEOGRAPH, OPT_UN_M49_SUBR]
-LST_COUNTRY = [OPT_SOVEREIGN, OPT_COUNTRY, OPT_ADMIN]
+LST_COUNTRY = [OPT_SOVEREIGN, OPT_COUNTRY, OPT_ADMIN, OPT_M49_C]
 
 
 if 'data' not in st.session_state:
