@@ -53,7 +53,7 @@ else:
         df_target_count,
         x=df_target_count.index,
         y='count',
-        title=f"Number of Events Worldwide per {target}s")
+        title=f"Number of Events Worldwide per {target}s ({start} to {end})")
     st.plotly_chart(target_bar)
 
     target_scatter = px.scatter(
@@ -62,7 +62,7 @@ else:
         y=DEATHS,
         color=target,
         hover_data=[COUNTRY, NUM],
-        title=f"{DEATHS} Worldwide per {target}s")
+        title=f"{DEATHS} Worldwide per {target}s ({start} to {end})")
     st.plotly_chart(target_scatter)
 
     st.subheader(f":blue[Find out more about certain {target}s]", divider="green")
@@ -205,5 +205,6 @@ else:
                     5: st.column_config.NumberColumn(
                         label="median",
                         format="localized")})
+
 st.divider()
 st.write(TEXT_IMPRESSUM)

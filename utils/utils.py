@@ -69,6 +69,7 @@ def get_data(file) -> pd.DataFrame:
 st.cache_data()
 def get_un_data(file) -> pd.DataFrame:
     data = pd.read_csv(file)
+    data = data[['SortOrder', 'LocID', 'Location', 'Time', 'TPopulation1Jan', 'PopDensity', 'MedianAgePop']]
     return data
 
 
@@ -97,6 +98,8 @@ def treat_text_column(data: pd.DataFrame, column: str):
         .str.replace(' | ', ', ')  # replace | with same separator
         .str.replace(' and ', ', ')  # replace and with same separator
         .str.replace(' + ', ', ')  # replace + with same separator
+        .str.replace(' +', ', ')  # replace + with same separator
+        .str.replace('+ ', ', ')  # replace + with same separator
         .str.replace(' & ', ', ')  # replace & with same separator
         .str.replace('(', '')  # remove open round bracket
         .str.replace(')', '')  # remove close round bracket

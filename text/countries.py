@@ -307,46 +307,50 @@ continent_list = [  # 6 regions
     "International Spaces"  # Sea, Air, Space (needed?)
 ]
 
-geograph_list = [  # 25 regions
-    # The Americas
+geograph_list = [  # 26 regions
+    # The Americas (7 regions)
     "North America",  # USA, Canada, Greenland
     "Central America",  # Mexico, Guatemala, El Salvador, Honduras, Nicaragua, Costa Rica, Panama
     "Caribbean",
     "Northern South America",  # Colombia, Venezuela, Guyana, Suriname, French Guiana
     "The Amazonas",  # Brasil, Bolivia
     "The Andes",  # Chile, Peru, Ecuador
-    "The Papas",  # Argentina, Paraguay, Uruguay
-    # Europe
-    "North-West Europe",  # Scandinavia, UK, Ireland, Benelux, Switzerland, Liechtenstein, Germany, Austria, Czechia
-    "East Europe",  # Balkan States, Poland, Belarus, Slovakia, Ukraine, Hungary, Romania, Moldova, Serbia, Kosovo, North Macedonia, Russia, Georgia
-    "Mediterranean",  # Portugal, Spain, Andorra, France, Italy, Slovenia, Croatia, B&H, Montenegro, Albania, Greece
-    # Asia
-    "The Levant & Anatolia",  # Cyprus, Syria, Lebanon, Israel, Palestine, Jordan, Turkey, Iraq
-    "Arabian Peninsula & Persia",  # Arabian Peninsula, Iran, Azerbaijan, Afghanistan, Armenia, Turkmenistan
+    "The Pampas",  # Argentina, Paraguay, Uruguay
+    # Europe (3 regions)
+    "North-West Europe",  # Scandinavia, UK, Ireland, Benelux, Switzerland, Liechtenstein, Germany, France, Andorra, Austria, Czechia
+    "East Europe",  # Baltic States, Poland, Belarus, Slovakia, Ukraine, Hungary, Romania, Moldova, Serbia, Kosovo, North Macedonia, Russia, Georgia
+    "Mediterranean",  # Portugal, Spain, Italy, Slovenia (East?), Croatia, B&H (East?), Montenegro, Albania, Greece
+    # Asia (6 regions)
+    "The Levant & Anatolia",  # Cyprus, Syria, Lebanon, Palestine, Israel, Jordan, Turkey, Iraq
+    "Arabian Peninsula & Old Persia",  # Arabian Peninsula, Iran, Azerbaijan, Afghanistan, Armenia, Turkmenistan
     "Southern Himalayas",  # Pakistan, India, Sri Lanka, Bangladesh, Nepal, Bhutan
     "Altai, Pamir & Tian Shan",  # Uzbekistan, Tajikistan, Kazakhstan, Kyrgyzstan, Mongolia
     "North-West Pacific (East Asia)",  # China, Taiwan, Japan, North Korea, Republic of Korea
     "South East Asia",  # Myanmar, Lao, Thailand, Cambodia, Malaysia, Viet Nam, Singapore, Indonesia, East Timor, Philippines
-    # Oceania
+    # Oceania (2 regions)
     "Australia & New Zealand",  # Australia, New Zealand
     "Micronesia, Polynesia & Melanesia",  # Micronesia, Polynesia, Melanesia
-    # Africa
+    # Africa (8 regions)
     "Arab Maghreb",  # Mauritania, Western Sahara, Morocco, Algeria, Tunisia, Libya
     "Nile Basin",  # Uganda, South Sudan, Sudan, Eritrea, Egypt
-    "East African Highlands",  # Djibouti, Somalia, Ethiopia, Kenya, Tanzania
+    "East African Highlands",  # Djibouti, Somalia, Ethiopia, Kenya, Tanzania, Mozambique
     "Niger Basin & Lake Chad",  # Mali, Burkina Faso, Niger, Nigeria, Chad
-    "African West Coast & Gulf of Guinea",  # CV, Senegal, The Gambia, Guinea Bissau, Guinea, Sierra Leone, Liberia, CI, Ghana, Togo, Benin, Cameroon, Eq. Guinea, STAP, Gabon, Angola
+    "African West Coast & Gulf of Guinea",  # CV, Senegal, The Gambia, Guinea Bissau, Guinea, Sierra Leone, Liberia, CI, Ghana, Togo, Benin, Cameroon, Eq. Guinea, STAP, Gabon
     "Congo Basin",  # Congo, D.R. of the Congo, CAR, Rwanda, Burundi
-    "South African Savannas & (Semi)Deserts",  # Angola, Zambia, Malawi, Mozambique, Zimbabwe, Botswana, Namibia, South Africa, Lestho, Eswatini
-    "East African Islands",  # Madagascar, Comoros, Seychelles, Mayotte, Reunion, Mauritius,
+    "South African Savannas & (Semi)Deserts",  # Angola, Zambia, Malawi, Zimbabwe, Botswana, Namibia, South Africa, Lesotho, Eswatini
+    "Islands of the Indian Ocean",  # Madagascar, Comoros, Seychelles, Mayotte, Reunion, Mauritius, other Islands...
 ]
 
-political_list = [  # UN M49 regions
+political_list = [  # UN M49 subregions == EM-DAT Subregions
 "== to SUBREGION"
 ]
 
-sovereign_list = []
+new_political_list = [
+    "Marcela maybe new list!"
+]
 
-country_list = []
+sovereign_list = []  # UN 193 list
 
-admin_list = []
+country_list = []  # UN M49 countries
+
+admin_list = []  # UN administrative regions und oversea departments all split == EM-DAT Countries ?

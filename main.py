@@ -50,14 +50,14 @@ table_page = st.Page(  # view full table and restrict columns if needed
 
 # navigation and page-order
 pg = st.navigation(
-    pages=[
+    pages={"Navigation": [
         start_page,
         dis_type_page,
         region_page,
         time_page,
         explore_page,
         table_page
-        ])
+        ]})
 
 pg.run()  # run all pages
 

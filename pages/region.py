@@ -7,8 +7,8 @@ from utils.variables import (YEAR_START, MONTH_START, DAY_START, YEAR_END, MONTH
                              ASS_TYPES, AID, RECONSTRUCTION, RECONSTRUCTION_ADJ, INSURED, INSURED_ADJ, DAMAGE,
                              DAMAGE_ADJ, MAG, MAG_SCALE, DEATHS, INJURED, AFFECTED, HOMELESS, DATE_START, DATE_END,
                              DIS_DURATION, int_list, plot_list, info_list)
-from text.text_info import (info_dict, error_dict, select_dict, emoji_dict, TEXT_IMPRESSUM,
-                            country_local_name_un_2025_dict, country_label_dict, non_self_gov_2025_dict,
+from text.text_info import (info_dict, error_dict, select_dict, emoji_dict, TEXT_IMPRESSUM,)
+from text.countries import (country_local_name_un_2025_dict, country_label_dict, non_self_gov_2025_dict,
                             overseas_terr_dict, non_un_2025_states)
 from utils.utils import write_help
 
@@ -117,21 +117,13 @@ else:
                      "count": st.column_config.NumberColumn(label="number of events")},
                  use_container_width=True)
 
-    df_target_count = df[target].value_counts()
-    target_bar = px.bar(
-        df_target_count,
-        x=df_target_count.index,
-        y='count',
-        title=f"Number of Events Worldwide per {target}")
-    st.plotly_chart(target_bar)
-
     target_scatter = px.scatter(
         df,
         x=DATE_START,
         y=DEATHS,
         color=target,
         hover_data=[COUNTRY, DIS_TYPE, NUM],
-        title=f"{DEATHS} Worldwide per {target}")
+        title=f"{DEATHS} Worldwide per {target} ({start} to {end})")
     st.plotly_chart(target_scatter)
 
     st.write(select_dict.get(f'SELECT_{target.upper()}'))
@@ -166,16 +158,16 @@ else:
         y=DEATHS,
         color=DIS_SUBGROUP,
         hover_data=[DIS_TYPE, DIS_SUBTYPE, DIS_DURATION, NUM],
-        title=f"{DEATHS} (if no number available = 0) per {DIS_SUBGROUP}")
+        title=f"{DEATHS} (if no number available = 0) per {DIS_SUBGROUP} ({start} to {end})")
     history_of_death.update_traces(marker_size=10)
     st.plotly_chart(history_of_death)
 
 
     if 'un_data' in st.session_state:
         un_df = st.session_state['un_data'].copy()
-
-        un_df.loc[un_df['Time'] > latest_year] = np.nan
-        info = un_df.loc[un_df['Location'] == 'State of Palestine']
+        un_df = un_df.loc[un_df['Time'] >= start]
+        un_df = un_df.loc[un_df['Time'] <= end]
+        info = un_df.loc[un_df['Location'].str.contains(disaster_region)]  # TODO: fix weird categories
         st.dataframe(info)
 
 st.divider()

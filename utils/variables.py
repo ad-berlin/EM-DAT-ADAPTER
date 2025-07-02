@@ -44,7 +44,7 @@ DIS_DURATION = "Duration of Disaster"
 
 # - - - - - - - - - - -
 # variables layout
-COLOR_NUM_PLOT = "#8e3a59"
+COLOR_NUM_PLOT = "#c71585"  # "#8e3a59"
 
 # - - - - - - - - - - -
 # lists of variables

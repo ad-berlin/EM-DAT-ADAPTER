@@ -9,6 +9,8 @@ st.header(":violet[EM-DAT: Visualising International Disaster]", divider="rainbo
 
 st.write(TEXT_INTRO)
 
+st.write(":red[Please be patient for the upload...]")
+
 # EM-DAT data
 file_upload_em = st.file_uploader(
     "*Upload your EM-DAT xlsx file...*",
@@ -32,6 +34,7 @@ if on:
 
 if 'un_data' in st.session_state:
     st.success("UN file upload successful!")
+
 
 st.divider()
 st.write(TEXT_IMPRESSUM)
