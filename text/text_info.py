@@ -49,7 +49,7 @@ info_dict = {
 }
 
 TEXT_INTRO = '''
-The database is compiled from :blue-background[various sources], including UN agencies,
+The database EM-DAT is compiled from :blue-background[various sources], including UN agencies,
 non-governmental organizations, reinsurance companies, research institutes,
 and press agencies. The :blue-background[Centre for Research on the Epidemiology of Disasters
 (CRED)] distributes the data in open access for :blue-background[non-commercial use].
@@ -91,7 +91,35 @@ HELP: How to find my way around!
 
 help_dict = {
     'HELP_DIS_TYPE' : '''to be filled''',
-    'HELP_REGION': '''to be filled''',
+    'HELP_REGION': '''
+    *Country*  
+    The term "Country" is not as neutral as one could wish, which is why multiple definitions are available
+    here.    
+    :blue[UN Sovereign Countries] - The dataset is reduced to the 193 states of the UN council from 2025. The territories
+    are as described by the UN (source: ...)  
+    :blue[EM-DAT Countries] - The dataset is not manipulated and the labels as given by the CRED are used. (source: ...)  
+    :blue[Administrative Regions] - Regions which have special administrative status, are under occupation, or are overseas
+    territory are separated from their main land to allow individual analysis. (source: ...)  
+    :blue[UN M49 Countries] - Countries  are defined as in the UN M49 standard. (source: ...)
+    
+    *Subregion*  
+    Based on "Countries" "Subregions" can be diverged. These are subjective groupings for broader pattern analysis. To
+    begin with, two groupings are provided.  
+    :blue[Geographical Subregions] - The aim is to group countries by shared geographical traits, locations, and/or water
+    sources. (source: ...)  
+    :blue[UN M49 Subregions] - Subregions are defined as in the UN M49 standard. (source: ...)
+    
+    *Region*  
+    Based on "Subregions" "Regions" can be diverged. These are subjective groupings for broader pattern analysis. To
+    begin with, two groupings are provided.  
+    :blue[Continents] - The aim is to group countries by shared geographical traits, locations, and/or water
+    sources.  
+    :blue[UN M49 Regions] - Regions are defined as in the UN M49 standard. (source: ...)
+    
+    All of these definitions should support representation of human beings and their suffering through disasters.
+    If important definitions are missing or active definitions are lacking or offending, please do not hesitate to
+    inform the developer and provide data and/or sources to further improve this web tool.
+    ''',
     'HELP_TIME': '''to be filled''',
     'HELP_TABLE': '''to be filled''',
     'HELP_EXPLORE': '''to be filled''',
@@ -130,7 +158,6 @@ select_dict = {
 
 emoji_dict = {
 'EMOJI_HEADER' : '🦥',
-
 'EMOJI_SUBHEADER' : '🦖'  # 🪳
 }
 
@@ -139,10 +166,8 @@ error_dict = {
 'ERROR_DATA' : '''
 🚨 Please, upload your dataset first on the start page!
 ''',
-
 'ERROR_FILTER' : '''
-🚨 Your chosen filters are too specific to plot. Please,
-generalise your request!
+🚨 Your chosen filters are too specific to plot. Please, generalise your request!
 '''
 }
 

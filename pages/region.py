@@ -10,9 +10,9 @@ from utils.variables import (YEAR_START, MONTH_START, DAY_START, YEAR_END, MONTH
 from text.text_info import (info_dict, error_dict, select_dict, emoji_dict, TEXT_IMPRESSUM,)
 from text.countries import (country_local_name_un_2025_dict, country_label_dict, non_self_gov_2025_dict,
                             overseas_terr_dict, non_un_2025_states)
-from utils.utils import write_help
+from utils.utils import write_help, treat_text_column
 
-# specific page constants
+# specific page constants todo: add to Enum
 KEY_REGION_SPEC = 'region_specification'
 KEY_SUBREGION_SPEC = 'subregion_specification'
 KEY_COUNTRY_SPEC = 'country_specification'
@@ -109,6 +109,8 @@ else:
     # df.replace({target: overseas_terr_dict}, inplace=True)
     # df.replace({target: non_un_2025_states}, inplace=True)
     # df.replace({target: country_local_name_un_2025_dict}, inplace=True)
+
+    st.write(df[COUNTRY].unique())
 
     info = df[target].value_counts()
     st.dataframe(data=info,

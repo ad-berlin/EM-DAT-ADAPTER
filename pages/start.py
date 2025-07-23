@@ -5,7 +5,7 @@ from utils.utils import get_data, get_un_data
 from text.text_info import TEXT_IMPRESSUM
 
 
-st.header(":violet[EM-DAT: Visualising International Disaster]", divider="rainbow")
+st.header(":violet[DisBase: Visualising International Disaster]", divider="rainbow")
 
 st.write(TEXT_INTRO)
 
@@ -23,8 +23,8 @@ if 'data' in st.session_state:
     st.success("EM-DAT file upload successful!")
 
 # UN data
-on = st.toggle("Enable additional upload UN population data", key="un_toggle")
-if on:
+allow_un_upload = st.toggle("Enable additional upload UN population data", key="un_toggle")
+if allow_un_upload:
     file_upload_un = st.file_uploader(
         "*Upload your UN csv file...*",
         type=['csv'])

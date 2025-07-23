@@ -116,7 +116,7 @@ country_local_name_un_2025_dict = {
     "Madagascar": "Madagascar (Madagasikara)",  # double check!
     "Malawi": "Malawi (Malaŵi)",
     "Malaysia": "Malaysia",
-    "Maldives": "Maldives (ގުޖޭއްރާ ޔާއްރިހޫމްޖު/ Dhivehi Raajje",
+    "Maldives": "Maldives (ގުޖޭއްރާ ޔާއްރިހޫމްޖު/ Dhivehi Raajje)",
     "Mali": "Mali",
     "Malta": "Malta",
     "Marshall Islands": "Marshall Islands (Aolepān Aorōkin M̧ajeļ)",  # ?, double check!
