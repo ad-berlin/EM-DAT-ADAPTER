@@ -2,17 +2,14 @@ import streamlit as st
 import plotly.express as px
 import numpy as np
 
-from utils.variables import (YEAR_START, MONTH_START, DAY_START, YEAR_END, MONTH_END, DAY_END, COUNTRY, REGION,
-                             SUBREGION, LOCATION, RIVER, NUM, DIS_NAT_TECH, DIS_SUBGROUP, DIS_TYPE, DIS_SUBTYPE, ORIGIN,
-                             ASS_TYPES, AID, RECONSTRUCTION, RECONSTRUCTION_ADJ, INSURED, INSURED_ADJ, DAMAGE,
-                             DAMAGE_ADJ, MAG, MAG_SCALE, DEATHS, INJURED, AFFECTED, HOMELESS, DATE_START, DATE_END,
-                             DIS_DURATION, int_list, plot_list, info_list)
+from utils import constants as c
+
 from text.text_info import (info_dict, error_dict, select_dict, emoji_dict, TEXT_IMPRESSUM,)
 from text.countries import (country_local_name_un_2025_dict, country_label_dict, non_self_gov_2025_dict,
                             overseas_terr_dict, non_un_2025_states)
-from utils.utils import write_help, treat_text_column
+from utils.ut import write_help, treat_text_column
 
-# specific page constants todo: add to Enum
+# specific page constants todo: add to constants
 KEY_REGION_SPEC = 'region_specification'
 KEY_SUBREGION_SPEC = 'subregion_specification'
 KEY_COUNTRY_SPEC = 'country_specification'
@@ -34,7 +31,7 @@ if 'data' not in st.session_state:
 
 else:
     if 'dis_region_scope' not in st.session_state:
-        st.session_state['dis_region_scope'] = COUNTRY
+        st.session_state['dis_region_scope'] = c.COUNTRY
     if KEY_REGION_SPEC not in st.session_state:
         st.session_state[KEY_REGION_SPEC] = OPT_CONTINENT
     if KEY_SUBREGION_SPEC not in st.session_state:
@@ -50,9 +47,9 @@ else:
 
     df = st.session_state['data'].copy()
 
-    latest_year = df[YEAR_START].max()
-    earliest_year = df[YEAR_START].min()
-    all_years = df[YEAR_START].unique()  # why not fully sorted??
+    latest_year = df[c.YEAR_START].max()
+    earliest_year = df[c.YEAR_START].min()
+    all_years = sorted(df[c.YEAR_START].unique())
 
     # start actual content
     st.header(f":violet[Explore Disasters all over the World per {target}!]", divider="rainbow")
@@ -63,13 +60,13 @@ else:
         col1.write(select_dict.get('SELECT_DIS_SCOPE'))
         col1.radio(
             label="decision dis_type scope",
-            options=[REGION, SUBREGION, COUNTRY],
+            options=[c.REGION, c.SUBREGION, c.COUNTRY],
             label_visibility="collapsed",
             horizontal=True,
             key="dis_region_scope")
 
         col2.write(select_dict.get('SELECT_GROUPING'))
-        if target == REGION:
+        if target == c.REGION:
             col2.radio(
             label="decision region",
             options=LST_REGION,
@@ -77,7 +74,7 @@ else:
             horizontal=True,
             key=KEY_REGION_SPEC)
 
-        if target == SUBREGION:
+        if target == c.SUBREGION:
             col2.radio(
             label="decision subregion",
             options=LST_SUBREGION,
@@ -85,7 +82,7 @@ else:
             horizontal=True,
             key=KEY_SUBREGION_SPEC)
 
-        if target == COUNTRY:
+        if target == c.COUNTRY:
             col2.radio(
             label="decision country",
             options=LST_COUNTRY,
@@ -98,8 +95,8 @@ else:
                                       options=sorted(all_years),
                                       value=(earliest_year, latest_year),
                                       label_visibility="collapsed")
-        df = df.loc[df[YEAR_START] >= start]
-        df = df.loc[df[YEAR_START] <= end]
+        df = df.loc[df[c.YEAR_START] >= start]
+        df = df.loc[df[c.YEAR_START] <= end]
 
     st.subheader(f":blue[Overview per {target}]", divider="green")
 
@@ -110,7 +107,7 @@ else:
     # df.replace({target: non_un_2025_states}, inplace=True)
     # df.replace({target: country_local_name_un_2025_dict}, inplace=True)
 
-    st.write(df[COUNTRY].unique())
+    st.write(df[c.COUNTRY].unique())
 
     info = df[target].value_counts()
     st.dataframe(data=info,
@@ -121,11 +118,11 @@ else:
 
     target_scatter = px.scatter(
         df,
-        x=DATE_START,
-        y=DEATHS,
+        x=c.DATE_START,
+        y=c.DEATHS,
         color=target,
-        hover_data=[COUNTRY, DIS_TYPE, NUM],
-        title=f"{DEATHS} Worldwide per {target} ({start} to {end})")
+        hover_data=[c.COUNTRY, c.DIS_TYPE, c.NUM],
+        title=f"{c.DEATHS} Worldwide per {target} ({start} to {end})")
     st.plotly_chart(target_scatter)
 
     st.write(select_dict.get(f'SELECT_{target.upper()}'))
@@ -151,16 +148,16 @@ else:
     # df_tab2[add_col_wanted_region] = np.where(df_tab2[LOCATION].str.contains(keyword_pattern, na=False), 'yes', 'no')
     # df_tab2 = df_tab2.loc[df_tab2[add_col_wanted_region] == "yes"]
 
-    st.subheader(f":blue[{DEATHS} in {disaster_region} per Time]", divider="green")
+    st.subheader(f":blue[{c.DEATHS} in {disaster_region} per Time]", divider="green")
 
     # plot deaths general
     history_of_death = px.scatter(
         data_frame=df,
-        x=DATE_START,
-        y=DEATHS,
-        color=DIS_SUBGROUP,
-        hover_data=[DIS_TYPE, DIS_SUBTYPE, DIS_DURATION, NUM],
-        title=f"{DEATHS} (if no number available = 0) per {DIS_SUBGROUP} ({start} to {end})")
+        x=c.DATE_START,
+        y=c.DEATHS,
+        color=c.DIS_SUBGROUP,
+        hover_data=[c.DIS_TYPE, c.DIS_SUBTYPE, c.DIS_DURATION, c.NUM],
+        title=f"{c.DEATHS} (if no number available = 0) per {c.DIS_SUBGROUP} ({start} to {end})")
     history_of_death.update_traces(marker_size=10)
     st.plotly_chart(history_of_death)
 

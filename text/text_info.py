@@ -61,6 +61,8 @@ losses for disasters with :blue-background[at least one of the following criteri
 - a declaration of :blue[state of emergency];
 - a call for :green[international assistance].
 
+*This app only allows analysis and display of disasters with a natural disaster agent.*
+
 Publication on the Database: *https://doi.org/10.1016/j.ijdrr.2025.105509*  
 Source: EM-DAT, CRED / UCLouvain, Brussels, Belgium – www.emdat.be
 '''
@@ -71,12 +73,12 @@ been developed by Anais Diaz in 2025 and is inspired by the first app for EM-DAT
 Damien Delforge.
 '''
 
-TEXT_LIVE = '''
+TEXT_LIFE = '''
 Explore data with caution! Behind every number hides a life!
 '''
 
 TEXT_IMPRESSUM = '''
-:blue[**Impresum**]
+:blue[**Impressum**]
 
 **Declaration of competing interest**  
 *The author declares no known competing financial interests or personal relationships that could have appeared to 

@@ -47,19 +47,32 @@ table_page = st.Page(  # view full table and restrict columns if needed
     icon='🌪️',
     default=False)
 
+# st.logo("images/logo.png")
 
 # navigation and page-order
 pg = st.navigation(
-    pages={"Navigation": [
-        start_page,
-        dis_type_page,
-        region_page,
-        time_page,
-        explore_page,
-        table_page
-        ]})
+    pages={
+        "Analysis": [
+            start_page,
+            dis_type_page,
+            region_page,
+            time_page,
+            table_page,
+            explore_page,
+        ],
+        "Meta Data": [
+            # data_page,  # TODO: add page for data quality e.g. show nans, compare nans per region etc.
+            # sources_page,  # add page listing all sources in full length
+            # process_page,  # add page explaining the process
+        ],
+        "About": [
+            # about_page,  # add page explaining the intention and vision
+            # part_page,  # add page inviting to participate in the project, maybe linking to reddit
+        ]
+    })
 
 pg.run()  # run all pages
+
 
 # add to sidebar: link referring where to download the EM-DAT data
 st.sidebar.link_button(

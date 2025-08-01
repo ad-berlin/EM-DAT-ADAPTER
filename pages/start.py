@@ -1,11 +1,11 @@
 import streamlit as st
 
 from text.text_info import TEXT_INTRO
-from utils.utils import get_data, get_un_data
+from utils.ut import get_data, get_un_data
 from text.text_info import TEXT_IMPRESSUM
 
 
-st.header(":violet[DisBase: Visualising International Disaster]", divider="rainbow")
+st.header(":violet[DisTrack - International Disaster Analysis]", divider="rainbow")
 
 st.write(TEXT_INTRO)
 
@@ -38,4 +38,3 @@ if 'un_data' in st.session_state:
 
 st.divider()
 st.write(TEXT_IMPRESSUM)
-
