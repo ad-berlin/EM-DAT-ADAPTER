@@ -47,13 +47,43 @@ table_page = st.Page(  # view full table and restrict columns if needed
     icon='🌪️',
     default=False)
 
-# st.logo("images/logo.png")
+data_page = st.Page(  # page for data quality e.g. show nans, compare nans per region etc.
+    page="pages/data.py",
+    title="Data quality",
+    icon='🦖',
+    default=False)
+
+sources_page = st.Page(  # page listing all sources in full length
+    page="pages/sources.py",
+    title="Sources",
+    icon='🦖',
+    default=False)
+
+process_page = st.Page(  # page explaining the process
+    page="pages/process.py",
+    title="The process",
+    icon='🦖',
+    default=False)
+
+about_page = st.Page(  # page explaining the intention and vision
+    page="pages/about.py",
+    title="About",
+    icon='🦖',
+    default=False)
+
+part_page = st.Page(  # page inviting to participate in the project, maybe linking to reddit
+    page="pages/part.py",
+    title="Participate",
+    icon='🦖',
+    default=False)
+
+# st.logo("images/logo.png")  # TODO: fix logo sizing
 
 # navigation and page-order
 pg = st.navigation(
     pages={
         "Analysis": [
-            start_page,
+            start_page,  # TODO: maybe start page extra?; Can some pages be collapsed?
             dis_type_page,
             region_page,
             time_page,
@@ -61,13 +91,13 @@ pg = st.navigation(
             explore_page,
         ],
         "Meta Data": [
-            # data_page,  # TODO: add page for data quality e.g. show nans, compare nans per region etc.
-            # sources_page,  # add page listing all sources in full length
-            # process_page,  # add page explaining the process
+            data_page,  # add page for data quality e.g. show nans, compare nans per region etc.
+            sources_page,  # add page listing all sources in full length
+            process_page,  # add page explaining the process
         ],
         "About": [
-            # about_page,  # add page explaining the intention and vision
-            # part_page,  # add page inviting to participate in the project, maybe linking to reddit
+            about_page,  # add page explaining the intention and vision
+            part_page,  # add page inviting to participate in the project, maybe linking to reddit
         ]
     })
 
