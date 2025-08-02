@@ -128,7 +128,33 @@ def treat_text_column(data: pd.DataFrame, column: str):
     return data
 
 def treat_origin():
-    # aaaaaaaaaaaaaaaaah O_O
-    # e.g. origin of flash flood
+    # for misspellings:
+    # len(word) == 4,5,6 and 4 letters are h, e, a, v, y --> heavy
+    # len(word) == 3,4,5,6 and 3 letters are r, a, i, n, s --> rain
+    # --> torrential (torrentila)
+    # --> monsoonal
+    # --> melting
+    # --> lightning
+    # --> poor, insufficient
+    # --> of
+    # --> seasonal
+    # --> supply
+
+    # poor, limited, insufficient
+    # excessive, erratic, severe, strong, extreme, intense, heavy
+    # rainfall(s), rain(s), raining, showers, rain
+    # snowfall(s), snow fall(s)
+    # snowmelt, snow melt, melting of snow, melting snow
+    # non-stop, prolonged, long-term, uninterrupted, persistent, continuous
+
+    # tremor == thunderstorm(s) ??
+    # unseasonal ??
+
     a = 1
     return a
+
+
+def build_scatter_data(data: pd.DataFrame):
+    for col in c.int_list:
+        data[col] = data[col].fillna(0)
+    return data

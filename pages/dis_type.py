@@ -4,9 +4,8 @@ import numpy as np
 import pandas as pd
 
 from utils import constants as c
-from text.text_info import info_dict, error_dict, select_dict, emoji_dict, TEXT_IMPRESSUM, help_dict, month_dict
-from utils.ut import write_help, treat_text_column
-
+from text.text_info import info_dict, error_dict, select_dict, TEXT_IMPRESSUM, month_dict
+from utils.ut import write_help, treat_text_column, build_scatter_data
 
 if 'data' not in st.session_state:
     st.error(error_dict.get('ERROR_DATA'))
@@ -17,12 +16,11 @@ else:
 
     target = st.session_state['dis_type_scope']
 
-    st.header(f":violet[Explore {target}s all over the World!]", divider="rainbow")
     df = st.session_state['data'].copy()
 
     latest_year = df[c.YEAR_START].max()
     earliest_year = df[c.YEAR_START].min()
-    all_years = df[c.YEAR_START].unique()
+    all_years = sorted(df[c.YEAR_START].unique())
 
     write_help(page_in_capitals='DIS_TYPE')
 
@@ -44,29 +42,28 @@ else:
         df = df.loc[df[c.YEAR_START] <= end]
 
     st.subheader(f":blue[Overview per {target}s]", divider="green")
-    # allow parameter to get an overview e.g. number, deaths, affected, duration, etc.
+    y_scatter = st.selectbox(f"{select_dict.get('SELECT_PARAM')} for Overview", options=sorted(c.overview_list))
+    with st.container(border=True):
+        st.write(f'Definition of :blue[{y_scatter}]: *{info_dict.get(y_scatter)}*')
 
-    df_target_count = df[target].value_counts()
-    target_bar = px.bar(
-        df_target_count,
-        x=df_target_count.index,
-        y='count',
-        title=f"Number of Events Worldwide per {target} ({start} to {end})")
-    st.plotly_chart(target_bar)
-
-    # TODO: produce one scatter_df with data upload and put in session_state??
-    scatter_df = df
-    scatter_df[c.DEATHS] = scatter_df[c.DEATHS].fillna(0)
-
-    target_scatter = px.scatter(
-        scatter_df,
-        x=c.DATE_START,
-        y=c.DEATHS,
-        color=target,
-        hover_data=[c.COUNTRY, c.NUM],
-        title=f"Deaths differentiated by {target} ({start} to {end})",
-        subtitle="data gaps filled with 0 for visualisation")
-    st.plotly_chart(target_scatter)
+    if y_scatter == c.NUMBER_EV:
+        df_target_count = df[target].value_counts()
+        target_bar = px.bar(
+            df_target_count,
+            x=df_target_count.index,
+            y='count',
+            title=f"Number of Events Worldwide per {target} ({start} to {end})")
+        st.plotly_chart(target_bar)
+    else:
+        target_scatter = px.scatter(
+            build_scatter_data(df),
+            x=c.DATE_START,
+            y=y_scatter,
+            color=target,
+            hover_data=[c.COUNTRY, c.NUM],
+            title=f"{y_scatter} differentiated by {target} ({start} to {end})",
+            subtitle="data gaps filled with 0 for visualisation")
+        st.plotly_chart(target_scatter)
 
     st.subheader(f":blue[Find out more about certain {target}s]", divider="green")
     selected_subtargets = st.multiselect(label="Find out more about a certain Disaster Subtype...",
@@ -77,41 +74,48 @@ else:
 
         for ix, dis_target in enumerate(selected_subtargets):
             with tabs[ix]:
-                st.subheader(f"{emoji_dict.get('EMOJI_SUBHEADER')} {dis_target}", divider="grey")
+                st.subheader(f":grey[{dis_target}]", divider="grey")
                 target_df = df
                 target_df = target_df.loc[target_df[target] == dis_target]
 
-                target_scatter_df = target_df
-                target_scatter_df[c.DEATHS] = target_scatter_df[c.DEATHS].fillna(0)
-
-                fig_death = px.scatter(
-                    data_frame=target_scatter_df,
-                    x=c.DATE_START,
-                    y=c.DEATHS,
-                    color=c.SUBREGION,
-                    title=f"Deaths of {dis_target} differentiated by  {c.SUBREGION} ({start} to {end})",
-                    subtitle="data gaps filled with 0 for visualisation",
-                    hover_data=[c.COUNTRY, c.YEAR_START, c.NUM])
-                st.plotly_chart(fig_death)
-
-                st.write("Explore further parameters:")
-                selected_parameter = st.multiselect(label="more parameters",
+                selected_parameter = st.multiselect(label=f"{select_dict.get('SELECT_PARAM')} for Exploration",
                                                     options=sorted(c.plot_list),
-                                                    label_visibility="collapsed",
                                                     key=f"parameter box {dis_target}")
 
-                # TODO: fix if empty
                 for parameter in selected_parameter:
                     st.subheader(f"{parameter}")
+                    # st.write(f":red[{parameter}]")
                     st.write(f"*{info_dict.get(parameter)}*")
 
                     if parameter in c.int_list:
+                        if parameter == c.MAG:
+                            agg_mag = target_df.groupby(c.MAG_SCALE).agg(
+                                {c.MAG: ['min', 'max', 'mean', np.median]})
+                            st.write(agg_mag)  # TODO: switch to dataframe and layout number format
+
+                        q_1 = st.slider(label="*Select restrictive quantile for better visualisation*",
+                                        min_value=0.00, max_value=1.00, value=1.00,
+                                        key=f"q1_slider_{parameter}_{dis_target}")
+                        mask_1 = target_df[parameter].quantile(q_1)
+                        target_df.loc[target_df[parameter] > mask_1] = np.nan
+
+                        col1, col2 = st.columns(2)
                         fig_hist = px.histogram(
                             data_frame=target_df,
                             x=parameter,
-                            nbins=30,  # TODO: remove on click max 1% of values
-                            title=f"Distribution of {parameter} ({start} to {end})")
-                        st.plotly_chart(fig_hist)
+                            nbins=30,
+                            title=f"Distribution of {parameter} of {dis_target} ({start} to {end})",
+                            subtitle=f"upper {int((1 - q_1) * 100)}% of data points removed")
+                        col1.plotly_chart(fig_hist)
+
+                        fig_scatter = px.scatter(
+                            data_frame=build_scatter_data(target_df),
+                            x=c.DATE_START,
+                            y=parameter,
+                            title=f"{parameter} of {dis_target} ({start} to {end})",
+                            subtitle=f"data gaps filled with 0 for visualisation; upper {int((1 - q_1) * 100)}% of data points removed",
+                            hover_data=[c.COUNTRY, c.YEAR_START, c.NUM])
+                        col2.plotly_chart(fig_scatter)
 
                     if parameter in c.info_list:
                         df = treat_text_column(data=target_df, column=parameter)  # drop nan
@@ -127,21 +131,11 @@ else:
                                                                            width="large")},
                             use_container_width=True)
 
-                    if parameter == c.MAG:
-                        agg_mag = target_df.groupby(c.MAG_SCALE).agg(
-                            {c.MAG: ['min', 'max', 'mean', np.median]})
-                        st.write(agg_mag)  # TODO: switch to dataframe and layout number format
-
-                        fig_hist = px.histogram(
-                            data_frame=target_df,
-                            x=parameter,
-                            nbins=30,
-                            title=f"Distribution of {parameter} ({start} to {end})")
-                        st.plotly_chart(fig_hist)
-
                     if parameter in c.att_list:
                         info = target_df[parameter].dropna().unique()
                         st.write(f'Attributed {parameter}(s): {', '.join(info)}')
+
+                    st.divider()
 
     st.subheader(f":blue[Compare {target}s per chosen parameter]", divider="green")
     request_subgroups = st.multiselect(label="subgroup for box comparison",
@@ -161,10 +155,10 @@ else:
         with st.container(border=True):
             st.write(f'Definition of :blue[{request_parameter}]: *{info_dict.get(request_parameter)}*')
 
-        q = st.slider(label="*Select restrictive quantile for better visualisation*",
-                      min_value=0.00, max_value=1.00, value=1.00)
-        mask = df_request[request_parameter].quantile(q)
-        df_request.loc[df_request[request_parameter] > mask] = np.nan
+        q_2 = st.slider(label="*Select restrictive quantile for better visualisation*",
+                        min_value=0.00, max_value=1.00, value=1.00)
+        mask_2 = df_request[request_parameter].quantile(q_2)
+        df_request.loc[df_request[request_parameter] > mask_2] = np.nan
 
         box, hist, table = st.tabs(['Box-Plot', 'Histogram', 'Table'])
 
@@ -176,7 +170,7 @@ else:
                 x=target,
                 y=request_parameter,
                 title=f"{request_parameter} per selected {target}",
-                subtitle=f"upper {int((1-q)*100)}% of data points removed")
+                subtitle=f"upper {int((1 - q_2) * 100)}% of data points removed")
 
             for cat in request_subgroups:
                 fig_box.add_annotation(
@@ -199,11 +193,11 @@ else:
                 barmode='group',
                 nbins=30,
                 title=f"Distribution of {request_parameter} per selected {target} ({start} to {end})",
-                subtitle=f"upper {int((1-q)*100)}% of data points removed")
+                subtitle=f"upper {int((1 - q_2) * 100)}% of data points removed")
             st.plotly_chart(fig_hist)
 
         with table:
-            st.write(f"*upper {int((1-q)*100)}% of data points removed*")
+            st.write(f"*upper {int((1 - q_2) * 100)}% of data points removed*")
             agg_table = df_request.groupby(target).agg({request_parameter : ['sum', 'min', 'max', 'mean', np.median]})
             st.dataframe(
                 data=agg_table,
