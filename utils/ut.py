@@ -127,6 +127,7 @@ def treat_text_column(data: pd.DataFrame, column: str):
     # TODO: replace empty/space/"nan" to np.nan
     return data
 
+
 def treat_origin():
     # for misspellings:
     # len(word) == 4,5,6 and 4 letters are h, e, a, v, y --> heavy
