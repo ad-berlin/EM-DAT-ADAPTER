@@ -50,21 +50,21 @@ info_dict = {
 }
 
 TEXT_INTRO = '''
-The database EM-DAT is compiled from :blue-background[various sources], including UN agencies,
+The database EM-DAT is compiled from various sources, including UN agencies,
 non-governmental organizations, reinsurance companies, research institutes,
-and press agencies. The :blue-background[Centre for Research on the Epidemiology of Disasters
-(CRED)] distributes the data in open access for :blue-background[non-commercial use].
+and press agencies. The Centre for Research on the Epidemiology of Disasters
+(CRED) distributes the data in open access for non-commercial use.
 
 EM-DAT globally records at the country level human and economic
-losses for disasters with :blue-background[at least one of the following criteria]: 
-- 10 :red[fatalities];
-- 100 :orange[affected people];
-- a declaration of :blue[state of emergency];
-- a call for :green[international assistance].
+losses for disasters with at least one of the following criteria: 
+- 10 fatalities;
+- 100 affected people;
+- a declaration of state of emergency;
+- a call for international assistance.
 
-*This app only allows analysis and display of disasters with a natural disaster agent.*
+This app only allows analysis and display of disasters with a natural disaster agent.
 
-Publication on the Database: *https://doi.org/10.1016/j.ijdrr.2025.105509*  
+Publication on the Database: https://doi.org/10.1016/j.ijdrr.2025.105509  
 Source: EM-DAT, CRED / UCLouvain, Brussels, Belgium – www.emdat.be
 '''
 
@@ -79,13 +79,13 @@ Explore data with caution! Behind every number hides a life!
 '''
 
 TEXT_IMPRESSUM = '''
-:blue[**Impressum**]
+:blue[Impressum]
 
-**Declaration of competing interest**  
-*The author declares no known competing financial interests or personal relationships that could have appeared to 
-influence the work reported in this project.*
+Declaration of competing interest  
+The author declares no known competing financial interests or personal relationships that could have appeared to 
+influence the work reported in this project.
 
-:violet[**Anais Diaz, 2025**]
+:violet[Anais Diaz, 2025]
 '''
 
 TEXT_HELP = '''

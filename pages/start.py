@@ -5,15 +5,14 @@ from utils.ut import get_data, get_un_data
 from text.text_info import TEXT_IMPRESSUM
 
 
-st.header(":violet[DisTrack - International Disaster Analysis]", divider="rainbow")
+st.header(":blue[DisTrack - International Disaster Analysis]", divider="grey")
 
-st.write(TEXT_INTRO)
-
-st.write(":red[Please be patient for the upload...]")
+with st.container(border=True):
+    st.write(TEXT_INTRO)
 
 # EM-DAT data
 file_upload_em = st.file_uploader(
-    "*Upload your EM-DAT xlsx file...*",
+    "Upload your EM-DAT xlsx file...",
     type=['xlsx'])
 
 if file_upload_em:
@@ -26,7 +25,7 @@ if 'data' in st.session_state:
 allow_un_upload = st.toggle("Enable additional upload UN population data", key="un_toggle")
 if allow_un_upload:
     file_upload_un = st.file_uploader(
-        "*Upload your UN csv file...*",
+        "Upload your UN csv file...",
         type=['csv'])
 
     if file_upload_un:
