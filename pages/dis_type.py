@@ -139,7 +139,7 @@ else:
 
     st.subheader(f":blue[Compare {target}s per chosen parameter]", divider="green")
     request_subgroups = st.multiselect(label="subgroup for box comparison",
-                                       options=sorted(df[target].unique()),
+                                       options=df[target].unique(),
                                        label_visibility="collapsed",
                                        key="subgroup select")
 

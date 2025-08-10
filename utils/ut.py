@@ -124,29 +124,16 @@ def treat_text_column(data: pd.DataFrame, column: str):
     # appearence of numbering e.g. (1) Weluwun Qtr, Rangoon, (2) W. Okkyin Qtr, Rangoon, (3) Palaing Qtr, Mandalay
     # two optional writings e.g. Sichuan/Chongqing airport; Valle d'Aosta/Vallée d'Aoste
     # TODO: fix that stuff in brackets separated by comma stays together (maybe delete?)
-    # TODO: replace empty/space/"nan" to np.nan
+    # TODO: replace empty/space/"nan" to "no data"
     return data
 
 
 def treat_origin():
-    # for misspellings:
-    # len(word) == 4,5,6 and 4 letters are h, e, a, v, y --> heavy
-    # len(word) == 3,4,5,6 and 3 letters are r, a, i, n, s --> rain
-    # --> torrential (torrentila)
-    # --> monsoonal
-    # --> melting
-    # --> lightning
-    # --> poor, insufficient
-    # --> of
-    # --> seasonal
-    # --> supply
-
-    # poor, limited, insufficient
-    # excessive, erratic, severe, strong, extreme, intense, heavy
-    # rainfall(s), rain(s), raining, showers, rain
-    # snowfall(s), snow fall(s)
+    # poor, limited, insufficient, scarcity of
+    # excessive, erratic, severe, extreme, intense, heavy
     # snowmelt, snow melt, melting of snow, melting snow
-    # non-stop, prolonged, long-term, uninterrupted, persistent, continuous
+    # non-stop, incessant, prolonged, long-term, uninterrupted, persistent, continuous
+    # rapid, fast, sudden
 
     # tremor == thunderstorm(s) ??
     # unseasonal ??
