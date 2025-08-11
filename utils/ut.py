@@ -73,11 +73,6 @@ def get_un_data(file) -> pd.DataFrame:
     return data
 
 
-def write_help(page_in_capitals) -> None:
-    with st.expander(TEXT_HELP, icon=':material/info:'):
-        st.markdown(help_dict.get(f'HELP_{page_in_capitals}'))
-
-
 def remove_outliner(data: pd.DataFrame, q_low, q_high, parameter, target):
     for disaster_type in data[target].unique():
         mask = data[target] == disaster_type

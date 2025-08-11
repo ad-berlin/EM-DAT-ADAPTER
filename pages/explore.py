@@ -3,8 +3,9 @@ import numpy as np
 import pandas as pd
 
 from utils import constants as c
+from utils import modules as m
 from text.text_info import TEXT_IMPRESSUM, error_dict, select_dict, month_dict
-from utils.ut import write_help, treat_text_column, build_scatter_data
+from utils.ut import treat_text_column, build_scatter_data
 
 if 'data' not in st.session_state:
     st.error(error_dict.get('ERROR_DATA'))
@@ -12,7 +13,7 @@ if 'data' not in st.session_state:
 else:
     df = st.session_state['data'].copy()
 
-    write_help(page_in_capitals='EXPLORE')
+    m.write_help(page_in_capitals='EXPLORE')
 
 
     def misspelling(aim_list: list, string, treat_and_as_separator=False):

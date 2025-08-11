@@ -1,11 +1,12 @@
 import streamlit as st
 import plotly.express as px
 import numpy as np
+import pandas as pd
 
 from utils import constants as c
-
-from text.text_info import (info_dict, error_dict, select_dict, emoji_dict, TEXT_IMPRESSUM,)
-from utils.ut import write_help, treat_text_column
+from utils import modules as m
+from text.text_info import info_dict, error_dict, select_dict, TEXT_IMPRESSUM, month_dict
+from utils.ut import treat_text_column, build_scatter_data
 
 # specific page constants todo: add to constants
 KEY_REGION_SPEC = 'region_specification'
@@ -17,7 +18,6 @@ OPT_COUNTRY = 'EM-DAT Countries'
 LST_REGION = [c.CONTINENT, c.UN_M49_R]
 LST_SUBREGION = [c.GEOGRAPH_R, c.UN_M49_SUBR]
 LST_COUNTRY = [c.SOVEREIGN_C, OPT_COUNTRY, c.ADMIN_C, c.UN_M49_C]
-
 
 if 'data' not in st.session_state:
     st.error(error_dict.get('ERROR_DATA'))
@@ -45,7 +45,7 @@ else:
     all_years = sorted(df[c.YEAR_START].unique())
 
     # start actual content
-    write_help(page_in_capitals='REGION')
+    m.write_help(page_in_capitals='REGION')
 
     with st.container(border=True):
         col1, col2 = st.columns(2)
@@ -59,28 +59,28 @@ else:
 
         col2.write(select_dict.get('SELECT_GROUPING'))
         if target == c.REGION:
-            col2.radio(
-            label="decision region",
-            options=LST_REGION,
-            label_visibility="collapsed",
-            horizontal=True,
-            key=KEY_REGION_SPEC)
+            spec = col2.radio(
+                label="decision region",
+                options=LST_REGION,
+                label_visibility="collapsed",
+                horizontal=True,
+                key=KEY_REGION_SPEC)
 
         if target == c.SUBREGION:
-            col2.radio(
-            label="decision subregion",
-            options=LST_SUBREGION,
-            label_visibility="collapsed",
-            horizontal=True,
-            key=KEY_SUBREGION_SPEC)
+            spec = col2.radio(
+                label="decision subregion",
+                options=LST_SUBREGION,
+                label_visibility="collapsed",
+                horizontal=True,
+                key=KEY_SUBREGION_SPEC)
 
         if target == c.COUNTRY:
-            col2.radio(
-            label="decision country",
-            options=LST_COUNTRY,
-            label_visibility="collapsed",
-            horizontal=True,
-            key=KEY_COUNTRY_SPEC)
+            spec = col2.radio(
+                label="decision country",
+                options=LST_COUNTRY,
+                label_visibility="collapsed",
+                horizontal=True,
+                key=KEY_COUNTRY_SPEC)
 
         st.write(select_dict.get('SELECT_TIME'))
         start, end = st.select_slider(label="timespan_region",
@@ -90,52 +90,116 @@ else:
         df = df.loc[df[c.YEAR_START] >= start]
         df = df.loc[df[c.YEAR_START] <= end]
 
-    st.subheader(f":blue[Overview per {target}]", divider="green")
+    with st.container(border=True):
+        st.write(f'''
+        :blue[I want to get an overview per {target}*...]  
+        *{spec}
+        ''')
 
-    st.write(df[c.COUNTRY].unique())
+        st.write(df[c.COUNTRY].unique())
 
-    info = df[target].value_counts()
-    st.dataframe(data=info,
-                 column_config={
-                     target: st.column_config.TextColumn(label=target, width="large"),
-                     "count": st.column_config.NumberColumn(label="number of events")},
-                 use_container_width=True)
+        info = df[target].value_counts()
+        st.dataframe(data=info,
+                     column_config={
+                         target: st.column_config.TextColumn(label=target, width="large"),
+                         "count": st.column_config.NumberColumn(label="number of events")},
+                     use_container_width=True)
 
-    target_scatter = px.scatter(
-        df,
-        x=c.DATE_START,
-        y=c.DEATHS,
-        color=target,
-        hover_data=[c.COUNTRY, c.DIS_TYPE, c.NUM],
-        title=f"{c.DEATHS} Worldwide per {target} ({start} to {end})")
-    st.plotly_chart(target_scatter)
+        target_scatter = px.scatter(
+            df,
+            x=c.DATE_START,
+            y=c.DEATHS,
+            color=target,
+            hover_data=[c.COUNTRY, c.DIS_TYPE, c.NUM],
+            title=f"{c.DEATHS} Worldwide per {target} ({start} to {end})")
+        st.plotly_chart(target_scatter)
 
-    st.write(select_dict.get(f'SELECT_{target.upper()}'))
-    disaster_region = st.selectbox(label="specific_dis_region",
-                                   options=sorted(df[target].unique()),
-                                   label_visibility="collapsed")
-    df = df.loc[df[target] == disaster_region]
+    with st.container(border=True):
+        if target != "Country":
+            target_plural = f"{target}s"
+        else:
+            target_plural = "Countries"
 
-    st.subheader(f":blue[{c.DEATHS} in {disaster_region} per Time]", divider="green")
+        st.write(f":blue[I want to find out more about certain {target_plural}...]")
+        selected_subtargets = st.multiselect(label=f"certain {target} select",
+                                             options=sorted(df[target].unique()),
+                                             placeholder=f"Choose {target_plural}",
+                                             label_visibility="collapsed")
+        if len(selected_subtargets) > 0:
+            tabs = st.tabs(selected_subtargets)
 
-    # plot deaths general
-    history_of_death = px.scatter(
-        data_frame=df,
-        x=c.DATE_START,
-        y=c.DEATHS,
-        color=c.DIS_SUBGROUP,
-        hover_data=[c.DIS_TYPE, c.DIS_SUBTYPE, c.DIS_DURATION, c.NUM],
-        title=f"{c.DEATHS} (if no number available = 0) per {c.DIS_SUBGROUP} ({start} to {end})")
-    history_of_death.update_traces(marker_size=10)
-    st.plotly_chart(history_of_death)
+            for ix, dis_target in enumerate(selected_subtargets):
+                with tabs[ix]:
+                    target_df = df
+                    target_df = target_df.loc[target_df[target] == dis_target]
+
+                    selected_parameter = st.multiselect(label=f"params for exploration",
+                                                        options=sorted(c.plot_list),
+                                                        placeholder="Choose parameters for exploration",
+                                                        key=f"parameter box {dis_target} page region",
+                                                        label_visibility="collapsed")
+
+                    for parameter in selected_parameter:
+                        with st.container(border=True):
+                            st.write(f":violet[{parameter}*]")
+
+                            if parameter in c.int_list:
+                                if parameter == c.MAG:
+                                    agg_mag = target_df.groupby(c.MAG_SCALE).agg(
+                                        {c.MAG: ['min', 'max', 'mean', np.median]})
+                                    st.write(agg_mag)  # TODO: switch to dataframe and layout number format
+
+                                q_1 = st.slider(label="Select restrictive quantile for better visualisation",
+                                                min_value=0.00, max_value=1.00, value=1.00,
+                                                key=f"q1_slider_{parameter}_{dis_target}")
+                                mask_1 = target_df[parameter].quantile(q_1)
+                                target_df.loc[target_df[parameter] > mask_1] = np.nan
+
+                                col1, col2 = st.columns(2)
+                                fig_hist = px.histogram(
+                                    data_frame=target_df,
+                                    x=parameter,
+                                    nbins=30,
+                                    title=f"Distribution of {parameter} of {dis_target} ({start} to {end})",
+                                    subtitle=f"upper {int((1 - q_1) * 100)}% of data points removed")
+                                col1.plotly_chart(fig_hist)
+
+                                fig_scatter = px.scatter(
+                                    data_frame=build_scatter_data(target_df),
+                                    x=c.DATE_START,
+                                    y=parameter,
+                                    title=f"{parameter} of {dis_target} ({start} to {end})",
+                                    subtitle=f"data gaps filled with 0 for visualisation; upper {int((1 - q_1) * 100)}% of data points removed",
+                                    hover_data=[c.COUNTRY, c.YEAR_START, c.NUM])
+                                col2.plotly_chart(fig_scatter)
+
+                            if parameter in c.info_list:
+                                df = treat_text_column(data=target_df, column=parameter)  # drop nan
+                                info = f'{', '.join(df[parameter])}'
+                                info = pd.Series(info.split(', ')).value_counts()
+
+                                if parameter == c.MONTH_START:
+                                    info.index = info.index.map(lambda x: month_dict.get(x, x))
+                                st.dataframe(
+                                    data=info,
+                                    column_config={"count": st.column_config.NumberColumn(label="value count"),
+                                                   "": st.column_config.TextColumn(label=parameter,
+                                                                                   width="large")},
+                                    use_container_width=True)
+
+                            if parameter in c.att_list:
+                                info = target_df[parameter].dropna().unique()
+                                st.write(f'Attributed {parameter}(s): {', '.join(info)}')
+
+                            st.write(f"*{info_dict.get(parameter)}")
 
 
-    if 'un_data' in st.session_state:
-        un_df = st.session_state['un_data'].copy()
-        un_df = un_df.loc[un_df['Time'] >= start]
-        un_df = un_df.loc[un_df['Time'] <= end]
-        info = un_df.loc[un_df['Location'].str.contains(disaster_region)]  # TODO: fix weird categories
-        st.dataframe(info)
+                    if 'un_data' in st.session_state:
+                        un_df = st.session_state['un_data'].copy()
+                        un_df = un_df.loc[un_df['Time'] >= start]
+                        un_df = un_df.loc[un_df['Time'] <= end]
+                        info = un_df.loc[un_df['Location'].str.contains(selected_subtargets)]  # TODO: fix weird categories
+                        st.dataframe(info)
 
 st.divider()
 st.write(TEXT_IMPRESSUM)

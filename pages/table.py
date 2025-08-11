@@ -1,9 +1,9 @@
 import streamlit as st
-import plotly.express as px
 
 from utils import constants as c
+from utils import modules as m
 from text.text_info import TEXT_IMPRESSUM, error_dict, select_dict, month_dict
-from utils.ut import write_help, treat_text_column, build_scatter_data
+from utils.ut import treat_text_column, build_scatter_data
 
 if 'data' not in st.session_state:
     st.error(error_dict.get('ERROR_DATA'))
@@ -11,7 +11,7 @@ if 'data' not in st.session_state:
 else:
     df = st.session_state['data'].copy()
 
-    write_help(page_in_capitals='TABLE')
+    m.write_help(page_in_capitals='TABLE')
 
     with st.container(border=True):
         st.write(f":blue[I have the {c.NUM} and want to see the full dataset...]")
@@ -24,16 +24,18 @@ else:
     with st.container(border=True):
         st.write(":blue[I want to filter certain parameters...]")
 
-        st.write(f"{select_dict.get('SELECT_PARAM')} for Filter Options")
+        st.write(f"{select_dict.get('SELECT_PARAM')} for filter options")
         filter_params = st.multiselect(label="params for filter",
                                        options=sorted(df.columns),
                                        label_visibility="collapsed")
         for param in filter_params:
-            st.write(f"Choose Category to Filter {param}")
+            st.write(f"Choose category to filter {param}")
             argument = st.selectbox(label=f"{param} to filter",
                                       options=sorted(df[param].unique()),
                                       label_visibility="collapsed")
-            df = df.loc[df[param] == argument]  # TODO: fix
+            df = df.loc[df[param] == argument]
+
+        st.write(":blue[...and see the table.]")
         st.dataframe(df, hide_index=True)
 
 st.divider()

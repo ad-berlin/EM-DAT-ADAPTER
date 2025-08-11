@@ -158,7 +158,7 @@ select_dict = {
 ''',
 
 'SELECT_PARAM' : '''
-🪳 Choose Parameter
+🪳 Choose parameter
 '''
 }
 
