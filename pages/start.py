@@ -40,6 +40,4 @@ if allow_un_upload:
 if 'un_data' in st.session_state:
     st.success("UN file upload successful!")
 
-
-st.divider()
-st.write(t.TEXT_IMPRESSUM)
+m.write_impressum()

@@ -74,10 +74,6 @@ Thanks go to all the experts who participated in the design process and contribu
 survey and/or interview. All contributors are if not wished otherwise listed below.
 '''
 
-TEXT_LIFE = '''
-Explore data with caution! Behind every number hides a life!
-'''
-
 TEXT_IMPRESSUM = '''
 :blue[Impressum]
 
@@ -89,7 +85,7 @@ influence the work reported in this project.
 '''
 
 TEXT_HELP = '''
-HELP: How to find my way around!
+HELP - How to find my way around!
 '''
 
 help_dict = {
@@ -136,28 +132,32 @@ help_dict = {
     '''
 }
 
-SELECT_REGION = '''🌍 Choose Region'''
+SELECT_REGION = '''Choose Region'''  # 🌍
 
-SELECT_SUBREGION = '''🌍 Choose Subregion'''
+SELECT_SUBREGION = '''Choose Subregion'''  # 🌍
 
-SELECT_COUNTRY = '''🌍 Choose Country'''
+SELECT_COUNTRY = '''Choose Country'''  # 🌍
 
-SELECT_LOCAL = '''📍 Choose Focus Regions'''
+SELECT_LOCAL = '''Choose Focus Regions'''  # 📍
 
-SELECT_DIS_SCOPE = '''🔍 Choose Scope'''
+SELECT_DIS_SCOPE = '''Choose Scope'''  # 🔍
 
-SELECT_TIME = '''⏱️ Timespan of Interest'''
+SELECT_TIME = '''Choose Timespan of Interest'''  # ⏱️
 
-SELECT_GROUPING = '''🧩 Choose Grouping'''
+SELECT_GROUPING = '''Choose Grouping'''  # 🧩
 
-SELECT_PARAM = '''🐢 Choose Parameter'''
+SELECT_PARAM_OV = '''🐢 Choose Parameter for Overview'''
 
-ERROR_DATA = '''🚨 Please, upload your dataset first on the start page!'''
+SELECT_PARAM_COM = '''🦥 Choose Parameter for Comparison'''
+
+ERROR_DATA = '''Please, upload your dataset first on the start page!'''  # 🚨
+
+ERROR_VALUE = '''Not enough data for insightful display...'''  # 🚨
 
 
 emoji_dict = {
 'EMOJI_HEADER' : '🦖',
-'EMOJI_SUBHEADER' : '🦖'  # 🪳, 🦥
+'EMOJI_SUBHEADER' : '🦖'  # 🪳, 🦥🦖🐢
 }
 
 month_dict = {

@@ -12,7 +12,7 @@ st.set_page_config(
 start_page = st.Page(  # data upload, general information about EM-DAT, useful tips
     page="pages/start.py",
     title="Start",
-    # icon='🦥',
+    icon='🦖',
     default=True)
 
 dis_type_page = st.Page(  # visualisation per classification with different scopes (group, subgroup, type, or subtype)

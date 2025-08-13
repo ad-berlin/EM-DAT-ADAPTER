@@ -44,7 +44,4 @@ with st.container(border=True):
     with st.expander("How to improve DisTrack"):
         st.write("to be filled...")
 
-
-
-st.divider()
-st.write(t.TEXT_IMPRESSUM)
+m.write_impressum()

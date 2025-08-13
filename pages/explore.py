@@ -179,5 +179,4 @@ else:
     # info = pd.Series(info.split(' | ')).value_counts()
     # st.write(info)
 
-st.divider()
-st.write(t.TEXT_IMPRESSUM)
+m.write_impressum()

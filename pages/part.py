@@ -51,5 +51,4 @@ with st.container(border=True):
     countries and regions are covered and which are not. If you want to advocate ...
     ''')
 
-st.divider()
-st.write(t.TEXT_IMPRESSUM)
+m.write_impressum()

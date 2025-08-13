@@ -14,5 +14,4 @@ with st.container(border=True):
 with st.container(border=True):
     st.write(":blue[Additional sources regarding definitions and data biases...]")
 
-st.divider()
-st.write(t.TEXT_IMPRESSUM)
+m.write_impressum()

@@ -24,19 +24,22 @@ else:
     with st.container(border=True):
         st.write(":blue[I want to filter certain parameters...]")
 
-        st.write(f"{t.SELECT_PARAM} for filter options")
         filter_params = st.multiselect(label="params for filter",
                                        options=sorted(df.columns),
-                                       label_visibility="collapsed")
+                                       label_visibility="collapsed",
+                                       placeholder="Choose parameters for filter options")
         for param in filter_params:
             st.write(f"Choose category to filter {param}")
             argument = st.selectbox(label=f"{param} to filter",
-                                      options=sorted(df[param].unique()),
-                                      label_visibility="collapsed")
+                                    options=df[param].unique(),
+                                    label_visibility="collapsed")
             df = df.loc[df[param] == argument]
+            # argument = st.text_input(label=f"{param} to filter",
+            #                          label_visibility="collapsed",
+            #                          placeholder="Please type what you look for")
+            # df = df.loc[df[param].str.contains(argument)]  # works if array does not contain NaN
 
         st.write(":blue[...and see the table.]")
         st.dataframe(df, hide_index=True)
 
-st.divider()
-st.write(t.TEXT_IMPRESSUM)
+m.write_impressum()
