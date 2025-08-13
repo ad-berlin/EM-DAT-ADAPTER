@@ -5,15 +5,15 @@ import pandas as pd
 
 from utils import constants as c
 from utils import modules as m
-from text.text_info import info_dict, error_dict, select_dict, TEXT_IMPRESSUM, month_dict
-from utils.ut import treat_text_column, build_scatter_data
+from utils import ut as u
+from text import text_info as t
 
 with st.container(border=True):
     st.write(':blue[Step 1]')
     st.write('The data is saved for processing as you upload it. Interested how that data looks like?')
     with st.expander("EM-DAT raw data"):
         if 'data' not in st.session_state:
-            st.error(error_dict.get('ERROR_DATA'))
+            st.error(t.ERROR_DATA)
         else:
             df = st.session_state['data'].copy()
             st.write("The original EM-DAT file filtered for the Disaster Group 'Natural'")
@@ -47,4 +47,4 @@ with st.container(border=True):
 
 
 st.divider()
-st.write(TEXT_IMPRESSUM)
+st.write(t.TEXT_IMPRESSUM)

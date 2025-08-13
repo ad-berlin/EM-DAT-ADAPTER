@@ -6,75 +6,73 @@ from text.text_info import TEXT_ABOUT, emoji_dict
 st.set_page_config(
     page_title="Visualising Disaster around the Globe",
     page_icon=emoji_dict.get('EMOJI_HEADER'),
-    layout='wide',
-    menu_items={
-        'About': TEXT_ABOUT})
+    layout='wide')
 
 # single page setup
 start_page = st.Page(  # data upload, general information about EM-DAT, useful tips
     page="pages/start.py",
     title="Start",
-    icon='🦥',
+    # icon='🦥',
     default=True)
 
 dis_type_page = st.Page(  # visualisation per classification with different scopes (group, subgroup, type, or subtype)
     page="pages/dis_type.py",
-    title="Per classification",
-    icon='🐢',
+    title="Per Classification",
+    # icon='🐢',
     default=False)
 
 region_page = st.Page(  # visualisation per region with different scopes (region, subregion, country, or location)
     page="pages/region.py",
-    title="Per region",
-    icon='🦒',
+    title="Per Region",
+    # icon='🦒',
     default=False)
 
 time_page = st.Page(
     page="pages/time.py",
-    title="Over time",
-    icon='🦛',
+    title="Over Time",
+    # icon='🦛',
     default=False)
 
 explore_page = st.Page(  # allow self conducted exploration based of free selection of column(s) and search terms
     page="pages/explore.py",
-    title="Explore further",
-    icon='🐺',
+    title="Explore Further",
+    # icon='🐺',
     default=False)
 
 table_page = st.Page(  # view full table and restrict columns if needed
     page="pages/table.py",
-    title="See full table",
-    icon='🌪️',
+    title="View Table",
+    # icon='🌪️',
     default=False)
 
 data_page = st.Page(  # page for data quality e.g. show nans, compare nans per region etc.
     page="pages/data.py",
-    title="Data quality",
-    icon='🦖',
+    title="Data Quality",
+    # icon='🦖',
     default=False)
 
 sources_page = st.Page(  # page listing all sources in full length
     page="pages/sources.py",
     title="Sources",
-    icon='🦖',
+    # icon='🦖',
     default=False)
 
 process_page = st.Page(  # page explaining the process
     page="pages/process.py",
-    title="The process",
-    icon='🦖',
+    title="The Process",
+    # icon='🦖',
     default=False)
 
 about_page = st.Page(  # page explaining the intention and vision
     page="pages/about.py",
     title="About",
-    icon='🦖',
+    # icon='🦖',
     default=False)
 
 part_page = st.Page(  # page inviting to participate in the project, maybe linking to reddit
     page="pages/part.py",
     title="Participate",
-    icon='🦖',
+    # icon='🦖',
     default=False)
 
 # st.logo("images/logo.png")  # TODO: fix logo sizing
@@ -83,7 +81,7 @@ part_page = st.Page(  # page inviting to participate in the project, maybe linki
 pg = st.navigation(
     pages={
         "Analysis": [
-            start_page,  # TODO: maybe start page extra?; Can some pages be collapsed?
+            start_page,
             dis_type_page,
             region_page,
             time_page,
@@ -95,7 +93,7 @@ pg = st.navigation(
             sources_page,  # add page listing all sources in full length
             process_page,  # add page explaining the process
         ],
-        "About": [
+        "About DisTrack": [
             about_page,  # add page explaining the intention and vision
             part_page,  # add page inviting to participate in the project, maybe linking to reddit
         ]
@@ -104,25 +102,19 @@ pg = st.navigation(
 pg.run()  # run all pages
 
 
-# add to sidebar: link referring where to download the EM-DAT data
-st.sidebar.link_button(
-    ":arrow_down: EM-DAT Data Download",
-    url="https://public.emdat.be/",
-    use_container_width=True)
-
 # add to sidebar: link referring where find the homepage of the EM-DAT project
 st.sidebar.link_button(
-    ":globe_with_meridians: EM-DAT Project Website",
+    "EM-DAT Project Website",
     url="https://www.emdat.be/",
     use_container_width=True)
 
 # add to sidebar: link referring where to find the EM-DAT online documentation
 st.sidebar.link_button(
-    ":blue_book: EM-DAT Documentation",
+    "EM-DAT Documentation",
     url="https://doc.emdat.be/",
     use_container_width=True)
 
 st.sidebar.link_button(
-    "➕ UN Data Download",
+    "UN Data Download",
     url="https://population.un.org/wpp/downloads?folder=Standard%20Projections&group=CSV%20format",
     use_container_width=True)

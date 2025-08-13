@@ -2,11 +2,11 @@ import streamlit as st
 
 from utils import constants as c
 from utils import modules as m
-from text.text_info import TEXT_IMPRESSUM, error_dict, select_dict, month_dict
-from utils.ut import treat_text_column, build_scatter_data
+from utils import ut as u
+from text import text_info as t
 
 if 'data' not in st.session_state:
-    st.error(error_dict.get('ERROR_DATA'))
+    st.error(t.ERROR_DATA)
 
 else:
     df = st.session_state['data'].copy()
@@ -24,7 +24,7 @@ else:
     with st.container(border=True):
         st.write(":blue[I want to filter certain parameters...]")
 
-        st.write(f"{select_dict.get('SELECT_PARAM')} for filter options")
+        st.write(f"{t.SELECT_PARAM} for filter options")
         filter_params = st.multiselect(label="params for filter",
                                        options=sorted(df.columns),
                                        label_visibility="collapsed")
@@ -39,4 +39,4 @@ else:
         st.dataframe(df, hide_index=True)
 
 st.divider()
-st.write(TEXT_IMPRESSUM)
+st.write(t.TEXT_IMPRESSUM)

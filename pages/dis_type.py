@@ -5,12 +5,12 @@ import pandas as pd
 
 from utils import constants as c
 from utils import modules as m
-from text.text_info import info_dict, error_dict, select_dict, TEXT_IMPRESSUM, month_dict
-from utils.ut import treat_text_column, build_scatter_data
+from utils import ut as u
+from text import text_info as t
 
 
 if 'data' not in st.session_state:
-    st.error(error_dict.get('ERROR_DATA'))
+    st.error(t.ERROR_DATA)
 
 else:
     if 'dis_type_scope' not in st.session_state:
@@ -27,7 +27,7 @@ else:
     m.write_help(page_in_capitals='DIS_TYPE')
 
     with st.container(border=True):
-        st.write(select_dict.get('SELECT_DIS_SCOPE'))
+        st.write(t.SELECT_DIS_SCOPE)
         st.radio(
             label="decision dis_type scope",
             options=[c.DIS_SUBGROUP, c.DIS_TYPE, c.DIS_SUBTYPE],
@@ -35,7 +35,7 @@ else:
             horizontal=True,
             key="dis_type_scope")
 
-        st.write(select_dict.get('SELECT_TIME'))
+        st.write(t.SELECT_TIME)
         start, end = st.select_slider(label="timespan_dis_type",
                                       options=all_years,
                                       value=(earliest_year, latest_year),
@@ -45,9 +45,9 @@ else:
 
     with st.container(border=True):
         st.write(f":blue[I want to get an overview per {target}...]")
-        y_scatter = st.selectbox(f"{select_dict.get('SELECT_PARAM')} for overview", options=sorted(c.overview_list))
+        y_scatter = st.selectbox(f"{t.SELECT_PARAM} for overview", options=sorted(c.overview_list))
         with st.container(border=True):
-            st.write(f'Definition of :blue[{y_scatter}]: {info_dict.get(y_scatter)}')
+            st.write(f'Definition of :blue[{y_scatter}]: {t.info_dict.get(y_scatter)}')
 
         if y_scatter == c.NUMBER_EV:
             df_target_count = df[target].value_counts()
@@ -59,7 +59,7 @@ else:
             st.plotly_chart(target_bar)
         else:
             target_scatter = px.scatter(
-                build_scatter_data(df),
+                u.build_scatter_data(df),
                 x=c.DATE_START,
                 y=y_scatter,
                 color=target,
@@ -114,7 +114,7 @@ else:
                                 col1.plotly_chart(fig_hist)
 
                                 fig_scatter = px.scatter(
-                                    data_frame=build_scatter_data(target_df),
+                                    data_frame=u.build_scatter_data(target_df),
                                     x=c.DATE_START,
                                     y=parameter,
                                     title=f"{parameter} of {dis_target} ({start} to {end})",
@@ -123,12 +123,12 @@ else:
                                 col2.plotly_chart(fig_scatter)
 
                             if parameter in c.info_list:
-                                df = treat_text_column(data=target_df, column=parameter)  # drop nan
+                                df = u.treat_text_column(data=target_df, column=parameter)  # drop nan
                                 info = f'{', '.join(df[parameter])}'
                                 info = pd.Series(info.split(', ')).value_counts()
 
                                 if parameter == c.MONTH_START:
-                                    info.index = info.index.map(lambda x: month_dict.get(x, x))
+                                    info.index = info.index.map(lambda x: t.month_dict.get(x, x))
                                 st.dataframe(
                                     data=info,
                                     column_config={"count": st.column_config.NumberColumn(label="value count"),
@@ -140,7 +140,7 @@ else:
                                 info = target_df[parameter].dropna().unique()
                                 st.write(f'Attributed {parameter}(s): {', '.join(info)}')
 
-                            st.write(f"*{info_dict.get(parameter)}")
+                            st.write(f"*{t.info_dict.get(parameter)}")
 
     with st.container(border=True):
         st.write(f":blue[I want to compare {target}s per chosen parameter...]")
@@ -150,7 +150,7 @@ else:
                                            label_visibility="collapsed",
                                            key="subgroup select")
 
-        request_parameter = st.selectbox(label=f"{select_dict.get('SELECT_PARAM')} for exploration",
+        request_parameter = st.selectbox(label=f"{t.SELECT_PARAM} for exploration",
                                          options=sorted(c.int_list),
                                          key="parameter select")
 
@@ -159,7 +159,7 @@ else:
             df_request = df.loc[df["request"] == "request"]
 
             with st.container(border=True):
-                st.write(f'Definition of :blue[{request_parameter}]: *{info_dict.get(request_parameter)}*')
+                st.write(f'Definition of :blue[{request_parameter}]: *{t.info_dict.get(request_parameter)}*')
 
             q_2 = st.slider(label="*Select restrictive quantile for better visualisation*",
                             min_value=0.00, max_value=1.00, value=1.00)
@@ -225,4 +225,4 @@ else:
                             format="localized")})
 
 st.divider()
-st.write(TEXT_IMPRESSUM)
+st.write(t.TEXT_IMPRESSUM)

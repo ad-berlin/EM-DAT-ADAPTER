@@ -4,11 +4,12 @@ import pandas as pd
 
 from utils import constants as c
 from utils import modules as m
-from text.text_info import TEXT_IMPRESSUM, error_dict, select_dict, month_dict
-from utils.ut import treat_text_column, build_scatter_data
+from utils import ut as u
+from text import text_info as t
+
 
 if 'data' not in st.session_state:
-    st.error(error_dict.get('ERROR_DATA'))
+    st.error(t.ERROR_DATA)
 
 else:
     df = st.session_state['data'].copy()
@@ -179,4 +180,4 @@ else:
     # st.write(info)
 
 st.divider()
-st.write(TEXT_IMPRESSUM)
+st.write(t.TEXT_IMPRESSUM)

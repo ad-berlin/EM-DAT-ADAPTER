@@ -5,8 +5,8 @@ import pandas as pd
 
 from utils import constants as c
 from utils import modules as m
-from text.text_info import info_dict, error_dict, select_dict, TEXT_IMPRESSUM, month_dict
-from utils.ut import treat_text_column, build_scatter_data
+from utils import ut as u
+from text import text_info as t
 
 # specific page constants todo: add to constants
 KEY_REGION_SPEC = 'region_specification'
@@ -20,7 +20,7 @@ LST_SUBREGION = [c.GEOGRAPH_R, c.UN_M49_SUBR]
 LST_COUNTRY = [c.SOVEREIGN_C, OPT_COUNTRY, c.ADMIN_C, c.UN_M49_C]
 
 if 'data' not in st.session_state:
-    st.error(error_dict.get('ERROR_DATA'))
+    st.error(t.ERROR_DATA)
 
 else:
     if 'dis_region_scope' not in st.session_state:
@@ -49,7 +49,7 @@ else:
 
     with st.container(border=True):
         col1, col2 = st.columns(2)
-        col1.write(select_dict.get('SELECT_DIS_SCOPE'))
+        col1.write(t.SELECT_DIS_SCOPE)
         col1.radio(
             label="decision dis_type scope",
             options=[c.REGION, c.SUBREGION, c.COUNTRY],
@@ -57,7 +57,7 @@ else:
             horizontal=True,
             key="dis_region_scope")
 
-        col2.write(select_dict.get('SELECT_GROUPING'))
+        col2.write(t.SELECT_GROUPING)
         if target == c.REGION:
             spec = col2.radio(
                 label="decision region",
@@ -82,7 +82,7 @@ else:
                 horizontal=True,
                 key=KEY_COUNTRY_SPEC)
 
-        st.write(select_dict.get('SELECT_TIME'))
+        st.write(t.SELECT_TIME)
         start, end = st.select_slider(label="timespan_region",
                                       options=sorted(all_years),
                                       value=(earliest_year, latest_year),
@@ -165,7 +165,7 @@ else:
                                 col1.plotly_chart(fig_hist)
 
                                 fig_scatter = px.scatter(
-                                    data_frame=build_scatter_data(target_df),
+                                    data_frame=u.build_scatter_data(target_df),
                                     x=c.DATE_START,
                                     y=parameter,
                                     title=f"{parameter} of {dis_target} ({start} to {end})",
@@ -174,12 +174,12 @@ else:
                                 col2.plotly_chart(fig_scatter)
 
                             if parameter in c.info_list:
-                                df = treat_text_column(data=target_df, column=parameter)  # drop nan
+                                df = u.treat_text_column(data=target_df, column=parameter)  # drop nan
                                 info = f'{', '.join(df[parameter])}'
                                 info = pd.Series(info.split(', ')).value_counts()
 
                                 if parameter == c.MONTH_START:
-                                    info.index = info.index.map(lambda x: month_dict.get(x, x))
+                                    info.index = info.index.map(lambda x: t.month_dict.get(x, x))
                                 st.dataframe(
                                     data=info,
                                     column_config={"count": st.column_config.NumberColumn(label="value count"),
@@ -191,7 +191,7 @@ else:
                                 info = target_df[parameter].dropna().unique()
                                 st.write(f'Attributed {parameter}(s): {', '.join(info)}')
 
-                            st.write(f"*{info_dict.get(parameter)}")
+                            st.write(f"*{t.info_dict.get(parameter)}")
 
 
                     if 'un_data' in st.session_state:
@@ -202,4 +202,4 @@ else:
                         st.dataframe(info)
 
 st.divider()
-st.write(TEXT_IMPRESSUM)
+st.write(t.TEXT_IMPRESSUM)

@@ -3,9 +3,8 @@ import streamlit as st
 import numpy as np
 
 from utils import constants as c
-from text.countries import country_label_dict, non_self_gov_2025_dict, country_local_name_un_2025_dict, \
-    overseas_terr_dict
-from text.text_info import help_dict, TEXT_HELP
+from text import countries as ctr
+
 
 st.cache_data()
 def get_data(file) -> pd.DataFrame:
@@ -44,12 +43,12 @@ def get_data(file) -> pd.DataFrame:
     data[add_col_un_m49_c] = 'Country'
 
     add_col_admin = 'Administrative Regions'
-    data[add_col_admin] = data[c.COUNTRY].map(lambda x: country_label_dict.get(x, x))
+    data[add_col_admin] = data[c.COUNTRY].map(lambda x: ctr.country_label_dict.get(x, x))
 
     add_col_un_sov = 'UN Sovereign Countries'
-    data[add_col_un_sov] = data[c.COUNTRY].map(lambda x: non_self_gov_2025_dict.get(x, x))
-    data[add_col_un_sov] = data[add_col_un_sov].map(lambda x: overseas_terr_dict.get(x, x))
-    data[add_col_un_sov] = data[add_col_un_sov].map(lambda x: country_local_name_un_2025_dict.get(x, "not sovereign (UN 2025)"))
+    data[add_col_un_sov] = data[c.COUNTRY].map(lambda x: ctr.non_self_gov_2025_dict.get(x, x))
+    data[add_col_un_sov] = data[add_col_un_sov].map(lambda x: ctr.overseas_terr_dict.get(x, x))
+    data[add_col_un_sov] = data[add_col_un_sov].map(lambda x: ctr.country_local_name_un_2025_dict.get(x, "not sovereign (UN 2025)"))
 
     add_col_un_m49_subr = 'UN M49 Subregions'  # vmtl. == SUBREGIONS
     data[add_col_un_m49_subr] = 'Subregion'

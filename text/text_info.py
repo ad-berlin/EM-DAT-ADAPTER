@@ -63,15 +63,15 @@ losses for disasters with at least one of the following criteria:
 - a call for international assistance.
 
 This app only allows analysis and display of disasters with a natural disaster agent.
-
-Publication on the Database: https://doi.org/10.1016/j.ijdrr.2025.105509  
-Source: EM-DAT, CRED / UCLouvain, Brussels, Belgium – www.emdat.be
 '''
 
 TEXT_ABOUT = '''
 This app has been developed to allow an insightful analysis of disaster data. This app has
-been developed by Anais Diaz in 2025 and is inspired by the first app for EM-DAT visualisation by
+been developed by Anais Diaz in 2025/2026 and is inspired by the first app for EM-DAT visualisation by
 Damien Delforge.
+
+Thanks go to all the experts who participated in the design process and contributed valuable input/feedback through
+survey and/or interview. All contributors are if not wished otherwise listed below.
 '''
 
 TEXT_LIFE = '''
@@ -93,7 +93,10 @@ HELP: How to find my way around!
 '''
 
 help_dict = {
-    'HELP_DIS_TYPE' : '''to be filled''',
+    'HELP_DIS_TYPE': '''
+    to be filled
+    ''',
+
     'HELP_REGION': '''
     *Country*  
     The term "Country" is not as neutral as one could wish, which is why multiple definitions are available
@@ -123,59 +126,38 @@ help_dict = {
     If important definitions are missing or active definitions are lacking or offending, please do not hesitate to
     inform the developer and provide data and/or sources to further improve this web tool.
     ''',
-    'HELP_TIME': '''to be filled''',
-    'HELP_TABLE': '''to be filled''',
-    'HELP_EXPLORE': '''to be filled''',
+
+    'HELP_TABLE': '''
+    to be filled
+    ''',
+
+    'HELP_EXPLORE': '''
+    to be filled
+    '''
 }
 
-select_dict = {
-'SELECT_REGION' : '''
-🌍 Choose Region
-''',
+SELECT_REGION = '''🌍 Choose Region'''
 
-'SELECT_SUBREGION' : '''
-🌍 Choose Subregion
-''',
+SELECT_SUBREGION = '''🌍 Choose Subregion'''
 
-'SELECT_COUNTRY' : '''
-🌍 Choose Country
-''',
+SELECT_COUNTRY = '''🌍 Choose Country'''
 
-'SELECT_LOCAL' : '''
-📍 Choose Focus Regions
-''',
+SELECT_LOCAL = '''📍 Choose Focus Regions'''
 
-'SELECT_DIS_SCOPE' : '''
-🔍 Choose Scope
-''',
+SELECT_DIS_SCOPE = '''🔍 Choose Scope'''
 
-'SELECT_TIME' : '''
-⏱️ Timespan of Interest
-''',
+SELECT_TIME = '''⏱️ Timespan of Interest'''
 
-'SELECT_GROUPING' : '''
-🧩 Choose Grouping
-''',
+SELECT_GROUPING = '''🧩 Choose Grouping'''
 
-'SELECT_PARAM' : '''
-🪳 Choose parameter
-'''
-}
+SELECT_PARAM = '''🐢 Choose Parameter'''
+
+ERROR_DATA = '''🚨 Please, upload your dataset first on the start page!'''
 
 
 emoji_dict = {
-'EMOJI_HEADER' : '🦥',
-'EMOJI_SUBHEADER' : '🦖'  # 🪳
-}
-
-
-error_dict = {
-'ERROR_DATA' : '''
-🚨 Please, upload your dataset first on the start page!
-''',
-'ERROR_FILTER' : '''
-🚨 Your chosen filters are too specific to plot. Please, generalise your request!
-'''
+'EMOJI_HEADER' : '🦖',
+'EMOJI_SUBHEADER' : '🦖'  # 🪳, 🦥
 }
 
 month_dict = {

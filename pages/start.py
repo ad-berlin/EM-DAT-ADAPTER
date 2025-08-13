@@ -1,14 +1,20 @@
 import streamlit as st
 
-from text.text_info import TEXT_INTRO
-from utils.ut import get_data, get_un_data
-from text.text_info import TEXT_IMPRESSUM
+from utils import constants as c
+from utils import modules as m
+from utils import ut as u
+from text import text_info as t
 
 
-st.header(":blue[DisTrack - International Disaster Analysis]", divider="grey")
+st.subheader(":blue[DisTrack - International Disaster Analysis]", divider="grey")
 
 with st.container(border=True):
-    st.write(TEXT_INTRO)
+    st.write(t.TEXT_INTRO)
+
+st.link_button(
+    "Access EM-DAT for download",
+    url="https://public.emdat.be/",
+    use_container_width=True)
 
 # EM-DAT data
 file_upload_em = st.file_uploader(
@@ -16,7 +22,7 @@ file_upload_em = st.file_uploader(
     type=['xlsx'])
 
 if file_upload_em:
-    st.session_state['data'] = get_data(file=file_upload_em)
+    st.session_state['data'] = u.get_data(file=file_upload_em)
 
 if 'data' in st.session_state:
     st.success("EM-DAT file upload successful!")
@@ -29,11 +35,11 @@ if allow_un_upload:
         type=['csv'])
 
     if file_upload_un:
-        st.session_state['un_data'] = get_un_data(file=file_upload_un)
+        st.session_state['un_data'] = u.get_un_data(file=file_upload_un)
 
 if 'un_data' in st.session_state:
     st.success("UN file upload successful!")
 
 
 st.divider()
-st.write(TEXT_IMPRESSUM)
+st.write(t.TEXT_IMPRESSUM)
