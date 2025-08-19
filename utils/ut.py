@@ -3,6 +3,7 @@ import streamlit as st
 import numpy as np
 
 from utils import constants as c
+from text import text_info as t
 from text import countries as ctr
 
 
@@ -39,7 +40,7 @@ def get_data(file) -> pd.DataFrame:
     data[add_col_duration] = (data[add_col_end] - data[add_col_start]).dt.days + 1
     data[add_col_duration] = np.where(data[add_col_duration] <= 0, np.nan, data[add_col_duration])
 
-    add_col_un_m49_c = 'UN M49 Countries'  # ?? unterschied zu EM-DAT?
+    add_col_un_m49_c = 'UN M49 Countries'  # ?? distinction to EM-DAT?
     data[add_col_un_m49_c] = 'Country'
 
     add_col_admin = 'Administrative Regions'
@@ -50,7 +51,7 @@ def get_data(file) -> pd.DataFrame:
     data[add_col_un_sov] = data[add_col_un_sov].map(lambda x: ctr.overseas_terr_dict.get(x, x))
     data[add_col_un_sov] = data[add_col_un_sov].map(lambda x: ctr.country_local_name_un_2025_dict.get(x, "not sovereign (UN 2025)"))
 
-    add_col_un_m49_subr = 'UN M49 Subregions'  # vmtl. == SUBREGIONS
+    add_col_un_m49_subr = 'UN M49 Subregions'  # probably == SUBREGIONS
     data[add_col_un_m49_subr] = 'Subregion'
 
     add_col_geograph = 'Geographical Regions'
@@ -122,21 +123,127 @@ def treat_text_column(data: pd.DataFrame, column: str):
     return data
 
 
-def treat_origin():
-    # poor, limited, insufficient, scarcity of
-    # excessive, erratic, severe, extreme, intense, heavy
-    # snowmelt, snow melt, melting of snow, melting snow
-    # non-stop, incessant, prolonged, long-term, uninterrupted, persistent, continuous
-    # rapid, fast, sudden
-
-    # tremor == thunderstorm(s) ??
-    # unseasonal ??
-
-    a = 1
-    return a
-
-
 def build_scatter_data(data: pd.DataFrame):
     for col in c.int_list:
         data[col] = data[col].fillna(0)
     return data
+
+
+def treat_origin(aim_list: list, string):
+    if not isinstance(string, str):
+        return "no data"
+
+    replacement = ""
+
+    work_string = string.lower()
+    work_string = (work_string
+                   .replace(',', replacement)
+                   .replace(';', replacement)
+                   .replace(' +', replacement)
+                   .replace('.', replacement)
+                   .replace('"', replacement)
+                   .replace(' of', "_of")
+                   .replace(' with', "_with")
+                   )
+
+    word_list = work_string.split(' ')
+
+    new_word_list = []
+    for word in word_list:
+        new_word = treat_origin_word(aim_list=aim_list, test=word)
+        new_word = t.word_origin_map.get(new_word, new_word)
+        new_word_list.append(new_word)
+
+    new_string = ' '.join(new_word_list)
+
+    new_string = (new_string
+                  .replace('_of', ' of')
+                  .replace('_with', " with")
+                  .replace('  ', ' ')
+                  )
+
+    return new_string
+
+
+def treat_origin_word(aim_list, test):
+
+    argument_list = [test, test[0:-1], test[0:-2]]  # check for similar writing e.g. rain, rains; monsoon, monsoonal
+    for argument in argument_list:
+        if argument in aim_list:
+            return argument
+
+    len_test = len(test)  # save length of test word
+    count_test = {}  # build dict with alphabetic counting of letters for test word
+    for x in sorted(set(test)):
+        count_test.update({x: list(test).count(x)})
+
+    for aim in aim_list:
+        len_aim = len(aim)  # save length of aim word
+        count_aim = {}  # build dict with alphabetic counting of letters for aim word
+        for x in sorted(set(aim)):
+            count_aim.update({x: list(aim).count(x)})
+
+        smooth_num = 0
+        if count_test == count_aim:  # when exact same letters are used (comparison anagram)
+            smooth_num += len_aim * 0.6
+        if len_aim <= 5:  # short words e.g. rain, heavy
+            smooth_num += 1
+        elif len_aim <= 8:  # medium words e.g. monsoon, rainfall, snowmelt
+            smooth_num += 2
+        else:  # longer words e.g. lightning, torrential
+            smooth_num += 3
+
+        if abs(len_aim - len_test) >= 3:  # setting boundaries in differing length
+            continue
+        else:
+            distance = levenshtein_distance(s1=test, s2=aim)
+            if distance <= smooth_num:
+                return aim
+
+    return test
+
+
+def levenshtein_distance(s1: str, s2: str) -> int:
+    len_s1, len_s2 = len(s1), len(s2)
+
+    dp = [[0] * (len_s2 + 1) for _ in range(len_s1 + 1)]
+
+    for i in range(len_s1 + 1):
+        dp[i][0] = i
+    for j in range(len_s2 + 1):
+        dp[0][j] = j
+
+    for i in range(1, len_s1 + 1):
+        for j in range(1, len_s2 + 1):
+            cost = 0 if s1[i - 1] == s2[j - 1] else 1
+            dp[i][j] = min(
+                dp[i - 1][j] + 1,
+                dp[i][j - 1] + 1,
+                dp[i - 1][j - 1] + cost)
+
+    return dp[len_s1][len_s2]
+
+
+def label_origin(string):
+    new_string = []
+    for word in t.one_word_descriptor_lst:
+        if word in string:
+            new_string.append(word)
+    for duo in t.two_word_descriptor_lst:
+        label = t.mapping_origin_labels.get(duo[0])
+        if duo[0] in string and duo[1] in string:
+            new_string.append(label)
+    for comp in t.complex_label_lst:
+        label = t.mapping_origin_labels.get(comp[0])
+        for word in comp:
+            if word in string:
+                new_string.append(label)
+    for descr in t.rain_descriptor_lst:
+        label = t.mapping_origin_labels.get(descr)
+        if f"{descr} rain" in string:
+            new_string.append(label)
+    if "snow" in string and "melt" not in string:
+        new_string.append(t.mapping_origin_labels.get("snow"))
+    if not new_string:
+        new_string.append(t.mapping_origin_labels.get("unclear"))
+    return '; '.join(set(new_string))

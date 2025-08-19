@@ -16,9 +16,9 @@ def write_help(page_in_capitals) -> None:
 def write_impressum() -> None:
     st.divider()
     st.write(t.TEXT_IMPRESSUM)
-    surprise = st.button("🦖 🦥 🐢", use_container_width=True)
-    if surprise:
-        st.snow()
+    # surprise = st.button("🦖 🦥 🐢", use_container_width=True)
+    # if surprise:
+        # st.snow()
 
 
 def write_time(data):

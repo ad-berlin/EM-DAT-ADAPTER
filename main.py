@@ -27,12 +27,6 @@ region_page = st.Page(  # visualisation per region with different scopes (region
     # icon='🦒',
     default=False)
 
-time_page = st.Page(
-    page="pages/time.py",
-    title="Over Time",
-    # icon='🦛',
-    default=False)
-
 explore_page = st.Page(  # allow self conducted exploration based of free selection of column(s) and search terms
     page="pages/explore.py",
     title="Explore Further",
@@ -66,7 +60,7 @@ process_page = st.Page(  # page explaining the process
 about_page = st.Page(  # page explaining the intention and vision
     page="pages/about.py",
     title="About",
-    # icon='🦖',
+    # icon='🦖',  # 🦛
     default=False)
 
 part_page = st.Page(  # page inviting to participate in the project, maybe linking to reddit
@@ -84,7 +78,6 @@ pg = st.navigation(
             start_page,
             dis_type_page,
             region_page,
-            time_page,
             table_page,
             explore_page,
         ],

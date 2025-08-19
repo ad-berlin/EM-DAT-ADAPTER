@@ -85,7 +85,7 @@ influence the work reported in this project.
 '''
 
 TEXT_HELP = '''
-HELP - How to find my way around!
+HELP - How to find my way around?
 '''
 
 help_dict = {
@@ -154,10 +154,9 @@ ERROR_DATA = '''Please, upload your dataset first on the start page!'''  # 🚨
 
 ERROR_VALUE = '''Not enough data for insightful display...'''  # 🚨
 
-
 emoji_dict = {
-'EMOJI_HEADER' : '🦖',
-'EMOJI_SUBHEADER' : '🦖'  # 🪳, 🦥🦖🐢
+    'EMOJI_HEADER': '🦖',
+    'EMOJI_SUBHEADER': '🦖'  # 🪳, 🦥🦖🐢
 }
 
 month_dict = {
@@ -174,3 +173,135 @@ month_dict = {
     "11": "November",
     "12": "December"
 }
+
+### area for spelling preprocessing
+
+spell_aim_list = ["rain", "heavy", "rainfall", "rains", "snowmelt", "monsoon", "monsoonal", "lightning",
+                  "torrential", "temperature", "thunderstorm", "continuous", "wind", "precipitation", "storm",
+                  "drought", "typhoon", "tropical", "season", "seasonal", "mei-yu", "insufficient", "volcano"]
+
+word_origin_map = {
+    # synonyms label
+    "rainfall": "rain",
+    "rains": "rain",
+    "showers": "rain",
+    "precipitation": "rain",
+    # category synonyms "extreme"
+    "heavy": "extreme",
+    "excessive": "extreme",
+    "intense": "extreme",
+    "severe": "extreme",
+    "strong": "extreme",
+    "violent": "extreme",
+    "massive": "extreme",
+    # category synonyms "continuous"
+    "non-stop": "continuous",
+    "incessant": "continuous",
+    "prolonged": "continuous",
+    "long-term": "continuous",
+    "uninterrupted": "continuous",
+    "ongoing": "continuous",
+    "long-lasting": "continuous",
+    "persistent": "continuous",
+    "days_of": "continuous",
+    "constant": "continuous",
+    "extended": "continuous",
+    # category synonyms "irregular"
+    "erratic": "irregular",
+    # category synonyms "insufficient"
+    "poor": "insufficient",
+    "limited": "insufficient",
+    "below-average": "insufficient",
+    "reduced": "insufficient",
+    "scarcity_of": "insufficient",
+    "lack_of": "insufficient",
+    "lack": "insufficient",
+}
+
+mapping_origin_labels = {
+    "la ": "la nina",
+    "el ": "el nino",
+    "tropical": "tropical depression",
+    "sanitation": "sanitation/hygiene/safe water",
+    "melt": "melting snow",
+    "dam": "dam/levy break/release",
+    "front": "cold front",
+    "snow": "snow fall",
+    "rainstorm": "rain event",
+    "seasonal": "rain event",
+    "continuous": "rain event",
+    "torrential": "rain event",
+    "extreme": "rain event",
+    "irregular": "drought/insufficient rain",
+    "insufficient": "drought/insufficient rain",
+    "low": "drought/insufficient rain",
+    "fail": "drought/insufficient rain",
+    "poor": "drought/insufficient rain",
+    "drought": "drought/insufficient rain",
+    "heat": "heat/high temperatures",
+    "high": "heat/high temperatures",
+    "low temper": "cold/low temperatures",
+    "pressure": "low pressure area (LPA)",
+    "wind": "storm/strong wind",
+    "storm": "storm/strong wind",
+    "surge": "storm surge",
+    "ice": "ice jam",
+    "earthquake": "earthquake/seismic activity",
+    "weather": "weather (unspecified)",
+    "unclear": "unclear origin (check with original sources)"
+}
+
+one_word_descriptor_lst = [
+    "typhoon",  # label as in list
+    "cyclone",  # label as in list
+    "monsoon",  # label as in list
+    "hurricane",  # label as in list
+    "mei-yu",  # label as in list
+    "landslide",  # label as in list
+    "volcano",  # label as in list
+    "hail",  # label as in list
+    "lightning",  # label as in list
+    "thunderstorm",  # label as in list
+    "flood",  # label as in list
+    "tornado",  # label as in list
+    "no data",  # label as in list
+]
+
+two_word_descriptor_lst = [
+    ("la ", "nina"),  # la nina
+    ("el ", "nino"),  # el nino
+    ("melt", "snow"),  # melting snow
+    ("tropical", "depression"),  # tropical depression
+    ("dam", "break"),  # dam/levy break/release
+    ("dam", "release"),  # dam/levy break/release
+    ("dam", "opening"),  # dam/levy break/release
+    ("front", "cold"),  # cold front
+    ("pressure", "low"),  # low pressure area (LPA)
+    ("wind", "extreme"),  # storm/strong wind
+    ("surge", "storm"),  # storm surge
+    ("ice", "jam")  # ice jam
+]
+
+rain_descriptor_lst = [
+    "extreme",  # rain event
+    "torrential",  # rain event
+    "continuous",  # rain event
+    "seasonal",  # rain event
+    "fail",  # drought/insufficient rain
+    "insufficient",  # drought/insufficient rain
+    "poor",  # drought/insufficient rain
+    "irregular",  # drought/insufficient rain
+]
+
+complex_label_lst = [
+    ["sanitation", "sanitary", "hygien", "dirty water", "drinking water", "safe water", "contaminat", "clean water"],  # sanitation/hygiene/safe water
+    ["rainstorm", "monsoon", "mei-yu"],  # rain event
+    ["drought", "dry", "low rain"],  # drought/insufficient rain
+    ["heat", "hot", "high temper"],  # heat/high temperatures
+    ["storm", "wind", "typhoon", "hurricane", "thunderstorm"],  # storm/strong wind
+    ["earthquake", "seismic", "tremor"],  # earthquake/seismic activity
+    ["weather", "meteorological"],  # weather (unspecified)
+    ["low temper"]  # cold/low temperatures
+]
+
+
