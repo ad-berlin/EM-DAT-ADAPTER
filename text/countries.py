@@ -236,7 +236,7 @@ overseas_terr_dict = {
     "Saint Barthélemy": "France",  # overseas collectivity (COM), caribbean
     "Saint Martin (French Part)": "France",  # overseas collectivity (COM), caribbean
     "Sint Maarten (Dutch part)": "Netherlands",  # integrated (non EU), caribbean
-    "Wallis and Futuna Islands": "France",  # overseas collectivity (COM), oceania
+    "Wallis and Fortuna Islands": "France",  # overseas collectivity (COM), oceania
 }
 
 # UN permanent observers and none states
@@ -248,7 +248,7 @@ non_un_2025_states = {
     "Taiwan": "Taiwan (臺灣)",  # partially recognised
 }
 
-# UN non-self-governing territories and Hong Kong (China) and Macau (China)
+# UN non-self-governing territories and Hong Kong (China), Macau (China), Taiwan
 non_self_gov_2025_dict = {
     "American Samoa": "United States of America",  # unincorporated unorganized territory, caribbean, != Samoa (--> independent)
     "Anguilla": "United Kingdom",  # overseas territory, caribbean island
@@ -265,92 +265,25 @@ non_self_gov_2025_dict = {
     "New Caledonia": "France",  # special status (closer to free association), oceania
     "Pitcairn": "United Kingdom",  # overseas territory, oceania
     "Saint Helena": "United Kingdom",  # overseas territory, south-west african island
-    "Tokelau": "New Zealand",  # dependend territory, oceania
+    "Taiwan": "China",  # province
+    "Tokelau": "New Zealand",  # dependent territory, oceania
     "Turks and Caicos Islands": "United Kingdom",  # overseas territory, caribbean
     "United States Virgin Islands": "United States of America",  # unincorporated organized territory, caribbean
     "Western Sahara": "Morocco"  # occupied, north africa
 }
 
-# historic labels comparable in borders and long to short UN labels
-country_label_dict = {
+country_short_dict = {
     "Bolivia (Plurinational State of)": "Bolivia",
-    "Czech Republic": "Czechia",
     "China, Hong Kong Special Administrative Region": "Hong Kong (China)",
     "China, Macao Special Administrative Region": "Macao (China)",
-    "Democratic People's Republic of Korea": "North Korea",
-    "German Democratic Republic": "Germany",
-    "Germany Federal Republic": "Germany",
+    "French Southern Territories": "French ST",
+    "Democratic People's Republic of Korea": "DPR Korea",
+    "Democratic Republic of the Congo": "DR Congo",
     "Iran (Islamic Republic of)": "Iran",
-    "Lao People's Democratic Republic": "Lao People's D.R.",
+    "Lao People's Democratic Republic": "Lao PDR",
     "Micronesia (Federated States of)": "Micronesia",
     "Netherlands (Kingdom of the)": "Netherlands",
-    "People's Democratic Republic of Yemen": "Yemen",
-    "Taiwan (Province of China)": "Taiwan",
     "United Kingdom of Great Britain and Northern Ireland": "United Kingdom",
+    "United Republic of Tanzania": "UR Tanzania",
     "Venezuela (Bolivarian Republic of)": "Venezuela",
-    "Yemen Arab Republic": "Yemen",
-    "State of Palestine": "Palestine",
-    "Czechoslovakia": "Czechoslovakia (historic)",
-    "Netherlands Antilles": "Netherlands Antilles (historic)",
-    "Serbia Montenegro": "Serbia Montenegro (historic)",
-    "Soviet Union": "Soviet Union (historic)",
-    "Yugoslavia": "Yugoslavia (historic)",
 }
-
-continent_list = [  # 6 regions
-    "Africa",
-    "Europe",  # + Russia
-    "Asia",  # - Russia
-    "North America",  # + Mexico, Caribbean
-    "South America",  # - Mexico, Caribbean
-    "Oceania",
-    "International Spaces"  # Sea, Air, Space (needed?)
-]
-
-geograph_list = [  # 26 regions
-    # The Americas (7 regions)
-    "North America",  # USA, Canada, Greenland
-    "Central America",  # Mexico, Guatemala, El Salvador, Honduras, Nicaragua, Costa Rica, Panama
-    "Caribbean",
-    "Northern South America",  # Colombia, Venezuela, Guyana, Suriname, French Guiana
-    "The Amazonas",  # Brasil, Bolivia
-    "The Andes",  # Chile, Peru, Ecuador
-    "The Pampas",  # Argentina, Paraguay, Uruguay
-    # Europe (3 regions)
-    "North-West Europe",  # Scandinavia, UK, Ireland, Benelux, Switzerland, Liechtenstein, Germany, France, Andorra, Austria, Czechia
-    "East Europe",  # Baltic States, Poland, Belarus, Slovakia, Ukraine, Hungary, Romania, Moldova, Serbia, Kosovo, North Macedonia, Russia, Georgia
-    "Mediterranean",  # Portugal, Spain, Italy, Slovenia (East?), Croatia, B&H (East?), Montenegro, Albania, Greece
-    # Asia (6 regions)
-    "The Levant & Anatolia",  # Cyprus, Syria, Lebanon, Palestine, Israel, Jordan, Turkey, Iraq
-    "Arabian Peninsula & Old Persia",  # Arabian Peninsula, Iran, Azerbaijan, Afghanistan, Armenia, Turkmenistan
-    "Southern Himalayas",  # Pakistan, India, Sri Lanka, Bangladesh, Nepal, Bhutan
-    "Altai, Pamir & Tian Shan",  # Uzbekistan, Tajikistan, Kazakhstan, Kyrgyzstan, Mongolia
-    "North-West Pacific (East Asia)",  # China, Taiwan, Japan, North Korea, Republic of Korea
-    "South East Asia",  # Myanmar, Lao, Thailand, Cambodia, Malaysia, Viet Nam, Singapore, Indonesia, East Timor, Philippines
-    # Oceania (2 regions)
-    "Australia & New Zealand",  # Australia, New Zealand
-    "Micronesia, Polynesia & Melanesia",  # Micronesia, Polynesia, Melanesia
-    # Africa (8 regions)
-    "Arab Maghreb",  # Mauritania, Western Sahara, Morocco, Algeria, Tunisia, Libya
-    "Nile Basin",  # Uganda, South Sudan, Sudan, Eritrea, Egypt
-    "East African Highlands",  # Djibouti, Somalia, Ethiopia, Kenya, Tanzania, Mozambique
-    "Niger Basin & Lake Chad",  # Mali, Burkina Faso, Niger, Nigeria, Chad
-    "African West Coast & Gulf of Guinea",  # CV, Senegal, The Gambia, Guinea Bissau, Guinea, Sierra Leone, Liberia, CI, Ghana, Togo, Benin, Cameroon, Eq. Guinea, STAP, Gabon
-    "Congo Basin",  # Congo, D.R. of the Congo, CAR, Rwanda, Burundi
-    "South African Savannas & (Semi)Deserts",  # Angola, Zambia, Malawi, Zimbabwe, Botswana, Namibia, South Africa, Lesotho, Eswatini
-    "Islands of the Indian Ocean",  # Madagascar, Comoros, Seychelles, Mayotte, Reunion, Mauritius, other Islands...
-]
-
-political_list = [  # UN M49 subregions == EM-DAT Subregions
-"== to SUBREGION"
-]
-
-new_political_list = [
-    "Marcela maybe new list!"
-]
-
-sovereign_list = []  # UN 193 list
-
-country_list = []  # UN M49 countries
-
-admin_list = []  # UN administrative regions und oversea departments all split == EM-DAT Countries ?

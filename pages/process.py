@@ -17,7 +17,7 @@ with st.container(border=True):
         else:
             df = st.session_state['data'].copy()
             st.write("The original EM-DAT file filtered for the Disaster Group 'Natural'")
-            st.dataframe(data=df, hide_index=True)
+            st.dataframe(data=df[c.original_list], hide_index=True)
 
 with st.container(border=True):
     st.write(':blue[Step 2]')

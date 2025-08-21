@@ -4,72 +4,85 @@ import numpy as np
 
 from utils import constants as c
 from text import text_info as t
-from text import countries as ctr
 
 
 st.cache_data()
-def get_data(file) -> pd.DataFrame:
-    data = pd.read_excel(file, sheet_name=0)
-    data = data.loc[data[c.DIS_NAT_TECH] == 'Natural']
-
-    # fill nan in dates to first of month and first of year, even if unknown
-    data[c.YEAR_START] = data[c.YEAR_START].astype(int)
-    data[c.MONTH_START] = data[c.MONTH_START].fillna(1).astype(int)  # WARNING!
-    data[c.DAY_START] = data[c.DAY_START].fillna(1).astype(int)  # WARNING!
-    data[c.YEAR_END] = data[c.YEAR_END].astype(int)
-    data[c.MONTH_END] = data[c.MONTH_END].fillna(1).astype(int)  # WARNING!
-    data[c.DAY_END] = data[c.DAY_END].fillna(1).astype(int)  # WARNING!
-
-    add_col_start = "Start Date"
-    data[add_col_start] = pd.to_datetime({
-        'year': data[c.YEAR_START],
-        'month': data[c.MONTH_START],
-        'day': data[c.DAY_START]
-    })
-
-    add_col_end = "End Date"
-    data[add_col_end] = pd.to_datetime({
-        'year': data[c.YEAR_END],
-        'month': data[c.MONTH_END],
-        'day': data[c.DAY_END]
-    })
-
-    data.sort_values(by=[add_col_start, add_col_end])
-
-    add_col_duration = "Duration of Disaster"
-    data[add_col_duration] = (data[add_col_end] - data[add_col_start]).dt.days + 1
-    data[add_col_duration] = np.where(data[add_col_duration] <= 0, np.nan, data[add_col_duration])
-
-    add_col_un_m49_c = 'UN M49 Countries'  # ?? distinction to EM-DAT?
-    data[add_col_un_m49_c] = 'Country'
-
-    add_col_admin = 'Administrative Regions'
-    data[add_col_admin] = data[c.COUNTRY].map(lambda x: ctr.country_label_dict.get(x, x))
-
-    add_col_un_sov = 'UN Sovereign Countries'
-    data[add_col_un_sov] = data[c.COUNTRY].map(lambda x: ctr.non_self_gov_2025_dict.get(x, x))
-    data[add_col_un_sov] = data[add_col_un_sov].map(lambda x: ctr.overseas_terr_dict.get(x, x))
-    data[add_col_un_sov] = data[add_col_un_sov].map(lambda x: ctr.country_local_name_un_2025_dict.get(x, "not sovereign (UN 2025)"))
-
-    add_col_un_m49_subr = 'UN M49 Subregions'  # probably == SUBREGIONS
-    data[add_col_un_m49_subr] = 'Subregion'
-
-    add_col_geograph = 'Geographical Regions'
-    data[add_col_geograph] = 'Region'
-
-    add_col_un_m49_r = 'UN M49 Regions'  # vmtl. == REGIONS
-    data[add_col_un_m49_r] = 'Region'
-
-    add_col_continent = 'Continents'
-    data[add_col_continent] = 'Continent'
-
-    return data
+def get_m49_dict(file) -> dict:
+    un_data_ctr = pd.read_excel(file)
+    un_data_ctr = un_data_ctr.set_index("Country/Area")
+    return un_data_ctr.to_dict()
 
 
 st.cache_data()
 def get_un_data(file) -> pd.DataFrame:
     data = pd.read_csv(file)
-    data = data[['SortOrder', 'LocID', 'Location', 'Time', 'TPopulation1Jan', 'PopDensity', 'MedianAgePop']]
+    data = data[['LocID', 'Location', 'Time', 'TPopulation1Jan', 'PopDensity', 'MedianAgePop']]
+    data = data.loc[data['LocID'] <= 900]
+    return data
+
+
+st.cache_data()
+def get_data(file) -> pd.DataFrame:
+    un_ctr = get_m49_dict(file="data/UNSD.xlsx")
+    un_pop = get_un_data(file="data/UN_DEMOGRAPH.csv")
+
+    data = pd.read_excel(file, sheet_name=0)
+    data = data.loc[data[c.DIS_NAT_TECH] == 'Natural']
+
+    add_col_start = c.DATE_START
+    data[add_col_start] = pd.to_datetime({
+        'year': data[c.YEAR_START],
+        'month': data[c.MONTH_START].fillna(1).astype(int),
+        'day': data[c.DAY_START].fillna(1).astype(int)
+    })
+
+    add_col_end = c.DATE_END
+    data[add_col_end] = pd.to_datetime({
+        'year': data[c.YEAR_END],
+        'month': data[c.MONTH_END].fillna(1).astype(int),
+        'day': data[c.DAY_END].fillna(1).astype(int)
+    })
+
+    add_col_duration = c.DIS_DURATION
+    data[add_col_duration] = (data[add_col_end] - data[add_col_start]).dt.days + 1
+    data[add_col_duration] = np.where(data[add_col_duration] <= 0, np.nan, data[add_col_duration])
+
+    add_col_origin_clean = c.ORIGIN_CLEAN
+    data[add_col_origin_clean] = data[c.ORIGIN].map(lambda x: treat_origin(aim_list=t.spell_aim_list, string=x))
+
+    add_col_origin_label = c.ORIGIN_LABEL
+    data[add_col_origin_label] = data[add_col_origin_clean].map(lambda x: label_origin(string=x))
+
+    add_col_admin = c.ADMIN_C
+    data[add_col_admin] = data[c.COUNTRY].map(lambda x: t.country_label_dict.get(x, x))
+
+    add_col_code_r = c.M49_CODE_R
+    data[add_col_code_r] = data[add_col_admin].map(lambda x: un_ctr.get(add_col_code_r).get(x, 000)).astype(int)
+
+    add_col_code_subr = c.M49_CODE_SR
+    data[add_col_code_subr] = data[add_col_admin].map(lambda x: un_ctr.get(add_col_code_subr).get(x, 000)).astype(int)
+
+    add_col_code_intr = c.M49_CODE_IR
+    data[add_col_code_intr] = data[add_col_admin].map(lambda x: un_ctr.get(add_col_code_intr).get(x, 000)).astype(int)
+
+    add_col_intr = c.UN_M49_IR
+    data[add_col_intr] = data[add_col_admin].map(lambda x: un_ctr.get(add_col_intr).get(x, "no data"))
+
+    add_col_code_c = c.M49_CODE_C
+    data[add_col_code_c] = data[add_col_admin].map(lambda x: un_ctr.get(add_col_code_c).get(x, 000)).astype(int)
+
+    add_col_code_isoa2 = c.ISO_A2
+    data[add_col_code_isoa2] = data[add_col_admin].map(lambda x: un_ctr.get(add_col_code_isoa2).get(x, "no data"))
+
+    add_col_code_isoa3 = c.ISO_A3
+    data[add_col_code_isoa3] = data[add_col_admin].map(lambda x: un_ctr.get(add_col_code_isoa3).get(x, "no data"))
+
+    add_col_geograph = c.GEOGRAPH_SR
+    data[add_col_geograph] = data[add_col_admin].map(lambda x: un_ctr.get(add_col_geograph).get(x, "no data"))
+
+    add_col_continent = c.CONTINENT_R
+    data[add_col_continent] = data[add_col_admin].map(lambda x: un_ctr.get(add_col_continent).get(x, "no data"))
+
     return data
 
 

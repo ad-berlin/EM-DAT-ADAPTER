@@ -7,16 +7,17 @@ from utils import constants as c
 from utils import modules as m
 from utils import ut as u
 from text import text_info as t
+from utils.ut import get_un_data
 
 # specific page constants todo: add to constants
 KEY_REGION_SPEC = 'region_specification'
 KEY_SUBREGION_SPEC = 'subregion_specification'
 KEY_COUNTRY_SPEC = 'country_specification'
 
-OPT_COUNTRY = 'EM-DAT Countries'
+OPT_COUNTRY = 'EM-DAT Country'
 
-LST_REGION = [c.CONTINENT, c.UN_M49_R]
-LST_SUBREGION = [c.GEOGRAPH_R, c.UN_M49_SUBR]
+LST_REGION = [c.CONTINENT_R, c.REGION]
+LST_SUBREGION = [c.GEOGRAPH_SR, c.SUBREGION]
 LST_COUNTRY = [c.SOVEREIGN_C, OPT_COUNTRY, c.ADMIN_C, c.UN_M49_C]
 
 if 'data' not in st.session_state:
@@ -26,9 +27,9 @@ else:
     if 'dis_region_scope' not in st.session_state:
         st.session_state['dis_region_scope'] = c.COUNTRY
     if KEY_REGION_SPEC not in st.session_state:
-        st.session_state[KEY_REGION_SPEC] = c.CONTINENT
+        st.session_state[KEY_REGION_SPEC] = c.CONTINENT_R
     if KEY_SUBREGION_SPEC not in st.session_state:
-        st.session_state[KEY_SUBREGION_SPEC] = c.GEOGRAPH_R
+        st.session_state[KEY_SUBREGION_SPEC] = c.GEOGRAPH_SR
     if KEY_COUNTRY_SPEC not in st.session_state:
         st.session_state[KEY_COUNTRY_SPEC] = c.SOVEREIGN_C
 
@@ -85,9 +86,8 @@ else:
     with st.container(border=True):
         ### For development!
         st.write(f'{target}, {spec}')
-        st.write(df[target].unique())
         st.write(df[spec].unique())
-        info = df[target].value_counts()
+        info = df[spec].value_counts()
         st.dataframe(data=info,
                      column_config={
                          target: st.column_config.TextColumn(label=target, width="large"),
@@ -95,17 +95,23 @@ else:
                      use_container_width=True)
 
     with st.container(border=True):
-        m.write_overview(target=target, data=df, start=start, end=end, hover_list=[c.DIS_TYPE, c.NUM])
+        m.write_overview(target=spec, data=df, start=start, end=end, hover_list=[c.DIS_TYPE, c.NUM])
 
     with st.container(border=True):
-        selected_subtargets = m.write_dig_deep(target=target, data=df, start=start, end=end)
+        selected_subtargets = m.write_dig_deep(target=spec, data=df, start=start, end=end)
 
-        if 'un_data' in st.session_state:  # TODO: properly merge for insight!
-            un_df = st.session_state['un_data'].copy()
-            un_df = un_df.loc[un_df['Time'] >= start]
-            un_df = un_df.loc[un_df['Time'] <= end]
-            info = un_df.loc[un_df['Location'].str.contains(selected_subtargets)]
-            st.dataframe(info)
+    with st.container(border=True):  # TODO: properly merge for insight!
+        subtarget = st.text_input(label="test123")  # st.selectbox(label=t.SELECT_PARAM_OV, options=df[spec].unique())
+        df = df.loc[df[spec].str.contains(subtarget)]
+        st.write(df[[spec, c.M49_CODE_SR]])
+        un_df = get_un_data(file="data/UN_DEMOGRAPH.csv")
+        un_df = un_df.loc[un_df['Time'] >= start]
+        un_df = un_df.loc[un_df['Time'] <= end]
+
+        un_df = un_df.loc[un_df['LocID'] <= 900]
+
+        info = un_df.loc[un_df['Location'].str.contains(subtarget)]
+        st.dataframe(info)
 
     with st.container(border=True):
         m.write_compare(target=target, data=df, start=start, end=end)  # TODO: doesn't really make sense yet...

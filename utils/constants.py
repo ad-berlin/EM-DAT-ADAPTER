@@ -1,4 +1,4 @@
-# basic constants col names
+# basic constants col names EM-DAT
 YEAR_START = 'Start Year'
 MONTH_START = 'Start Month'
 DAY_START = 'Start Day'
@@ -34,20 +34,29 @@ MAG_SCALE = "Magnitude Scale"
 DEATHS = 'Total Deaths'
 INJURED = 'No. Injured'
 AFFECTED = 'No. Affected'
-HOMELESS = "No. Homeless"
+HOMELESS = 'No. Homeless'
 
 # - - - - - - - - - - -
 # additional col names after get_data(file)
 DATE_START = "Start Date"
 DATE_END = "End Date"
 DIS_DURATION = "Duration of Disaster"
-CONTINENT = 'Continents'
-UN_M49_R = 'UN M49 Regions'
-GEOGRAPH_R = 'Geographical Regions'
-UN_M49_SUBR = 'UN M49 Subregions'
-SOVEREIGN_C = 'UN Sovereign Countries'
-ADMIN_C = 'Administrative Regions'
-UN_M49_C = 'UN M49 Countries'
+
+CONTINENT_R = 'Continent'
+M49_CODE_R = 'M49 Region Code'
+GEOGRAPH_SR = 'Geographic Subregion'
+M49_CODE_SR = 'M49 Subregion Code'
+UN_M49_IR = 'M49 Intermediate Region'
+M49_CODE_IR = 'M49 Intermediate Region Code'
+SOVEREIGN_C = 'UN Sovereign Country'
+ADMIN_C = 'Administrative Region'
+UN_M49_C = 'M49 Country/Area'
+M49_CODE_C = 'M49 Country/Area Code'
+ISO_A2 = 'ISO-alpha2 Code'
+ISO_A3 = 'ISO-alpha3 Code'
+
+ORIGIN_CLEAN = 'Origin (clean)'
+ORIGIN_LABEL = 'Origin (label)'
 
 # - - - - - - - - - - -
 # constants for layout
@@ -59,6 +68,11 @@ NUMBER_EV = "Number of Events"
 
 # - - - - - - - - - - -
 # lists of constants
+original_list = [NUM, DIS_NAT_TECH, DIS_SUBGROUP, DIS_TYPE, DIS_SUBTYPE, COUNTRY, REGION, SUBREGION, LOCATION, ORIGIN,
+                 YEAR_START, MONTH_START, DAY_START, YEAR_END, MONTH_END, DAY_END, MAG, MAG_SCALE, DEATHS, INJURED,
+                 AFFECTED, HOMELESS, RIVER, ASS_TYPES, AID, RECONSTRUCTION, RECONSTRUCTION_ADJ, INSURED, INSURED_ADJ,
+                 DAMAGE, DAMAGE_ADJ]  # TODO: add missing from/to text_info
+
 int_list = [INJURED, AFFECTED, HOMELESS, DEATHS, AID, RECONSTRUCTION, RECONSTRUCTION_ADJ, INSURED,
             INSURED_ADJ, DAMAGE, DAMAGE_ADJ, DIS_DURATION, MAG]
 

@@ -1,52 +1,54 @@
+from utils import constants as c
+
 info_dict = {
-    "DisNo.": "Unique 8-digit identifier including the year (4 digits) and a sequential number (4 digits), with the ISO country code appended.",
+    c.NUM: "Unique 8-digit identifier including the year (4 digits) and a sequential number (4 digits), with the ISO country code appended.",
     "Historic": "Binary field specifying whether the disaster happened before 2000. Data before 2000 should be considered of lesser quality.",
     "Classification Key": "A unique 15-character string identifying disasters in terms of the Group Subgroup Type and Subtype classification hierarchy.",
-    "Disaster Group": "The disaster group, i.e., ’Natural’ or ’Technological.’",
-    "Disaster Subgroup": "The disaster subgroup.",
-    "Disaster Type": "The disaster type.",
-    "Disaster Subtype": "The disaster subtype.",
+    c.DIS_NAT_TECH: "The disaster group, i.e., ’Natural’ or ’Technological.’",
+    c.DIS_SUBGROUP: "The disaster subgroup.",
+    c.DIS_TYPE: "The disaster type.",
+    c.DIS_SUBTYPE: "The disaster subtype.",
     "External IDs": "List of identifiers pointing to external services and resources, such as the disaster Global Identifier (GLIDE) number.",
     "Event Name": "Short specification for disaster identification, e.g., storm names (e.g., ’Mitch’) plane type in air crash (e.g., ’Boeing 707’), disease name (e.g., ’Cholera’), or volcano name (e.g., ’Etna’).",
     "ISO": "The International Organization for Standardization (ISO) 3-letter code referring to the Country. The ISO 3166 norm is used.",
-    "Country": "Country where the disaster occurred and had an impact using names from the UN M49 Standard.",
-    "Subregion": "Subregion where the disaster occurred based on UN M49 standard.",
-    "Region": "Region where the disaster occurred based on UN M49 standard.",
-    "Location": "Geographical location name as specified in the sources, e.g., city, village department, province, state, or district.",
-    "Origin": "Additional specifications on the contextual factors that led to the event, e.g., ’heavy rains’ for floods or ’drought’ for a forest fire.",
-    "Associated Types": "List of secondary disaster types cascading from or co-occurring aside from the main type, e.g., a landslide following a flood or an explosion after an earthquake.",
+    c.COUNTRY: "Country where the disaster occurred and had an impact using names from the UN M49 Standard.",
+    c.SUBREGION: "Subregion where the disaster occurred based on UN M49 standard.",
+    c.REGION: "Region where the disaster occurred based on UN M49 standard.",
+    c.LOCATION: "Geographical location name as specified in the sources, e.g., city, village department, province, state, or district.",
+    c.ORIGIN: "Additional specifications on the contextual factors that led to the event, e.g., ’heavy rains’ for floods or ’drought’ for a forest fire.",
+    c.ASS_TYPES: "List of secondary disaster types cascading from or co-occurring aside from the main type, e.g., a landslide following a flood or an explosion after an earthquake.",
     "OFDA/BHA Response": "Binary field specifying whether the Office of US Foreign Disaster Assistance (OFDA) responded to the disaster.",
     "Appeal": "Binary field specifying whether there was a request for international assistance from the affected country.",
     "Declaration": "Binary field specifying whether a state of emergency was declared in the country.",
-    "AID Contribution ('000 US$)": "The total amount (in thousands of US$ at the time of the report) of contributions for immediate relief activities to the country in response to the disaster, sourced from the Financial Tracking System of OCHA (1992–2015). Not maintained after 2015.",
-    "Magnitude": "Value related to the intensity of a hazard depending on the disaster type.",
-    "Magnitude Scale": "The associated unit for the Magnitude column.",
+    c.AID: "The total amount (in thousands of US$ at the time of the report) of contributions for immediate relief activities to the country in response to the disaster, sourced from the Financial Tracking System of OCHA (1992–2015). Not maintained after 2015.",
+    c.MAG: "Value related to the intensity of a hazard depending on the disaster type.",
+    c.MAG_SCALE: "The associated unit for the Magnitude column.",
     "Latitude": "North-South coordinates mainly for earthquakes and volcanic activity. Sometimes reported for floods, landslides, and storms (mostly when associated with floods).",
     "Longitude": "East-West coordinates mainly for earthquakes and volcanic activity. Sometimes reported for floods, landslides, and storms (mostly when associated with floods).",
-    "River Basin": "Name of affected river basins typically used for floods.",
-    "Start Year": "Year of occurrence of the disaster.",
-    "Start Month": "Month of occurrence of the disaster.",
-    "Start Day": "Day of occurrence of the disaster.",
-    "End Year": "Year of disaster conclusion.",
-    "End Month": "Month of conclusion of the disaster.",
-    "End Day": "Day of conclusion of the disaster.",
-    "Total Deaths": "Total fatalities (deceased and missing combined).",
-    "No. Injured": "Number of people with physical injuries, trauma, or illness requiring immediate medical assistance due to the disaster.",
-    "No. Homeless": "Number of people requiring shelter due to their houses being destroyed or heavily damaged during the disaster.",
-    "No. Affected": "Not specified in documentation (https://doi.org/10.1016/j.ijdrr.2025.105509)",
+    c.RIVER: "Name of affected river basins typically used for floods.",
+    c.YEAR_START: "Year of occurrence of the disaster.",
+    c.MONTH_START: "Month of occurrence of the disaster.",
+    c.DAY_START: "Day of occurrence of the disaster.",
+    c.YEAR_END: "Year of disaster conclusion.",
+    c.MONTH_END: "Month of conclusion of the disaster.",
+    c.DAY_END: "Day of conclusion of the disaster.",
+    c.DEATHS: "Total fatalities (deceased and missing combined).",
+    c.INJURED: "Number of people with physical injuries, trauma, or illness requiring immediate medical assistance due to the disaster.",
+    c.HOMELESS: "Number of people requiring shelter due to their houses being destroyed or heavily damaged during the disaster.",
+    c.AFFECTED: "Not specified in documentation (https://doi.org/10.1016/j.ijdrr.2025.105509)",
     "Total Affected": "Total number of affected people (No. Injured, No. Affected, and No. Homeless combined).",
-    "Reconstruction Costs ('000 US$)": "Costs for replacement of lost assets in thousands of US dollars (’000 US$).",
-    "Reconstruction Costs, Adjusted ('000 US$)": "Reconstruction Costs (‘000 US$), adjusted for inflation using the Consumer Price Index (CPI).",
-    "Insured Damage ('000 US$)": "Economic damage covered by insurance companies in thousands of US dollars (’000 US$).",
-    "Insured Damage, Adjusted ('000 US$)": "Insured Damage (’000 US$) adjusted for inflation using the Consumer Price Index (CPI).",
-    "Total Damage ('000 US$)": "Value of all economic losses directly or indirectly due to the disaster in thousands of US dollars (’000 US$).",
-    "Total Damage, Adjusted ('000 US$)": "Total Damage (’000 US$) adjusted for inflation using the Consumer Price Index (CPI).",
+    c.RECONSTRUCTION: "Costs for replacement of lost assets in thousands of US dollars (’000 US$).",
+    c.RECONSTRUCTION_ADJ: "Reconstruction Costs (‘000 US$), adjusted for inflation using the Consumer Price Index (CPI).",
+    c.INSURED: "Economic damage covered by insurance companies in thousands of US dollars (’000 US$).",
+    c.INSURED_ADJ: "Insured Damage (’000 US$) adjusted for inflation using the Consumer Price Index (CPI).",
+    c.DAMAGE: "Value of all economic losses directly or indirectly due to the disaster in thousands of US dollars (’000 US$).",
+    c.DAMAGE_ADJ: "Total Damage (’000 US$) adjusted for inflation using the Consumer Price Index (CPI).",
     "CPI": "Consumer Price Index from OECD used to adjust US$ values for inflation relative to Start Year.",
     "Admin Units": "Collection of impacted Administrative Units from the FAO GAUL 2015 referential. Individual objects correspond to Level-1 or Level-2 Administrative Units. Geocoding is maintained for non-biological natural hazards from 2000 onwards.",
     "Entry Date": "The day on which the event record was created in EM-DAT.",
     "Last Update": "The last date of modification of the event or one of its associated records in EM-DAT.",
-    "Duration of Disaster": "Difference between start date and end date in days.",
-    "Number of Events": "Count of registered events per timespan and category e.g. Disaster Subtype."
+    c.DIS_DURATION: "Difference between start date and end date in days.",
+    c.NUMBER_EV: "Count of registered events per timespan and category e.g. Disaster Subtype."
 }
 
 TEXT_INTRO = '''
@@ -146,17 +148,17 @@ SELECT_TIME = '''Choose Timespan of Interest'''  # ⏱️
 
 SELECT_GROUPING = '''Choose Grouping'''  # 🧩
 
-SELECT_PARAM_OV = '''🐢 Choose Parameter for Overview'''
+SELECT_PARAM_OV = '''Choose Parameter for Overview'''
 
-SELECT_PARAM_COM = '''🦥 Choose Parameter for Comparison'''
+SELECT_PARAM_COM = '''Choose Parameter for Comparison'''
 
-ERROR_DATA = '''Please, upload your dataset first on the start page!'''  # 🚨
+ERROR_DATA = '''🚨 Please, upload your dataset first on the start page!'''  # 🚨
 
-ERROR_VALUE = '''Not enough data for insightful display...'''  # 🚨
+ERROR_VALUE = '''🚨 Not enough data for insightful display...'''  # 🚨
 
 emoji_dict = {
     'EMOJI_HEADER': '🦖',
-    'EMOJI_SUBHEADER': '🦖'  # 🪳, 🦥🦖🐢
+    'EMOJI_SUBHEADER': '🦖'  # 🪳🦥🦖🐢
 }
 
 month_dict = {
@@ -304,4 +306,21 @@ complex_label_lst = [
     ["low temper"]  # cold/low temperatures
 ]
 
+### countries, political processing
 
+# historic labels comparable in borders
+country_label_dict = {
+    "Czech Republic": "Czechia",
+    "German Democratic Republic": "Germany",
+    "Germany Federal Republic": "Germany",
+    "Kosovo": "Kosovo*",
+    "People's Democratic Republic of Yemen": "Yemen",
+    "Taiwan (Province of China)": "Taiwan",
+    "Yemen Arab Republic": "Yemen",
+    "State of Palestine": "Palestine*",
+    "Czechoslovakia": "Czechoslovakia (historic)",
+    "Netherlands Antilles": "Netherlands Antilles (historic)",
+    "Serbia Montenegro": "Serbia Montenegro (historic)",
+    "Soviet Union": "Soviet Union (historic)",
+    "Yugoslavia": "Yugoslavia (historic)",
+}

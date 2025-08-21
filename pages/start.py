@@ -27,17 +27,17 @@ if file_upload_em:
 if 'data' in st.session_state:
     st.success("EM-DAT file upload successful!")
 
-# UN data
-allow_un_upload = st.toggle("Enable additional upload UN population data", key="un_toggle")
-if allow_un_upload:
-    file_upload_un = st.file_uploader(
-        "Upload your UN csv file...",
-        type=['csv'])
-
-    if file_upload_un:
-        st.session_state['un_data'] = u.get_un_data(file=file_upload_un)
-
-if 'un_data' in st.session_state:
-    st.success("UN file upload successful!")
+# # UN data
+# allow_un_upload = st.toggle("Enable additional upload UN population data", key="un_toggle")
+# if allow_un_upload:
+#     file_upload_un = st.file_uploader(
+#         "Upload your UN csv file...",
+#         type=['csv'])
+#
+#     if file_upload_un:
+#         st.session_state['un_data'] = u.get_un_data(file=file_upload_un)
+#
+# if 'un_data' in st.session_state:
+#     st.success("UN file upload successful!")
 
 m.write_impressum()
