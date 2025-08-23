@@ -56,6 +56,9 @@ def get_data(file) -> pd.DataFrame:
     add_col_admin = c.ADMIN_C
     data[add_col_admin] = data[c.COUNTRY].map(lambda x: t.country_label_dict.get(x, x))
 
+    add_col_un_sov = c.SOVEREIGN_C
+    data[add_col_un_sov] = data[add_col_admin].map(lambda x: un_ctr.get(add_col_un_sov).get(x, "no UN member (2025)"))
+
     add_col_code_r = c.M49_CODE_R
     data[add_col_code_r] = data[add_col_admin].map(lambda x: un_ctr.get(add_col_code_r).get(x, 000)).astype(int)
 
@@ -104,18 +107,17 @@ def treat_text_column(data: pd.DataFrame, column: str):
     data[column] = data[column].str.lower()
     data[column] = (
         data[column]
-        .str.replace('|', ',')
-        .str.replace('(1)', '')
-        .str.replace('(2)', '')
-        .str.replace('(3)', '')
-        .str.replace('(4)', '')
-        .str.replace('+', ',')
-        .str.replace(' - ', ',')
-        .str.replace('&', ',')
-        .str.replace('[', '(')
-        .str.replace(']', ')')
         .str.replace(';', ',')
+        .str.replace('.', ',')
+        .str.replace('(', ',')
+        .str.replace(')', ',')
+        .str.replace(' - ', ',')
+        .str.replace('&', ' and ')
+        .str.replace('+', ' and ')
+
         .str.replace('_', ' ')
+        .str.replace('  ', ' ')
+
         .str.replace(' ,', ',')
         .str.replace(', ', ',')
         .str.replace(',', ', ')

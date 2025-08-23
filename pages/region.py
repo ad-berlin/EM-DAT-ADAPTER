@@ -86,6 +86,11 @@ else:
     with st.container(border=True):
         ### For development!
         st.write(f'{target}, {spec}')
+        if spec == OPT_COUNTRY:
+            spec = c.COUNTRY
+        if spec == c.UN_M49_C:
+            spec = c.COUNTRY
+            df = df.loc[df[c.COUNTRY] != "Taiwan"]  # or "Azores Islands" or "Canary Islands"
         st.write(df[spec].unique())
         info = df[spec].value_counts()
         st.dataframe(data=info,
@@ -99,19 +104,6 @@ else:
 
     with st.container(border=True):
         selected_subtargets = m.write_dig_deep(target=spec, data=df, start=start, end=end)
-
-    with st.container(border=True):  # TODO: properly merge for insight!
-        subtarget = st.text_input(label="test123")  # st.selectbox(label=t.SELECT_PARAM_OV, options=df[spec].unique())
-        df = df.loc[df[spec].str.contains(subtarget)]
-        st.write(df[[spec, c.M49_CODE_SR]])
-        un_df = get_un_data(file="data/UN_DEMOGRAPH.csv")
-        un_df = un_df.loc[un_df['Time'] >= start]
-        un_df = un_df.loc[un_df['Time'] <= end]
-
-        un_df = un_df.loc[un_df['LocID'] <= 900]
-
-        info = un_df.loc[un_df['Location'].str.contains(subtarget)]
-        st.dataframe(info)
 
     with st.container(border=True):
         m.write_compare(target=target, data=df, start=start, end=end)  # TODO: doesn't really make sense yet...

@@ -317,7 +317,7 @@ country_label_dict = {
     "People's Democratic Republic of Yemen": "Yemen",
     "Taiwan (Province of China)": "Taiwan",
     "Yemen Arab Republic": "Yemen",
-    "State of Palestine": "Palestine*",
+    # "State of Palestine": "Palestine*",
     "Czechoslovakia": "Czechoslovakia (historic)",
     "Netherlands Antilles": "Netherlands Antilles (historic)",
     "Serbia Montenegro": "Serbia Montenegro (historic)",
