@@ -2,29 +2,29 @@ from utils import constants as c
 
 info_dict = {
     c.NUM: "Unique 8-digit identifier including the year (4 digits) and a sequential number (4 digits), with the ISO country code appended.",
-    "Historic": "Binary field specifying whether the disaster happened before 2000. Data before 2000 should be considered of lesser quality.",
-    "Classification Key": "A unique 15-character string identifying disasters in terms of the Group Subgroup Type and Subtype classification hierarchy.",
+    c.HIST: "Binary field specifying whether the disaster happened before 2000. Data before 2000 should be considered of lesser quality.",
+    c.CLASS_KEY: "A unique 15-character string identifying disasters in terms of the Group Subgroup Type and Subtype classification hierarchy.",
     c.DIS_NAT_TECH: "The disaster group, i.e., ’Natural’ or ’Technological.’",
     c.DIS_SUBGROUP: "The disaster subgroup.",
     c.DIS_TYPE: "The disaster type.",
     c.DIS_SUBTYPE: "The disaster subtype.",
-    "External IDs": "List of identifiers pointing to external services and resources, such as the disaster Global Identifier (GLIDE) number.",
-    "Event Name": "Short specification for disaster identification, e.g., storm names (e.g., ’Mitch’) plane type in air crash (e.g., ’Boeing 707’), disease name (e.g., ’Cholera’), or volcano name (e.g., ’Etna’).",
-    "ISO": "The International Organization for Standardization (ISO) 3-letter code referring to the Country. The ISO 3166 norm is used.",
+    c.EXT_ID: "List of identifiers pointing to external services and resources, such as the disaster Global Identifier (GLIDE) number.",
+    c.NAME: "Short specification for disaster identification, e.g., storm names (e.g., ’Mitch’) plane type in air crash (e.g., ’Boeing 707’), disease name (e.g., ’Cholera’), or volcano name (e.g., ’Etna’).",
+    c.ISO: "The International Organization for Standardization (ISO) 3-letter code referring to the Country. The ISO 3166 norm is used.",
     c.COUNTRY: "Country where the disaster occurred and had an impact using names from the UN M49 Standard.",
     c.SUBREGION: "Subregion where the disaster occurred based on UN M49 standard.",
     c.REGION: "Region where the disaster occurred based on UN M49 standard.",
     c.LOCATION: "Geographical location name as specified in the sources, e.g., city, village department, province, state, or district.",
     c.ORIGIN: "Additional specifications on the contextual factors that led to the event, e.g., ’heavy rains’ for floods or ’drought’ for a forest fire.",
     c.ASS_TYPES: "List of secondary disaster types cascading from or co-occurring aside from the main type, e.g., a landslide following a flood or an explosion after an earthquake.",
-    "OFDA/BHA Response": "Binary field specifying whether the Office of US Foreign Disaster Assistance (OFDA) responded to the disaster.",
-    "Appeal": "Binary field specifying whether there was a request for international assistance from the affected country.",
-    "Declaration": "Binary field specifying whether a state of emergency was declared in the country.",
-    c.AID: "The total amount (in thousands of US$ at the time of the report) of contributions for immediate relief activities to the country in response to the disaster, sourced from the Financial Tracking System of OCHA (1992–2015). Not maintained after 2015.",
+    c.OFDA_BHA: "Binary field specifying whether the Office of US Foreign Disaster Assistance (OFDA) responded to the disaster.",
+    c.INTERNAT_ASSIST_REQ: "Binary field specifying whether there was a request for international assistance from the affected country.",
+    c.EM_DECLARE: "Binary field specifying whether a state of emergency was declared in the country.",
+    c.AID: "The total amount (in thousands of US dollars at the time of the report) of contributions for immediate relief activities to the country in response to the disaster, sourced from the Financial Tracking System of OCHA (1992–2015). Not maintained after 2015.",
     c.MAG: "Value related to the intensity of a hazard depending on the disaster type.",
     c.MAG_SCALE: "The associated unit for the Magnitude column.",
-    "Latitude": "North-South coordinates mainly for earthquakes and volcanic activity. Sometimes reported for floods, landslides, and storms (mostly when associated with floods).",
-    "Longitude": "East-West coordinates mainly for earthquakes and volcanic activity. Sometimes reported for floods, landslides, and storms (mostly when associated with floods).",
+    c.LAT: "North-South coordinates mainly for earthquakes and volcanic activity. Sometimes reported for floods, landslides, and storms (mostly when associated with floods).",
+    c.LONG: "East-West coordinates mainly for earthquakes and volcanic activity. Sometimes reported for floods, landslides, and storms (mostly when associated with floods).",
     c.RIVER: "Name of affected river basins typically used for floods.",
     c.YEAR_START: "Year of occurrence of the disaster.",
     c.MONTH_START: "Month of occurrence of the disaster.",
@@ -36,19 +36,55 @@ info_dict = {
     c.INJURED: "Number of people with physical injuries, trauma, or illness requiring immediate medical assistance due to the disaster.",
     c.HOMELESS: "Number of people requiring shelter due to their houses being destroyed or heavily damaged during the disaster.",
     c.AFFECTED: "Not specified in documentation (https://doi.org/10.1016/j.ijdrr.2025.105509)",
-    "Total Affected": "Total number of affected people (No. Injured, No. Affected, and No. Homeless combined).",
-    c.RECONSTRUCTION: "Costs for replacement of lost assets in thousands of US dollars (’000 US$).",
-    c.RECONSTRUCTION_ADJ: "Reconstruction Costs (‘000 US$), adjusted for inflation using the Consumer Price Index (CPI).",
-    c.INSURED: "Economic damage covered by insurance companies in thousands of US dollars (’000 US$).",
-    c.INSURED_ADJ: "Insured Damage (’000 US$) adjusted for inflation using the Consumer Price Index (CPI).",
-    c.DAMAGE: "Value of all economic losses directly or indirectly due to the disaster in thousands of US dollars (’000 US$).",
-    c.DAMAGE_ADJ: "Total Damage (’000 US$) adjusted for inflation using the Consumer Price Index (CPI).",
-    "CPI": "Consumer Price Index from OECD used to adjust US$ values for inflation relative to Start Year.",
-    "Admin Units": "Collection of impacted Administrative Units from the FAO GAUL 2015 referential. Individual objects correspond to Level-1 or Level-2 Administrative Units. Geocoding is maintained for non-biological natural hazards from 2000 onwards.",
-    "Entry Date": "The day on which the event record was created in EM-DAT.",
-    "Last Update": "The last date of modification of the event or one of its associated records in EM-DAT.",
-    c.DIS_DURATION: "Difference between start date and end date in days.",
-    c.NUMBER_EV: "Count of registered events per timespan and category e.g. Disaster Subtype."
+    c.TOT_AFFECTED: "Total number of affected people (No. Injured, No. Affected, and No. Homeless combined).",
+    c.RECONSTRUCTION: "Costs for replacement of lost assets in thousands of US dollars.",
+    c.RECONSTRUCTION_ADJ: "Reconstruction costs in thousands of US dollars, adjusted for inflation using the Consumer Price Index (CPI).",
+    c.INSURED: "Economic damage covered by insurance companies in thousands of US dollars.",
+    c.INSURED_ADJ: "Insured damage in thousands of US dollars adjusted for inflation using the Consumer Price Index (CPI).",
+    c.DAMAGE: "Value of all economic losses directly or indirectly due to the disaster in thousands of US dollars.",
+    c.DAMAGE_ADJ: "Total damage in thousands of US dollars adjusted for inflation using the Consumer Price Index (CPI).",
+    c.CPI: "Consumer Price Index from OECD used to adjust US dollars values for inflation relative to 'Start Year'.",
+    c.ADMIN_UNITS: "Collection of impacted Administrative Units from the FAO GAUL 2015 referential. Individual objects correspond to Level-1 or Level-2 Administrative Units. Geocoding is maintained for non-biological natural hazards from 2000 onwards.",
+    c.ENTRY_DATE: "The day on which the event record was created in EM-DAT.",
+    c.UPDATE_DATE: "The last date of modification of the event or one of its associated records in EM-DAT.",
+    c.NUMBER_EV: "Count of registered events per timespan and category e.g. 'Disaster Subtype'.",
+    c.DIS_DURATION: "Difference between 'Start Date' and 'End Date' in days plus one.",
+    c.DATE_START: "Start date of occurrence of the disaster (if day is missing set to first of month; if month is missing set to first of year)",
+    c.DATE_END: "End date of conclusion of the disaster (if day is missing set to first of month; if month is missing set to first of year)",
+    c.CONTINENT_R: "Continent where the disaster occurred.",
+    c.M49_CODE_R: "Code of the region where the disaster occurred (UN M49 standard).",
+    c.UN_M49_IR: "Intermediate region where the disaster occurred based on UN M49 standard.",
+    c.M49_CODE_IR: "Code of the intermediate region where the disaster occurred (UN M49 standard).",
+    c.GEOGRAPH_SR: "Geographical subregion where the disaster occurred.",
+    c.M49_CODE_SR: "Code of the subregion where the disaster occurred (UN M49 standard).",
+    c.M49_CODE_C: "Code of the country where the disaster occurred (UN M49 standard).",
+    c.ADMIN_C: "Administrative location/region where the disaster occurred.",
+    c.SOVEREIGN_C: "Sovereign country where the disaster occurred according to UN 2025.",
+    c.UN_M49_C: "Code of the sovereign country where the disaster occurred (UN M49 standard).",
+    c.ISO_A2: "The International Organization for Standardization (ISO) 2-letter code referring to the country. The ISO 3166 norm is used.",
+    c.ISO_A3: "The International Organization for Standardization (ISO) 3-letter code referring to the country. The ISO 3166 norm is used.",
+    # c.ORIGIN_CLEAN: "'Origin'-Column treated for spelling and meaning.",
+    # c.ORIGIN_LABEL: "'Origin'-Column reduced to specific labels.",
+}
+
+explain_dict = {
+    c.DIS_DURATION: "To be able to compare disasters in intensity and impact a duration variable can be helpful.",
+    c.DATE_START: "A start date is necessary to sort events by occurrence in time.",
+    c.DATE_END: "An end date can be interesting to sort events by occurrence in time.",
+    c.CONTINENT_R: "Additionally to the 'M49 Regions' can a comparison by Continent come handy for analysis.",
+    c.M49_CODE_R: "The statistical codes used in the M49 standard are globally used and allow easy recognition of regions.",
+    c.UN_M49_IR: "Additionally to the 'M49 Subregions' can a comparison by M49 intermediate regions come handy for analysis.",
+    c.M49_CODE_IR: "The statistical codes used in the M49 standard are globally used and allow easy recognition of regions.",
+    c.GEOGRAPH_SR: "Additionally to the 'M49 Subregions' can a comparison by geographical subregion come handy for analysis.",
+    c.M49_CODE_SR: "The statistical codes used in the M49 standard are globally used and allow easy recognition of regions.",
+    c.M49_CODE_C: "The statistical codes used in the M49 standard are globally used and allow easy recognition of regions.",
+    c.ADMIN_C: "Additionally to the 'M49 Countries' can a comparison by administrative regions come handy for analysis.",
+    c.SOVEREIGN_C: "Additionally to the 'M49 Countries' can a comparison by UN sovereign countries come handy for analysis.",
+    c.UN_M49_C: "This column shows only countries that are in the most recent version of the M49 standard.",
+    c.ISO_A2: "The codes given by the International Organization for Standardization (ISO) are globally used and allow easy recognition of regions.",
+    c.ISO_A3: "The codes given by the International Organization for Standardization (ISO) are globally used and allow easy recognition of regions.",
+    # c.ORIGIN_CLEAN: "",
+    # c.ORIGIN_LABEL: "",
 }
 
 TEXT_INTRO = '''
@@ -77,13 +113,10 @@ survey and/or interview. All contributors are if not wished otherwise listed bel
 '''
 
 TEXT_IMPRESSUM = '''
-:blue[Impressum]
-
-Declaration of competing interest  
+:blue[Declaration of competing interest]  
 The author declares no known competing financial interests or personal relationships that could have appeared to 
-influence the work reported in this project.
-
-:violet[Anais Diaz, 2025]
+influence the work reported in this project.  
+A. Diaz, 2025
 '''
 
 TEXT_HELP = '''
@@ -104,18 +137,18 @@ help_dict = {
     :blue[EM-DAT Countries] - The dataset is not manipulated and the labels as given by the CRED are used. (source: ...)  
     :blue[Administrative Regions] - Regions which have special administrative status, are under occupation, or are overseas
     territory are separated from their main land to allow individual analysis. (source: ...)  
-    :blue[UN M49 Countries] - Countries  are defined as in the UN M49 standard. (source: ...)
+    :blue[UN M49 Countries] - Countries are defined as in the most recent UN M49 standard. (source: ...)
     
     *Subregion*  
-    Based on "Countries" "Subregions" can be diverged. These are subjective groupings for broader pattern analysis. To
-    begin with, two groupings are provided.  
+    Based on "Countries" "Subregions" can be diverged. These are subjective groupings for broader pattern analysis.
+    Two groupings are provided.  
     :blue[Geographical Subregions] - The aim is to group countries by shared geographical traits, locations, and/or water
     sources. (source: ...)  
     :blue[UN M49 Subregions] - Subregions are defined as in the UN M49 standard. (source: ...)
     
     *Region*  
-    Based on "Subregions" "Regions" can be diverged. These are subjective groupings for broader pattern analysis. To
-    begin with, two groupings are provided.  
+    Based on "Subregions" "Regions" can be diverged. These are subjective groupings for broader pattern analysis.
+    Two groupings are provided.  
     :blue[Continents] - The aim is to group countries by shared geographical traits, locations, and/or water
     sources.  
     :blue[UN M49 Regions] - Regions are defined as in the UN M49 standard. (source: ...)
@@ -133,6 +166,8 @@ help_dict = {
     to be filled
     '''
 }
+
+HEADER = ":blue[DisTrack - International Disaster Analysis]"
 
 SELECT_REGION = '''Choose Region'''  # 🌍
 
@@ -319,8 +354,8 @@ country_label_dict = {
     "Yemen Arab Republic": "Yemen",
     # "State of Palestine": "Palestine*",
     "Czechoslovakia": "Czechoslovakia (historic)",
-    "Netherlands Antilles": "Netherlands Antilles (historic)",
-    "Serbia Montenegro": "Serbia Montenegro (historic)",
-    "Soviet Union": "Soviet Union (historic)",
-    "Yugoslavia": "Yugoslavia (historic)",
+    "Netherlands Antilles": "Netherlands Antilles (historic)",  # caribbean
+    "Serbia Montenegro": "Serbia Montenegro (historic)",  # southern europe
+    "Soviet Union": "Soviet Union (historic)",  # east europe
+    "Yugoslavia": "Yugoslavia (historic)",  # southern europe
 }

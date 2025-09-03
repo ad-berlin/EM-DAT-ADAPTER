@@ -1,12 +1,12 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import plotly.express as px
 
 from utils import constants as c
 from utils import modules as m
 from utils import ut as u
 from text import text_info as t
-from utils.ut import treat_text_column
 
 if 'data' not in st.session_state:
     st.error(t.ERROR_DATA)
@@ -20,6 +20,49 @@ else:
     df = df.loc[df[c.YEAR_START] >= start]  # for un data >= 1950
     df = df.loc[df[c.YEAR_START] <= end]
 
+    with st.expander("Information about the columns"):
+        for col in sorted(df.columns):
+            st.write(f":blue[{col}]: {t.info_dict.get(col)}")
+
+    target_y = st.selectbox(label="Choose target column for analysis (y-axis)",
+                            options=df.columns,
+                            placeholder=f"Choose target column for analysis",
+                            key="target_y")
+
+    target_x = st.selectbox(label="Choose target column for analysis (x-axis)",
+                            options=df.columns,
+                            placeholder=f"Choose target column for analysis",
+                            key="target_x")
+
+    color = st.selectbox(label="Choose column for color differentiation",
+                         options=df.columns,
+                         placeholder=f"Choose color column for analysis",
+                         key="color")
+
+    hover_list = st.multiselect(label="Choose columns for hover information",
+                                options=df.columns,
+                                placeholder="Choose columns for hover information")
+
+    st.write("here comes a button/toggle to disable 'filling data gaps with 0'.")
+    st.write("here comes a selectbox to decide over the type of plot.")
+
+    go_button = st.button("start plotting", use_container_width=True)
+
+    if go_button:
+        target_scatter = px.scatter(
+            u.build_scatter_data(df),
+            x=target_x,
+            y=target_y,
+            color=color,
+            hover_data=hover_list,
+            title=f"{target_y} over {target_x} differentiated by {color} ({start} to {end})",
+            subtitle="data gaps filled with 0 for visualisation")
+        st.plotly_chart(target_scatter)
+        st.write(f'''
+        {target_x} (x-axis): {t.info_dict.get(target_x)}  
+        {target_y} (y-axis): {t.info_dict.get(target_y)}  
+        {color} (color-parameter): {t.info_dict.get(color)}
+        ''')
 
     # df_test = df.loc[df[add_col_origin_label].str.contains(" test 123 ")]
     # df_test = df_test.loc[df_test[add_col_origin_label] != "no data"]
@@ -38,40 +81,3 @@ else:
     # st.write(info)
 
 m.write_impressum()
-
-### AREA ANALYSIS
-# un_df = u.get_un_data(file="data/UN_DEMOGRAPH.csv")
-# # un_df = un_df.loc[un_df['Time'] >= start]
-# # un_df = un_df.loc[un_df['Time'] <= end]
-# un_df = un_df.loc[un_df['LocID'] <= 900]
-#
-# m49_df = pd.read_excel("data/UNSD.xlsx")
-# m49_df_dict = m49_df.set_index("Country/Area")
-# m49_df_dict = m49_df_dict.to_dict()
-#
-#
-# add_un_area = "CountryArea[km²]"
-# un_df[add_un_area] = (un_df["TPopulation1Jan"] / un_df["PopDensity"]) * 1000
-
-# un_ctr = sorted(un_df['LocID'].unique())
-# admin_ctr = sorted(m49_df[c.M49_CODE_C].unique())
-#
-# for country in un_ctr:
-#     if country not in admin_ctr and country != 900:
-#         st.write(country)
-#
-# not_in_un_lst = []
-# for country in admin_ctr:
-#     if country not in un_ctr:
-#         not_in_un_lst.append(country)
-#
-# for num in not_in_un_lst:
-#     st.write(m49_df_dict.get("Country/Area").get(num, "ERROR"))
-
-### TODO: implement analysis per km²
-# area_dict = {}
-# for country in sorted(df[c.ADMIN_C].unique()):
-#     country_code = m49_df_dict.get(c.M49_CODE_C).get(country)
-#     area = un_df.loc[un_df["LocID"] == country_code][add_un_area].mean()
-#     area_dict.update({country: area})
-# st.write(area_dict)

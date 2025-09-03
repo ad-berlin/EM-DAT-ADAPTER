@@ -5,8 +5,7 @@ from utils import modules as m
 from utils import ut as u
 from text import text_info as t
 
-
-st.subheader(":blue[DisTrack - International Disaster Analysis]", divider="grey")
+st.subheader(t.HEADER, divider="grey")
 
 with st.container(border=True):
     st.write(t.TEXT_INTRO)

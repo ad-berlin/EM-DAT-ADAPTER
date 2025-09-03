@@ -16,9 +16,6 @@ def write_help(page_in_capitals) -> None:
 def write_impressum() -> None:
     st.divider()
     st.write(t.TEXT_IMPRESSUM)
-    # surprise = st.button("🦖 🦥 🐢", use_container_width=True)
-    # if surprise:
-        # st.snow()
 
 
 def write_time(data):
@@ -35,7 +32,7 @@ def write_time(data):
 
 
 def write_overview(target, data, start, end, hover_list) -> None:
-    st.write(f":blue[I want to get an overview per {target}...]")
+    st.write(f":blue[I want to get an overview per {target}]")
     y_scatter = st.selectbox(f"{t.SELECT_PARAM_OV}", options=sorted(c.overview_list))
     with st.container(border=True):
         st.write(f'Definition of :blue[{y_scatter}]: {t.info_dict.get(y_scatter)}')
@@ -60,13 +57,22 @@ def write_overview(target, data, start, end, hover_list) -> None:
         st.plotly_chart(target_scatter)
 
 
-def write_dig_deep(target, data, start, end):  # TODO: probably break down
+def write_dig_deep(target, data, start, end, filter=False):  # TODO: probably break down
     if target != "Country":
         target_plural = f"{target}s"
     else:
         target_plural = "Countries"
 
-    st.write(f":blue[I want to find out more about certain {target_plural}...]")
+    st.write(f":blue[I want to find out more about certain {target_plural}]")
+
+    if filter:
+        added_filter = st.selectbox(label="subgroup for box comparison",
+                                    options=data[c.DIS_TYPE].unique(),
+                                    placeholder=f"Choose {c.DIS_TYPE}s for comparison",
+                                    label_visibility="collapsed",
+                                    key="dis_type select deep analysis")
+        data = data.loc[data[c.DIS_TYPE] == added_filter]
+
     selected_subtargets = st.multiselect(label=f"certain {target} select",
                                          options=sorted(data[target].unique()),
                                          placeholder=f"Choose {target_plural}",
@@ -145,8 +151,16 @@ def write_dig_deep(target, data, start, end):  # TODO: probably break down
         return selected_subtargets
 
 
-def write_compare(target, data, start, end):  # TODO: probably break down
-    st.write(f":blue[I want to compare {target}s per chosen parameter...]")
+def write_compare(target, data, start, end, filter=False):  # TODO: probably break down
+    st.write(f":blue[I want to compare {target}s per chosen parameter]")
+    if filter:
+        added_filter = st.selectbox(label="subgroup for box comparison",
+                                    options=data[c.DIS_TYPE].unique(),
+                                    placeholder=f"Choose {c.DIS_TYPE}s for comparison",
+                                    label_visibility="collapsed",
+                                    key="dis_type select compare")
+        data = data.loc[data[c.DIS_TYPE] == added_filter]
+
     request_subgroups = st.multiselect(label="subgroup for box comparison",
                                        options=data[target].unique(),
                                        placeholder=f"Choose {target}s for comparison",

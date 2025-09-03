@@ -139,9 +139,10 @@ def treat_text_column(data: pd.DataFrame, column: str):
 
 
 def build_scatter_data(data: pd.DataFrame):
+    new_data = data.copy()
     for col in c.int_list:
-        data[col] = data[col].fillna(0)
-    return data
+        new_data[col] = new_data[col].fillna(0)
+    return new_data
 
 
 def treat_origin(aim_list: list, string):

@@ -1,5 +1,4 @@
 import streamlit as st
-import plotly.express as px
 import numpy as np
 import pandas as pd
 
@@ -7,7 +6,6 @@ from utils import constants as c
 from utils import modules as m
 from utils import ut as u
 from text import text_info as t
-from utils.ut import get_un_data
 
 # specific page constants todo: add to constants
 KEY_REGION_SPEC = 'region_specification'
@@ -84,19 +82,56 @@ else:
         df = df.loc[df[c.YEAR_START] <= end]
 
     with st.container(border=True):
-        ### For development!
+
+        ### FOR DEVELOPMENT: AREA ANALYSIS
+        un_df = u.get_un_data(file="data/UN_DEMOGRAPH.csv")
+        un_df = un_df.loc[un_df['LocID'] <= 900]
+        add_un_area = "CountryArea[km²]"
+        un_df[add_un_area] = (un_df["TPopulation1Jan"] / un_df["PopDensity"]) * 1000
+
+        m49_df = pd.read_excel("data/UNSD.xlsx")
+        m49_df_dict = m49_df.set_index("Country/Area")
+        m49_df_dict = m49_df_dict.to_dict()
+
+        un_ctr = sorted(un_df['LocID'].unique())
+        admin_ctr = sorted(m49_df[c.M49_CODE_C].unique())
+
+        # for country in un_ctr:
+        #     if country not in admin_ctr and country != 900:
+        #         st.write(country)
+        #
+        # not_in_un_lst = []
+        # for country in admin_ctr:
+        #     if country not in un_ctr:
+        #         not_in_un_lst.append(country)
+        #
+        # for num in not_in_un_lst:
+        #     st.write(m49_df_dict.get("Country/Area").get(num, "ERROR"))
+
+        area_dict = {}
+        for country in sorted(df[c.ADMIN_C].unique()):
+            country_code = m49_df_dict.get(c.M49_CODE_C).get(country)
+            area = un_df.loc[un_df["LocID"] == country_code][add_un_area].mean()
+            area_dict.update({country: area})
+        # st.write(area_dict)  # TODO: multiple area_dicts are needed
+
         st.write(f'{target}, {spec}')
         if spec == OPT_COUNTRY:
             spec = c.COUNTRY
         if spec == c.UN_M49_C:
             spec = c.COUNTRY
-            df = df.loc[df[c.COUNTRY] != "Taiwan"]  # or "Azores Islands" or "Canary Islands"
-        st.write(df[spec].unique())
-        info = df[spec].value_counts()
+            df = df.loc[df[c.ISO_A2] != np.nan]
+
+        info = pd.DataFrame(df[spec].value_counts())
+        info["new_col_area"] = info.index.map(lambda x: area_dict.get(x))
+        info["new_col_event_per_area"] = info["count"] / info["new_col_area"]
+
         st.dataframe(data=info,
                      column_config={
-                         target: st.column_config.TextColumn(label=target, width="large"),
-                         "count": st.column_config.NumberColumn(label="number of events")},
+                         spec: st.column_config.TextColumn(label=target, width="large"),
+                         "count": st.column_config.NumberColumn(label="number of events"),
+                         "new_col_area": st.column_config.NumberColumn(label="Area/Region in km²"),
+                         "new_col_event_per_area": st.column_config.NumberColumn(label="Events per km²")},
                      use_container_width=True)
 
     with st.container(border=True):
@@ -106,7 +141,6 @@ else:
         selected_subtargets = m.write_dig_deep(target=spec, data=df, start=start, end=end)
 
     with st.container(border=True):
-        m.write_compare(target=target, data=df, start=start, end=end)  # TODO: doesn't really make sense yet...
+        m.write_compare(target=spec, data=df, start=start, end=end, filter=True)
 
 m.write_impressum()
-

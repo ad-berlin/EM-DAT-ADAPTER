@@ -1,11 +1,9 @@
 import streamlit as st
 
-from utils import constants as c
 from utils import modules as m
-from utils import ut as u
 from text import text_info as t
 
-st.subheader(":blue[DisTrack - International Disaster Analysis]", divider="grey")
+st.subheader(t.HEADER, divider="grey")
 
 with st.container(border=True):
     st.write(":blue[I want to give feedback]")
@@ -47,8 +45,7 @@ with st.container(border=True):
 with st.container(border=True):
     st.write(":blue[I want to advocate for better international data availability]")
     st.write('''
-    The main source of EM-DAT is the United Nations and insurance companies. But there is an immense gap in which
-    countries and regions are covered and which are not. If you want to advocate ...
+    To be filled...
     ''')
 
 m.write_impressum()

@@ -3,7 +3,7 @@ import streamlit as st
 from text import text_info as t
 from utils import modules as m
 
-st.subheader(":blue[DisTrack - International Disaster Analysis]", divider="grey")
+st.subheader(t.HEADER, divider="grey")
 
 st.write(t.TEXT_ABOUT)
 

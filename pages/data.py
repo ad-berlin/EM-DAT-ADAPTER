@@ -22,7 +22,7 @@ else:
         complete_list = []
         lacking_list = []
         plot_list = []
-        total_events = df[c.DIS_NAT_TECH].count()
+        total_events = len(df)
         for col in df.columns:
             df[col] = df[col].fillna("no data")
 
