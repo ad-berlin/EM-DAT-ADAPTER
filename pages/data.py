@@ -29,8 +29,6 @@ else:
             val_count = df[col].value_counts()
             if "no data" in val_count:
                 perc = df[col].value_counts()["no data"] / total_events
-                # st.write(f"{col}: {round(perc * 100, 2)}% without data")
-                # st.write(df[col].value_counts())
                 lacking_list.append(f"{col} ({round(perc * 100, 2)}%)")
                 plot_list.append((col, perc * 100))
             else:
@@ -52,7 +50,7 @@ else:
         interesting_list = [c.ORIGIN, c.ASS_TYPES, c.MAG, c.AID, c.DAMAGE, c.RECONSTRUCTION, c.INSURED, c.DEATHS,
                             c.INJURED, c.AFFECTED, c.HOMELESS]
 
-        with st.expander(label="Thereof X Percent (per Disaster Type)"):
+        with st.expander(label="Lacking Data per Disaster Type"):
             for col in interesting_list:
                 fig_df_dict = df[c.DIS_TYPE].value_counts()  # list of event count per geo-SR
                 temp_df = df.loc[df[col] == "no data"]  # filter to "no data" for interesting col
@@ -67,7 +65,7 @@ else:
                 fig.update_layout(yaxis_title="Percent Missing Data", xaxis_title="")
                 st.plotly_chart(fig)
 
-        with st.expander(label="Thereof X Percent (per Geographic Subregion)"):
+        with st.expander(label="Lacking Data per Geographic Subregion"):
             for col in interesting_list:
                 fig_df_dict = df[c.GEOGRAPH_SR].value_counts()  # list of event count per geo-SR
                 temp_df = df.loc[df[col] == "no data"]  # filter to "no data" for interesting col
@@ -81,6 +79,5 @@ else:
                 fig = px.bar(plot_lst, x=0, y=1, title=f"Missing Data for {col}")
                 fig.update_layout(yaxis_title="Percent Missing Data", xaxis_title="")
                 st.plotly_chart(fig)
-
 
 m.write_impressum()

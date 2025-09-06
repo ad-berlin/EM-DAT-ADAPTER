@@ -67,14 +67,14 @@ def write_dig_deep(target, data, start, end, filter=False):  # TODO: probably br
 
     if filter:
         added_filter = st.selectbox(label="subgroup for box comparison",
-                                    options=data[c.DIS_TYPE].unique(),
+                                    options=sorted(data[c.DIS_TYPE].fillna("no data").unique()),
                                     placeholder=f"Choose {c.DIS_TYPE}s for comparison",
                                     label_visibility="collapsed",
                                     key="dis_type select deep analysis")
         data = data.loc[data[c.DIS_TYPE] == added_filter]
 
     selected_subtargets = st.multiselect(label=f"certain {target} select",
-                                         options=sorted(data[target].unique()),
+                                         options=sorted(data[target].fillna("no data").unique()),
                                          placeholder=f"Choose {target_plural}",
                                          label_visibility="collapsed")
     if len(selected_subtargets) > 0:
@@ -155,14 +155,14 @@ def write_compare(target, data, start, end, filter=False):  # TODO: probably bre
     st.write(f":blue[I want to compare {target}s per chosen parameter]")
     if filter:
         added_filter = st.selectbox(label="subgroup for box comparison",
-                                    options=data[c.DIS_TYPE].unique(),
+                                    options=sorted(data[c.DIS_TYPE].fillna("no data").unique()),
                                     placeholder=f"Choose {c.DIS_TYPE}s for comparison",
                                     label_visibility="collapsed",
                                     key="dis_type select compare")
         data = data.loc[data[c.DIS_TYPE] == added_filter]
 
     request_subgroups = st.multiselect(label="subgroup for box comparison",
-                                       options=data[target].unique(),
+                                       options=sorted(data[target].fillna("no data").unique()),
                                        placeholder=f"Choose {target}s for comparison",
                                        label_visibility="collapsed",
                                        key="subgroup select")

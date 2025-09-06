@@ -1,11 +1,7 @@
 import streamlit as st
-import plotly.express as px
-import numpy as np
-import pandas as pd
 
 from utils import constants as c
 from utils import modules as m
-from utils import ut as u
 from text import text_info as t
 
 if 'data' not in st.session_state:

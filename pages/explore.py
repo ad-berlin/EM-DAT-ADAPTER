@@ -43,8 +43,8 @@ else:
                                 options=df.columns,
                                 placeholder="Choose columns for hover information")
 
-    st.write("here comes a button/toggle to disable 'filling data gaps with 0'.")
-    st.write("here comes a selectbox to decide over the type of plot.")
+    st.write("here comes a button/toggle to disable 'filling data gaps with 0'.")  # TODO
+    st.write("here comes a selectbox to decide over the type of plot.")  # TODO
 
     go_button = st.button("start plotting", use_container_width=True)
 

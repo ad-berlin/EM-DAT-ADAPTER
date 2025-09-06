@@ -88,6 +88,9 @@ explain_dict = {
 }
 
 TEXT_INTRO = '''
+DisTrack aims to visualise disaster data in a meaningful way and is only usable with the data of the EM-
+DAT database. Other uploads will generate errors.
+
 The database EM-DAT is compiled from various sources, including UN agencies,
 non-governmental organizations, reinsurance companies, research institutes,
 and press agencies. The Centre for Research on the Epidemiology of Disasters

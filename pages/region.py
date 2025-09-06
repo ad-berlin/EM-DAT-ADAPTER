@@ -7,11 +7,10 @@ from utils import modules as m
 from utils import ut as u
 from text import text_info as t
 
-# specific page constants todo: add to constants
+# specific page constants TODO: add to constants
 KEY_REGION_SPEC = 'region_specification'
 KEY_SUBREGION_SPEC = 'subregion_specification'
 KEY_COUNTRY_SPEC = 'country_specification'
-
 OPT_COUNTRY = 'EM-DAT Country'
 
 LST_REGION = [c.CONTINENT_R, c.REGION]
