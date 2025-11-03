@@ -40,8 +40,8 @@ else:
             fig.update_layout(yaxis_title="Percent Missing Data", xaxis_title="")
             st.plotly_chart(fig)
 
-            st.write("Column (lacking data in %)")
-            st.dataframe(lacking_list)
+            # st.write("Column (lacking data in %)")
+            # st.dataframe(lacking_list)
 
         with st.expander(label="Complete Columns"):
             st.dataframe(complete_list)
@@ -73,6 +73,21 @@ else:
 
                 plot_lst = []
                 for location in temp_df[c.GEOGRAPH_SR].unique():
+                    perc = fig_df[location] / fig_df_dict.get(location)  # divide "no data" through all events
+                    plot_lst.append((location, perc * 100))
+
+                fig = px.bar(plot_lst, x=0, y=1, title=f"Missing Data for {col}")
+                fig.update_layout(yaxis_title="Percent Missing Data", xaxis_title="")
+                st.plotly_chart(fig)
+
+        with st.expander(label="Lacking Data per Time"):
+            for col in interesting_list:
+                fig_df_dict = df[c.YEAR_START].value_counts()  # list of event count per start year
+                temp_df = df.loc[df[col] == "no data"]  # filter to "no data" for interesting col
+                fig_df = temp_df[c.YEAR_START].value_counts()  # list of event count per start year with "no data"
+
+                plot_lst = []
+                for location in temp_df[c.YEAR_START].unique():
                     perc = fig_df[location] / fig_df_dict.get(location)  # divide "no data" through all events
                     plot_lst.append((location, perc * 100))
 

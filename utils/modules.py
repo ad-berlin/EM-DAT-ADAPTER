@@ -156,14 +156,14 @@ def write_compare(target, data, start, end, filter=False):  # TODO: probably bre
     if filter:
         added_filter = st.selectbox(label="subgroup for box comparison",
                                     options=sorted(data[c.DIS_TYPE].fillna("no data").unique()),
-                                    placeholder=f"Choose {c.DIS_TYPE}s for comparison",
+                                    placeholder=f"Choose {c.DIS_TYPE}s for Comparison",
                                     label_visibility="collapsed",
                                     key="dis_type select compare")
         data = data.loc[data[c.DIS_TYPE] == added_filter]
 
     request_subgroups = st.multiselect(label="subgroup for box comparison",
                                        options=sorted(data[target].fillna("no data").unique()),
-                                       placeholder=f"Choose {target}s for comparison",
+                                       placeholder=f"Choose {target}s for Comparison",
                                        label_visibility="collapsed",
                                        key="subgroup select")
 
@@ -192,7 +192,7 @@ def write_compare(target, data, start, end, filter=False):  # TODO: probably bre
                 data_frame=df_request,
                 x=target,
                 y=request_parameter,
-                title=f"{request_parameter} per selected {target}",
+                title=f"{request_parameter} per selected {target} ({start} to {end})",
                 subtitle=f"upper {int((1 - q_2) * 100)}% of data points removed")
 
             for cat in request_subgroups:

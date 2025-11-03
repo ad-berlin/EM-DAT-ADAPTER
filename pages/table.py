@@ -73,4 +73,20 @@ else:
                 df.to_excel(writer, sheet_name="filtered_data", index=False)
                 info.to_excel(writer, sheet_name="filter_info")
 
+    # df_test = df.loc[df[add_col_origin_label].str.contains(" test 123 ")]
+    # df_test = df_test.loc[df_test[add_col_origin_label] != "no data"]
+    # st.write(df_test[c.LOCATION].value_counts())
+
+    ### LOCATION TREAT as far as possible
+    # treat_text_column(data=df, column=c.LOCATION)
+    # df_test = df.loc[df[c.LOCATION].str.contains("no data")]
+    # st.write(df_test[[c.DIS_SUBTYPE, c.LOCATION, c.ADMIN_C]])
+    #
+    # info = f'{', '.join(df[c.LOCATION].astype(str))}'
+    # info = pd.Series(info.split(', ')).value_counts()
+    # # for ix in info.index:
+    # #     if "-" in ix:  # ":", "?", "/", "=", "-", ">", "_", ### not in string so far: !, %, §, [, ], |
+    # #         st.write(ix)
+    # st.write(info)
+
 m.write_impressum()

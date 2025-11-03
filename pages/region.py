@@ -137,7 +137,7 @@ else:
         m.write_overview(target=spec, data=df, start=start, end=end, hover_list=[c.DIS_TYPE, c.NUM])
 
     with st.container(border=True):
-        selected_subtargets = m.write_dig_deep(target=spec, data=df, start=start, end=end)
+        selected_subtargets = m.write_dig_deep(target=spec, data=df, start=start, end=end, filter=True)
 
     with st.container(border=True):
         m.write_compare(target=spec, data=df, start=start, end=end, filter=True)
