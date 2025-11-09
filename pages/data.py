@@ -6,6 +6,8 @@ from text import text_info as t
 from utils import modules as m
 from utils import constants as c
 
+st.subheader(t.HEADER, divider="grey")
+
 if 'data' not in st.session_state:
     st.error(t.ERROR_DATA)
 
@@ -17,6 +19,16 @@ else:
         start, end = m.write_time(data=df)
         df = df.loc[df[c.YEAR_START] >= start]
         df = df.loc[df[c.YEAR_START] <= end]
+
+    # with st.container(border=True):  # TODO
+    #     for reg in df[c.REGION].unique():
+    #         list_reg = df.loc[df[c.REGION] == reg][c.COUNTRY].value_counts()[0:7]
+    #         st.write(reg)
+    #         st.write(list_reg)
+    #         for country in list_reg.index[0:7]:
+    #             col1, col2 = st.columns(2)
+    #             col1.write(country)
+    #             col2.write(df.loc[df[c.COUNTRY] == country][c.DIS_SUBTYPE].value_counts()[0:5])
 
     with st.container(border=True):
         complete_list = []

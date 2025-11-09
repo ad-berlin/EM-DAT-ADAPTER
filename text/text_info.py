@@ -170,7 +170,7 @@ help_dict = {
     '''
 }
 
-HEADER = ":blue[DisTrack - International Disaster Analysis]"
+HEADER = ":red[Beta:] :blue[DisTrack - International Disaster Analysis]"
 
 SELECT_REGION = '''Choose Region'''  # 🌍
 

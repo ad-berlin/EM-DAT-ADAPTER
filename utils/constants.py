@@ -1,3 +1,9 @@
+import streamlit as st
+
+# general constants
+USERS = st.secrets["eligible_people"]
+BETA_PASSWORD = st.secrets["beta_password"]
+
 # basic constants col names EM-DAT
 YEAR_START = 'Start Year'
 MONTH_START = 'Start Month'

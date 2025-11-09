@@ -83,7 +83,7 @@ pg = st.navigation(
         ],
         "Meta Data": [
             data_page,  # add page for data quality e.g. show nans, compare nans per region etc.
-            sources_page,  # add page listing all sources in full length
+            # sources_page,  # add page listing all sources in full length
             process_page,  # add page explaining the process
         ],
         "About DisTrack": [

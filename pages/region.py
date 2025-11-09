@@ -17,6 +17,8 @@ LST_REGION = [c.CONTINENT_R, c.REGION]
 LST_SUBREGION = [c.GEOGRAPH_SR, c.SUBREGION]
 LST_COUNTRY = [c.SOVEREIGN_C, OPT_COUNTRY, c.ADMIN_C, c.UN_M49_C]
 
+st.subheader(t.HEADER, divider="grey")
+
 if 'data' not in st.session_state:
     st.error(t.ERROR_DATA)
 
@@ -137,7 +139,7 @@ else:
         m.write_overview(target=spec, data=df, start=start, end=end, hover_list=[c.DIS_TYPE, c.NUM])
 
     with st.container(border=True):
-        selected_subtargets = m.write_dig_deep(target=spec, data=df, start=start, end=end, filter=True)
+        selected_subtargets = m.write_dig_deep(target=spec, data=df, start=start, end=end, filter=False)
 
     with st.container(border=True):
         m.write_compare(target=spec, data=df, start=start, end=end, filter=True)

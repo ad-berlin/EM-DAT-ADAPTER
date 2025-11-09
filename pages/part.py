@@ -9,7 +9,7 @@ with st.container(border=True):
     st.write(":blue[I want to give feedback]")
     st.write('''
     Constructive feedback is very welcome! Please write an e-mail with your remarks to the following address:
-    to_be_filled@something.com. If you find a bug or something that needs improving, please attach a screenshot. If
+    diaz.ruiz.de.zarate@campus.tu-berlin.de. If you find a bug or something that needs improving, please attach a screenshot. If
     something is missing, please try to describe it in detail or attach a sketch of what you would like to have on
     display.
     
@@ -20,7 +20,7 @@ with st.container(border=True):
     st.write(":blue[I want to contribute to the code]")
     st.write('''
     The code is open source and available via GitHub here (link). Please look through the existing code first and then
-    request rights to push via GitHub and additionally write an e-mail to to_be_filled@something.com where you roughly
+    request rights to push via GitHub and additionally write an e-mail to diaz.ruiz.de.zarate@campus.tu-berlin.de where you roughly
     describe the changes, that you propose.
     
     Not all proposals will be granted.
@@ -31,7 +31,7 @@ with st.container(border=True):
     st.write('''
     As displayed in the section about data quality, data is lacking in the database. If you know of open access
     databases that could be merged to show better picture of reality, this is very welcome.
-    Please write an e-mail to to_be_filled@something.com, covering  
+    Please write an e-mail to diaz.ruiz.de.zarate@campus.tu-berlin.de, covering  
     - a link to the database,  
     - a short argument, why you think this database is trustworthy with sources, and  
     - your background (e.g. degree, institution, workplace).
@@ -42,10 +42,10 @@ with st.container(border=True):
     Depending on data quality and compatibility of the proposed database it is going to take time.
     ''')
 
-with st.container(border=True):
-    st.write(":blue[I want to advocate for better international data availability]")
-    st.write('''
-    To be filled...
-    ''')
+# with st.container(border=True):
+#     st.write(":blue[I want to advocate for better international data availability]")
+#     st.write('''
+#     To be filled...
+#     ''')
 
 m.write_impressum()

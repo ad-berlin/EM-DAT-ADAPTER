@@ -34,7 +34,9 @@ with st.container(border=True):
     st.write(f"The column '{c.ORIGIN}' and '{c.LOCATION}' are treated. Interested why and how?")
     with st.expander(f"Special needs columns"):
         st.write(f":blue[The column '{c.ORIGIN}']")
+        st.write("To be filled...")
         st.write(f":blue[The column '{c.LOCATION}']")
+        st.write("To be filled...")
 
 with st.container(border=True):
     st.write(':blue[Step 4]')

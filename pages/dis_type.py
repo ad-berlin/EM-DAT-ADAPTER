@@ -4,6 +4,8 @@ from utils import constants as c
 from utils import modules as m
 from text import text_info as t
 
+st.subheader(t.HEADER, divider="grey")
+
 if 'data' not in st.session_state:
     st.error(t.ERROR_DATA)
 

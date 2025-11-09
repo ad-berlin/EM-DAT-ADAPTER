@@ -130,7 +130,7 @@ def write_dig_deep(target, data, start, end, filter=False):  # TODO: probably br
 
                         if parameter in c.info_list:
                             target_df = u.treat_text_column(data=target_df, column=parameter)  # drop nan
-                            info = f'{', '.join(target_df[parameter])}'
+                            info = f"{', '.join(target_df[parameter])}"
                             info = pd.Series(info.split(', ')).value_counts()
 
                             if parameter == c.MONTH_START:
@@ -145,7 +145,7 @@ def write_dig_deep(target, data, start, end, filter=False):  # TODO: probably br
 
                         if parameter in c.att_list:
                             info = target_df[parameter].dropna().unique()
-                            st.write(f'Attributed {parameter}(s): {', '.join(info)}')
+                            st.write(f"Attributed {parameter}(s): {', '.join(info)}")
 
                         st.write(f"*{t.info_dict.get(parameter)}")
         return selected_subtargets
