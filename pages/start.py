@@ -12,14 +12,29 @@ if "login" not in st.session_state:
 
 with st.container(border=True):
     col1, col2 = st.columns(2)
-    user_name = col1.text_input("Please enter your username:")
-    password = col2.text_input("Please enter your password:")
+    col1.write(":blue[Please insert your username:]")
+    user_name = col1.text_input("username:", label_visibility="collapsed")
+    col2.write(":blue[Please insert your password:]")
+    password = col2.text_input("password:", label_visibility="collapsed")
 
     if user_name in c.USERS and password == c.BETA_PASSWORD:
         st.session_state["login"] = "YES"
 
 if st.session_state["login"] == "YES":
-    st.success("You are logged in!")
+    with st.container(border=True):
+        st.success("""
+        Dear Beta-User, you have two main tasks:  
+        1) Please, find a way to create graphs that are most useful for your field of research.  
+        2) Please, try to break the app.
+        
+        Most gratefully,  
+        The Developer
+        """)
+
+        st.link_button(
+            ":red[please document your results as good as possible here in this survey]",
+            url="https://diazberlin.limesurvey.net/distrack_beta_eval?lang=en&newtest=Y",
+            use_container_width=True)
 
     with st.container(border=True):
         st.write(t.TEXT_INTRO)
