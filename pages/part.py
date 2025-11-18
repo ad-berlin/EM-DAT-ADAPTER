@@ -19,9 +19,9 @@ with st.container(border=True):
 with st.container(border=True):
     st.write(":blue[I want to contribute to the code]")
     st.write('''
-    The code is open source and available via GitHub here (link). Please look through the existing code first and then
-    request rights to push via GitHub and additionally write an e-mail to diaz.ruiz.de.zarate@campus.tu-berlin.de where you roughly
-    describe the changes, that you propose.
+    The code is open source and available via GitHub. Please look through the existing code first and then
+    request rights to push via GitHub and additionally write an e-mail to diaz.ruiz.de.zarate@campus.tu-berlin.de 
+    where you roughly describe the changes, that you propose.
     
     Not all proposals will be granted.
     ''')

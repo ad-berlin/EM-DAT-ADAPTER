@@ -5,6 +5,7 @@ from utils import constants as c
 from utils import modules as m
 from utils import ut as u
 from text import text_info as t
+from utils.constants import regions_list
 
 st.subheader(t.HEADER, divider="grey")
 
@@ -28,67 +29,47 @@ else:
         st.write(":blue[I want to filter certain parameters, ...]")
         info = []
         filter_params = st.multiselect(label="params for filter",
-                                       options=sorted(df.columns),
+                                       options=sorted(c.filter_list),
                                        label_visibility="collapsed",
                                        placeholder="Choose parameters for filter options")
         for param in filter_params:
-            st.write(f"Choose category to filter {param}")
+            st.write(f"Filter {param}")
+            df[c.text_field_list] = df[c.text_field_list].fillna(value="no data")
 
-            # TODO: discrete values (single select and multiselect)
-            # if ?
-            argument = st.selectbox(label=f"{param} to filter",
-                                    options=df[param].unique(),
-                                    label_visibility="collapsed")
-            df = df.loc[df[param] == argument]
-            info.append((param, argument))
+            # a slider for floats
+            if param in c.int_list or param in c.date_list:
+                min_val, max_val = st.select_slider(label=f"{param} to filter",
+                                                    options=sorted(df[param].fillna(df[param].min()).unique()),
+                                                    value=(df[param].min(), df[param].max()),
+                                                    label_visibility="collapsed")
+                df = df.loc[df[c.YEAR_START] >= min_val]
+                df = df.loc[df[c.YEAR_START] <= max_val]
+                info.append((param, f"{min_val} - {max_val}"))
 
-            # TODO: bool toggle
-            # if ?
-            # for column in toggl_list have filter ready from toggl_dict
-            # info.append((param, f"{val} ({info_dict.get(param)})"))
+            # text input field
+            elif param in c.text_field_list:
+                argument = st.text_input(label=f"{param} to filter",
+                                         label_visibility="collapsed",
+                                         placeholder="Please type what you look for")
+                df = df.loc[df[param].str.contains(argument)]
+                info.append((param, [argument]))
 
-            # TODO: int values
-            # if?
-            # min_val, max_val = st.select_slider(label="test123",
-            #                                     options=sorted(df[param].fillna(df[param].min()).unique()),
-            #                                     value=(df[param].min(), df[param].max()),
-            #                                     label_visibility="collapsed")
-            # df = df.loc[df[c.YEAR_START] >= min_val]
-            # df = df.loc[df[c.YEAR_START] <= max_val]
-            # info.append((param, f"{min_val} - {max_val}"))
-
-            # TODO: string option
-            # if ?
-            # argument = st.text_input(label=f"{param} to filter",
-            #                          label_visibility="collapsed",
-            #                          placeholder="Please type what you look for")
-            # df = df.loc[df[param].str.contains(argument)]  # works if array does not contain NaN
-            # info.append((param, f"cell contains "{argument}"))
+            else:
+                argument = st.multiselect(label=f"{param} to filter",
+                                          options=df[param].unique(),
+                                          label_visibility="collapsed")
+                pattern = "|".join(argument)
+                df = df[df[param].str.contains(pattern, na=False)]  # na=False: treat NaN as False
+                info.append((param, argument))
 
         st.write(":blue[...see the table, ...]")
         st.dataframe(df, hide_index=True)
 
+        info = pd.DataFrame(info)
         download = st.button(":blue[...and save as ExcelFile.]", use_container_width=True)
         if download:
-            info = pd.DataFrame(info)
             with pd.ExcelWriter("DisTrack_filtered.xlsx") as writer:
                 df.to_excel(writer, sheet_name="filtered_data", index=False)
                 info.to_excel(writer, sheet_name="filter_info")
-
-    # df_test = df.loc[df[add_col_origin_label].str.contains(" test 123 ")]
-    # df_test = df_test.loc[df_test[add_col_origin_label] != "no data"]
-    # st.write(df_test[c.LOCATION].value_counts())
-
-    ### LOCATION TREAT as far as possible
-    # treat_text_column(data=df, column=c.LOCATION)
-    # df_test = df.loc[df[c.LOCATION].str.contains("no data")]
-    # st.write(df_test[[c.DIS_SUBTYPE, c.LOCATION, c.ADMIN_C]])
-    #
-    # info = f'{', '.join(df[c.LOCATION].astype(str))}'
-    # info = pd.Series(info.split(', ')).value_counts()
-    # # for ix in info.index:
-    # #     if "-" in ix:  # ":", "?", "/", "=", "-", ">", "_", ### not in string so far: !, %, §, [, ], |
-    # #         st.write(ix)
-    # st.write(info)
 
 m.write_impressum()

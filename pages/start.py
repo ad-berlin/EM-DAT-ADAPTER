@@ -8,7 +8,7 @@ from utils import constants as c
 st.subheader(t.HEADER, divider="grey")
 
 if "login" not in st.session_state:
-    st.session_state["login"] = "NO"
+    st.session_state["login"] = "YES"
 
 with st.container(border=True):
     col1, col2 = st.columns(2)
@@ -17,7 +17,7 @@ with st.container(border=True):
     col2.write(":blue[Please insert your password:]")
     password = col2.text_input("password:", label_visibility="collapsed")
 
-    if user_name in c.USERS and password == c.BETA_PASSWORD:
+    if user_name in c.USERS and password == c.BETA_PASSWORD:  # password == c.MATCH[user_name][1]:
         st.session_state["login"] = "YES"
 
 if st.session_state["login"] == "YES":

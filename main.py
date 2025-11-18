@@ -12,61 +12,56 @@ st.set_page_config(
 start_page = st.Page(  # data upload, general information about EM-DAT, useful tips
     page="pages/start.py",
     title="Start",
-    icon=":material/home:",  # '🦖',
+    icon=":material/home:",
     default=True)
 
 dis_type_page = st.Page(  # visualisation per classification with different scopes (group, subgroup, type, or subtype)
     page="pages/dis_type.py",
     title="Per Classification",
-    icon=":material/modeling:",  #'🐢',
+    icon=":material/modeling:",
     default=False)
 
 region_page = st.Page(  # visualisation per region with different scopes (region, subregion, country, or location)
     page="pages/region.py",
     title="Per Region",
-    icon=":material/captive_portal:",  #'🦒',
+    icon=":material/captive_portal:",
     default=False)
 
 explore_page = st.Page(  # allow self conducted exploration based of free selection of column(s) and search terms
     page="pages/explore.py",
     title="Explore Further",
-    icon=":material/star:",  #'🐺',
+    icon=":material/star:",
     default=False)
 
 table_page = st.Page(  # view full table and restrict columns if needed
     page="pages/table.py",
     title="View Table",
-    icon=":material/table:",  # '🌪️',
+    icon=":material/table:",
     default=False)
 
 data_page = st.Page(  # page for data quality e.g. show nans, compare nans per region etc.
     page="pages/data.py",
     title="Data Quality",
-    # icon='🦖',
     default=False)
 
 sources_page = st.Page(  # page listing all sources in full length
     page="pages/sources.py",
     title="Sources",
-    # icon='🦖',
     default=False)
 
 process_page = st.Page(  # page explaining the process
     page="pages/process.py",
     title="The Process",
-    # icon='🦖',
     default=False)
 
 about_page = st.Page(  # page explaining the intention and vision
     page="pages/about.py",
     title="About",
-    # icon='🦖',  # 🦛
     default=False)
 
 part_page = st.Page(  # page inviting to participate in the project, maybe linking to reddit
     page="pages/part.py",
     title="Participate",
-    # icon='🦖',
     default=False)
 
 # st.logo("images/logo.png")  # TODO: fix logo sizing

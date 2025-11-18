@@ -192,7 +192,7 @@ SELECT_PARAM_COM = '''Choose Parameter for Comparison'''
 
 ERROR_DATA = '''🚨 Please, upload your dataset first on the start page!'''  # 🚨
 
-ERROR_VALUE = '''🚨 Not enough data for insightful display...'''  # 🚨
+ERROR_VALUE = '''Not enough data for insightful display...'''
 
 emoji_dict = {
     'EMOJI_HEADER': '🦖',

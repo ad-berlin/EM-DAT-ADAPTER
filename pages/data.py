@@ -52,9 +52,6 @@ else:
             fig.update_layout(yaxis_title="Percent Missing Data", xaxis_title="")
             st.plotly_chart(fig)
 
-            # st.write("Column (lacking data in %)")
-            # st.dataframe(lacking_list)
-
         with st.expander(label="Complete Columns"):
             st.dataframe(complete_list)
 

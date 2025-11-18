@@ -5,8 +5,9 @@ import numpy as np
 from utils import constants as c
 from text import text_info as t
 
-
 st.cache_data()
+
+
 def get_m49_dict(file) -> dict:
     un_data_ctr = pd.read_excel(file)
     un_data_ctr = un_data_ctr.set_index("Country/Area")
@@ -14,6 +15,8 @@ def get_m49_dict(file) -> dict:
 
 
 st.cache_data()
+
+
 def get_un_data(file) -> pd.DataFrame:
     data = pd.read_csv(file)
     data = data[['LocID', 'Location', 'Time', 'TPopulation1Jan', 'PopDensity', 'MedianAgePop']]
@@ -22,6 +25,8 @@ def get_un_data(file) -> pd.DataFrame:
 
 
 st.cache_data()
+
+
 def get_data(file) -> pd.DataFrame:
     un_ctr = get_m49_dict(file="data/UNSD.xlsx")
     un_pop = get_un_data(file="data/UN_DEMOGRAPH.csv")
@@ -182,7 +187,6 @@ def treat_origin(aim_list: list, string):
 
 
 def treat_origin_word(aim_list, test):
-
     argument_list = [test, test[0:-1], test[0:-2]]  # check for similar writing e.g. rain, rains; monsoon, monsoonal
     for argument in argument_list:
         if argument in aim_list:

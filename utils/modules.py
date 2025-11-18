@@ -65,7 +65,7 @@ def write_dig_deep(target, data, start, end, filter=False):  # TODO: probably br
 
     st.write(f":blue[I want to find out more about certain {target_plural}]")
 
-    if filter:
+    if filter:  # TODO: remove to page text and specialize to toggl
         added_filter = st.selectbox(label="subgroup for box comparison",
                                     options=sorted(data[c.DIS_TYPE].fillna("no data").unique()),
                                     placeholder=f"Choose {c.DIS_TYPE}s for comparison",
@@ -143,9 +143,19 @@ def write_dig_deep(target, data, start, end, filter=False):  # TODO: probably br
                                                                                width="large")},
                                 use_container_width=True)
 
+                        # if parameter in c.att_list:
+                        #     info = target_df[parameter].dropna().unique()
+                        #     st.write(f"Attributed {parameter}(s): {', '.join(info)}")
+
                         if parameter in c.att_list:
-                            info = target_df[parameter].dropna().unique()
-                            st.write(f"Attributed {parameter}(s): {', '.join(info)}")
+                            info = target_df[parameter].value_counts()
+                            st.dataframe(
+                                data=info,
+                                column_config={"count": st.column_config.NumberColumn(label="value count"),
+                                               "": st.column_config.TextColumn(label=parameter,
+                                                                               width="large")},
+                                use_container_width=True)
+
 
                         st.write(f"*{t.info_dict.get(parameter)}")
         return selected_subtargets
