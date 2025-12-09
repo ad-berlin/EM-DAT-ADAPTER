@@ -30,13 +30,14 @@ else:
 
     with st.container(border=True):
         st.write(":blue[Build your own custom plot]")
-        start, end = m.write_time(data=df)
-        df = df.loc[df[c.YEAR_START] >= start]  # for un data >= 1950
-        df = df.loc[df[c.YEAR_START] <= end]
 
         with st.expander("Information about the columns"):
             for col in sorted(df.columns):
                 st.write(f":blue[{col}]: {t.info_dict.get(col)}")
+
+        with st.container(border=True):
+            st.write(":blue[Filter the data prior to plotting]")
+            df, info_table = m.build_filter(data=df)
 
         target_y = st.selectbox(label="Choose target column for analysis (y-axis)",
                                 options=df.columns,
@@ -97,10 +98,10 @@ else:
         hover_list = []
     if disable_color is True:
         color = c.HIST
-        title = f"{target_y} over {target_x} ({start} to {end})"
+        title = f"{target_y} over {target_x}"
         info = "Data before 2000, marked as historic, is to be considered of lesser quality!"
     else:
-        title = f"{target_y} over {target_x} differentiated by {color} ({start} to {end})"
+        title = f"{target_y} over {target_x} differentiated by {color}"
         info = f"{color} (color-parameter): {t.info_dict.get(color)}"
     if toggle_fillna is True:
         subtitle = "data gaps filled with 0 for visualisation"
@@ -144,6 +145,8 @@ else:
                 st.plotly_chart(plot)
 
             with st.container(border=True):
+                st.write(":blue[Infobox on restrictions regarding the plot]")
+                st.dataframe(info_table, hide_index=True, column_config={"0": "parameter", "1": "argument"})
                 st.write(f'''
                 {target_x} (x-axis): {t.info_dict.get(target_x)}  
                 {target_y} (y-axis): {t.info_dict.get(target_y)}  

@@ -51,6 +51,7 @@ def write_overview(target, data, start, end, hover_list) -> None:
             x=c.DATE_START,
             y=y_scatter,
             color=target,
+            category_orders={target: sorted(u.build_scatter_data(data)[target].dropna().unique())},
             hover_data=hover_list,
             title=f"{y_scatter} differentiated by {target} ({start} to {end})",
             subtitle="data gaps filled with 0 for visualisation")
@@ -125,11 +126,11 @@ def write_dig_deep(target, data, start, end, filter=False):  # TODO: probably br
                                     y=parameter,
                                     title=f"{parameter} of {dis_target} ({start} to {end})",
                                     subtitle=f"data gaps filled with 0 for visualisation; upper {int((1 - q_1) * 100)}% of data points removed",
-                                    hover_data=[c.YEAR_START, c.NUM])
+                                    hover_data=[c.YEAR_START, c.NUM, c.DIS_SUBTYPE])
                                 col2.plotly_chart(fig_scatter)
 
-                        if parameter in c.info_list:
-                            target_df = u.treat_text_column(data=target_df, column=parameter)  # drop nan
+                        if parameter in c.info_list:  # TODO: fix presentation
+                            target_df = u.treat_text_column(data=target_df, columns=[parameter])  # drop nan
                             info = f"{', '.join(target_df[parameter])}"
                             info = pd.Series(info.split(', ')).value_counts()
 
@@ -250,3 +251,54 @@ def write_compare(target, data, start, end, filter=False):  # TODO: probably bre
                     5: st.column_config.NumberColumn(
                         label="median",
                         format="localized")})
+
+
+def build_filter(data):
+
+    info = []
+    filter_params = st.multiselect(label="params for filter",
+                                   options=sorted(c.filter_list),
+                                   label_visibility="collapsed",
+                                   placeholder="Choose parameters for filter options")
+    for param in filter_params:
+        st.write(f"Filter {param}")
+
+        if param in c.int_list or param in c.date_list:
+            col1, col2 = st.columns([4,1])
+            min_val, max_val = col1.select_slider(label=f"{param} to filter",
+                                                options=sorted(data[param].fillna(data[param].min()).unique()),
+                                                value=(data[param].min(), data[param].max()),
+                                                label_visibility="collapsed")
+            filtered = data[(data[param] >= min_val) & (data[param] <= max_val)]
+
+            show_nan = col2.toggle("show nan values", key=f"{param}_toggl")
+            if show_nan:
+                nan_rows = data[data[param].isna()]
+                data = pd.concat([filtered, nan_rows], axis=0)
+                info.append((param, f"{min_val} to {max_val}, incl. nan"))
+
+            else:
+                data = filtered
+                info.append((param, f"{min_val} to {max_val}"))
+
+        elif param in c.text_field_list:
+            data = u.treat_text_column(data=data, columns=[param], new=True)
+
+            argument = st.text_input(label=f"Please spell without 'special' letters and use the closest standard latin letters to replace. E.g. ä to a, ß to ss, ç to c, é to e.",
+                                     placeholder="Please type what you look for",
+                                     key=f"{param}_text_input")
+            argument = argument.lower()
+            data = data.loc[data[f"{param} (assist)"].str.contains(argument, na=False)]  # na=False: treat NaN as False
+            data = data.drop(columns=[f"{param} (assist)"])
+            info.append((param, f"cell contains {argument}"))
+
+        else:
+            argument = st.multiselect(label=f"{param} to filter",
+                                      options=data[param].unique(),
+                                      label_visibility="collapsed")
+            pattern = "|".join(argument)
+            data = data.loc[data[param].str.contains(pattern, na=False)]  # na=False: treat NaN as False
+            info.append((param, ', '.join(argument)))
+
+    info = pd.DataFrame(info)
+    return data, info

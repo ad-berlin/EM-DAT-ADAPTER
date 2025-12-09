@@ -140,7 +140,7 @@ regions_list = [
 ]
 
 text_field_list = [
-    LOCATION, RIVER, ASS_TYPES, ORIGIN_CLEAN, EXT_ID
+    LOCATION, RIVER, ASS_TYPES, ORIGIN_CLEAN, EXT_ID, NAME
 ]
 
 # TODO: MAG needs to be extra

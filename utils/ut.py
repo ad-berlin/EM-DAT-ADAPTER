@@ -1,6 +1,7 @@
 import pandas as pd
 import streamlit as st
 import numpy as np
+from unidecode import unidecode
 
 from utils import constants as c
 from text import text_info as t
@@ -64,6 +65,9 @@ def get_data(file) -> pd.DataFrame:
     add_col_un_sov = c.SOVEREIGN_C
     data[add_col_un_sov] = data[add_col_admin].map(lambda x: un_ctr.get(add_col_un_sov).get(x, "no UN member (2025)"))
 
+    add_col_un_m49_c = c.UN_M49_C
+    data[add_col_un_m49_c] = data[add_col_admin].map(lambda x: un_ctr.get(add_col_un_m49_c).get(x, "not in M49 standard (2025)"))
+
     add_col_code_r = c.M49_CODE_R
     data[add_col_code_r] = data[add_col_admin].map(lambda x: un_ctr.get(add_col_code_r).get(x, 000)).astype(int)
 
@@ -107,26 +111,33 @@ def remove_outliner(data: pd.DataFrame, q_low, q_high, parameter, target):
     return data
 
 
-def treat_text_column(data: pd.DataFrame, column: str):
-    data[column] = data[column].astype(str)
-    data[column] = data[column].str.lower()
-    data[column] = (
-        data[column]
-        .str.replace(';', ',')
-        .str.replace('.', ',')
-        .str.replace('(', ',')
-        .str.replace(')', ',')
-        .str.replace(' - ', ',')
-        .str.replace('&', ' and ')
-        .str.replace('+', ' and ')
+def treat_text_column(data: pd.DataFrame, columns: list, new=False):
+    for column in columns:
+        if new:
+            column_new = f"{column} (assist)"
+        else:
+            column_new = column
 
-        .str.replace('_', ' ')
-        .str.replace('  ', ' ')
+        data[column_new] = data[column].astype(str)
+        data[column_new] = data[column_new].str.lower().apply(unidecode)
+        data[column_new] = (
+            data[column_new]
+            .str.replace(';', ',')
+            .str.replace('.', ',')
+            .str.replace('|', ',')
+            .str.replace('(', ',')
+            .str.replace(')', ',')
+            .str.replace(' - ', ',')
+            .str.replace('&', ' and ')
+            .str.replace('+', ' and ')
 
-        .str.replace(' ,', ',')
-        .str.replace(', ', ',')
-        .str.replace(',', ', ')
-    )
+            .str.replace('_', ' ')
+            .str.replace('  ', ' ')
+
+            .str.replace(' ,', ',')
+            .str.replace(', ', ',')
+            .str.replace(',', ', ')
+        )
     # ISSUES
     # further information can be provided in brackets e.g. Couronnes station (Paris); Gainesville (Georgia)
     # further information can be provided after comma e.g. Roger's Pass, British Columbia; Spanish River, Ontario
@@ -267,3 +278,9 @@ def label_origin(string):
     if not new_string:
         new_string.append(t.mapping_origin_labels.get("unclear"))
     return '; '.join(set(new_string))
+
+
+def ready_to_filter(data: pd.DataFrame):
+    columns = [c.RIVER, c.LOCATION, c.ASS_TYPES]
+    data = treat_text_column(data=data, columns=columns, new=True)
+    return data

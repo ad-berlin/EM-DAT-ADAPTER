@@ -77,6 +77,8 @@ else:
                 label_visibility="collapsed",
                 horizontal=True,
                 key=KEY_COUNTRY_SPEC)
+            if spec is OPT_COUNTRY:
+                spec = c.COUNTRY
 
         start, end = m.write_time(data=df)
         df = df.loc[df[c.YEAR_START] >= start]

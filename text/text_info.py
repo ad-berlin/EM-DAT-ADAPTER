@@ -108,7 +108,7 @@ This app only allows analysis and display of disasters with a natural disaster a
 
 TEXT_ABOUT = '''
 This app has been developed to allow an insightful analysis of disaster data. This app has
-been developed by Anais Diaz in 2025/2026 and is inspired by the first app for EM-DAT visualisation by
+been developed in 2025/2026 and is inspired by the first app for EM-DAT visualisation by
 Damien Delforge.
 
 Thanks go to all the experts who participated in the design process and contributed valuable input/feedback through
@@ -119,7 +119,7 @@ TEXT_IMPRESSUM = '''
 :blue[Declaration of competing interest]  
 The author declares no known competing financial interests or personal relationships that could have appeared to 
 influence the work reported in this project.  
-A. Diaz, 2025
+Diaz, 2025
 '''
 
 TEXT_HELP = '''
@@ -190,7 +190,7 @@ SELECT_PARAM_OV = '''Choose Parameter for Overview'''
 
 SELECT_PARAM_COM = '''Choose Parameter for Comparison'''
 
-ERROR_DATA = '''🚨 Please, upload your dataset first on the start page!'''  # 🚨
+ERROR_DATA = '''🚨 Please, upload your dataset first on the start page!'''
 
 ERROR_VALUE = '''Not enough data for insightful display...'''
 
