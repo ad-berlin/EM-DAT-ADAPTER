@@ -6,18 +6,14 @@ from unidecode import unidecode
 from utils import constants as c
 from text import text_info as t
 
-st.cache_data()
-
-
+@st.cache_data()
 def get_m49_dict(file) -> dict:
     un_data_ctr = pd.read_excel(file)
     un_data_ctr = un_data_ctr.set_index("Country/Area")
     return un_data_ctr.to_dict()
 
 
-st.cache_data()
-
-
+@st.cache_data()
 def get_un_data(file) -> pd.DataFrame:
     data = pd.read_csv(file)
     data = data[['LocID', 'Location', 'Time', 'TPopulation1Jan', 'PopDensity', 'MedianAgePop']]
@@ -25,9 +21,7 @@ def get_un_data(file) -> pd.DataFrame:
     return data
 
 
-st.cache_data()
-
-
+@st.cache_data()
 def get_data(file) -> pd.DataFrame:
     un_ctr = get_m49_dict(file="data/UNSD.xlsx")
     un_pop = get_un_data(file="data/UN_DEMOGRAPH.csv")
@@ -122,12 +116,14 @@ def treat_text_column(data: pd.DataFrame, columns: list, new=False):
         data[column_new] = data[column_new].str.lower().apply(unidecode)
         data[column_new] = (
             data[column_new]
+            .str.replace('"', '')
+            .str.replace("'", '')
+
             .str.replace(';', ',')
             .str.replace('.', ',')
             .str.replace('|', ',')
-            .str.replace('(', ',')
-            .str.replace(')', ',')
-            .str.replace(' - ', ',')
+            .str.replace('[', '(')
+            .str.replace(']', ')')
             .str.replace('&', ' and ')
             .str.replace('+', ' and ')
 
@@ -135,8 +131,6 @@ def treat_text_column(data: pd.DataFrame, columns: list, new=False):
             .str.replace('  ', ' ')
 
             .str.replace(' ,', ',')
-            .str.replace(', ', ',')
-            .str.replace(',', ', ')
         )
     # ISSUES
     # further information can be provided in brackets e.g. Couronnes station (Paris); Gainesville (Georgia)
@@ -171,9 +165,11 @@ def treat_origin(aim_list: list, string):
     work_string = (work_string
                    .replace(',', replacement)
                    .replace(';', replacement)
-                   .replace(' +', replacement)
+                   .replace('+', replacement)
                    .replace('.', replacement)
                    .replace('"', replacement)
+                   .replace("'", replacement)
+
                    .replace(' of', "_of")
                    .replace(' with', "_with")
                    )

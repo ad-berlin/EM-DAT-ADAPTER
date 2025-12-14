@@ -7,15 +7,14 @@ from utils import modules as m
 from utils import ut as u
 from text import text_info as t
 
-# specific page constants TODO: add to constants
+# specific page constants
 KEY_REGION_SPEC = 'region_specification'
 KEY_SUBREGION_SPEC = 'subregion_specification'
 KEY_COUNTRY_SPEC = 'country_specification'
-OPT_COUNTRY = 'EM-DAT Country'
 
 LST_REGION = [c.CONTINENT_R, c.REGION]
 LST_SUBREGION = [c.GEOGRAPH_SR, c.SUBREGION]
-LST_COUNTRY = [c.SOVEREIGN_C, OPT_COUNTRY, c.ADMIN_C, c.UN_M49_C]
+LST_COUNTRY = [c.SOVEREIGN_C, c.OPT_COUNTRY, c.ADMIN_C, c.UN_M49_C]
 
 st.subheader(t.HEADER, divider="grey")
 
@@ -77,7 +76,7 @@ else:
                 label_visibility="collapsed",
                 horizontal=True,
                 key=KEY_COUNTRY_SPEC)
-            if spec is OPT_COUNTRY:
+            if spec is c.OPT_COUNTRY:
                 spec = c.COUNTRY
 
         start, end = m.write_time(data=df)

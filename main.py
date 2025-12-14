@@ -1,11 +1,9 @@
 import streamlit as st
 
-from text.text_info import TEXT_ABOUT, emoji_dict
-
 # setup of entire webpage, global settings
 st.set_page_config(
     page_title="DisTrack - Visualising Disaster",
-    page_icon=emoji_dict.get('EMOJI_HEADER'),
+    page_icon="🦖",
     layout='wide')
 
 # single page setup
@@ -59,6 +57,11 @@ about_page = st.Page(  # page explaining the intention and vision
     title="About",
     default=False)
 
+policy_page = st.Page(  # page explaining the situation with the countries and regions
+    page="pages/policy.py",
+    title="Definitions and Terminology",
+    default=False)
+
 part_page = st.Page(  # page inviting to participate in the project, maybe linking to reddit
     page="pages/part.py",
     title="Participate",
@@ -78,8 +81,9 @@ pg = st.navigation(
         ],
         "Meta Data": [
             data_page,  # add page for data quality e.g. show nans, compare nans per region etc.
-            # sources_page,  # add page listing all sources in full length
+            sources_page,  # add page listing all sources in full length
             process_page,  # add page explaining the process
+            policy_page # add page explaining the situation with the countries and regions
         ],
         "About DisTrack": [
             about_page,  # add page explaining the intention and vision

@@ -1,10 +1,3 @@
-import streamlit as st
-
-# general constants
-USERS = st.secrets["eligible_people"]
-BETA_PASSWORD = st.secrets["beta_password"]
-MATCH = list(zip(USERS, BETA_PASSWORD))
-
 # basic constants col names EM-DAT
 YEAR_START = 'Start Year'
 MONTH_START = 'Start Month'
@@ -89,6 +82,9 @@ COLOR_NUM_PLOT = "#c71585"  # "#8e3a59"
 # - - - - - - - - - - -
 # additional constants
 NUMBER_EV = "Number of Events"
+OPT_COUNTRY = 'EM-DAT Country'
+OPT_SUBREGION = "M49 Subregion"
+OPT_REGION = "M49 Region"
 
 # - - - - - - - - - - -
 # lists of constants
@@ -140,10 +136,8 @@ regions_list = [
 ]
 
 text_field_list = [
-    LOCATION, RIVER, ASS_TYPES, ORIGIN_CLEAN, EXT_ID, NAME
+    LOCATION, RIVER, ASS_TYPES, ORIGIN, ORIGIN_CLEAN, EXT_ID, NAME
 ]
-
-# TODO: MAG needs to be extra
 
 filter_list = [
     DIS_SUBGROUP, DIS_TYPE, DIS_SUBTYPE, COUNTRY, REGION, SUBREGION, LOCATION, MAG,
@@ -151,5 +145,5 @@ filter_list = [
     INSURED, INSURED_ADJ, DAMAGE, DAMAGE_ADJ, UPDATE_DATE, ENTRY_DATE, LONG, LAT, EM_DECLARE,
     INTERNAT_ASSIST_REQ, OFDA_BHA, NAME, EXT_ID, CLASS_KEY, YEAR_START, DIS_DURATION,
     CONTINENT_R, M49_CODE_R, GEOGRAPH_SR, M49_CODE_SR, UN_M49_IR, M49_CODE_IR, SOVEREIGN_C, ADMIN_C,
-    UN_M49_C, M49_CODE_C, ISO_A2, ISO_A3, ORIGIN_CLEAN
+    UN_M49_C, M49_CODE_C, ISO_A2, ISO_A3, ORIGIN, ORIGIN_CLEAN, ORIGIN_LABEL
 ]

@@ -7,6 +7,8 @@ from utils import constants as c
 
 st.subheader(t.HEADER, divider="grey")
 
+m.write_help(page_in_capitals='START')
+
 with st.container(border=True):
     st.success("""
     Dear Beta-User, you have two main tasks:  
@@ -32,7 +34,7 @@ st.link_button(
 
 # EM-DAT data
 file_upload_em = st.file_uploader(
-    "Upload here your EM-DAT xlsx file!",
+    ":blue[Upload here your EM-DAT xlsx file!]",
     type=['xlsx'])
 
 if file_upload_em:

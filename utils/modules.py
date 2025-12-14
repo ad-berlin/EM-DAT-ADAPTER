@@ -33,7 +33,8 @@ def write_time(data):
 
 def write_overview(target, data, start, end, hover_list) -> None:
     st.write(f":blue[I want to get an overview per {target}]")
-    y_scatter = st.selectbox(f"{t.SELECT_PARAM_OV}", options=sorted(c.overview_list))
+    y_scatter = st.selectbox(label=f"{t.SELECT_PARAM_OV}",
+                             options=sorted(c.overview_list))
     with st.container(border=True):
         st.write(f'Definition of :blue[{y_scatter}]: {t.info_dict.get(y_scatter)}')
 
@@ -263,7 +264,18 @@ def build_filter(data):
     for param in filter_params:
         st.write(f"Filter {param}")
 
-        if param in c.int_list or param in c.date_list:
+        if param is c.ORIGIN_LABEL:
+            options_list = "; ".join(data[param])
+            options_list = pd.Series(options_list.split("; ")).unique()
+            # st.write(options_list)  # TODO: why needed??
+            argument = st.multiselect(label=f"{param} to filter",
+                                      options=options_list,
+                                      label_visibility="collapsed")
+            pattern = "|".join(argument)
+            data = data.loc[data[param].str.contains(pattern, na=False)]  # na=False: treat NaN as False
+            info.append((param, ', '.join(argument)))
+
+        elif param in c.int_list or param in c.date_list:
             col1, col2 = st.columns([4,1])
             min_val, max_val = col1.select_slider(label=f"{param} to filter",
                                                 options=sorted(data[param].fillna(data[param].min()).unique()),

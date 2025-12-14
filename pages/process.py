@@ -1,5 +1,6 @@
 import streamlit as st
 import plotly.express as px
+import pandas as pd
 
 from utils import constants as c
 from utils import modules as m
@@ -25,18 +26,58 @@ with st.container(border=True):
     with st.expander("List of new columns"):
         for col in c.new_list:
             st.write(f"""
-            :blue[{col}]: {t.info_dict.get(col)}  
+            :blue[{col}:] {t.info_dict.get(col)}  
             {t.explain_dict.get(col)}""")
-        st.write('For mor information regarding the definitions of the Regions/Subregions/Countries, explore the sources.')
+        st.write(':blue[Assistance Columns:] For each column that is a text column (which are '
+                 f'{", ".join(c.text_field_list)}) an assistance column is created which is smoothed in capitalisation '
+                 'and special letters and signs.')
 
 with st.container(border=True):
     st.write(':blue[Step 3]')
-    st.write(f"The column '{c.ORIGIN}' and '{c.LOCATION}' are treated. Interested why and how?")
-    with st.expander(f"Special needs columns"):
-        st.write(f":blue[The column '{c.ORIGIN}']")
-        st.write("To be filled...")
-        st.write(f":blue[The column '{c.LOCATION}']")
-        st.write("To be filled...")
+    st.write(f"The column '{c.ORIGIN}' is specially treated. Interested why and how?")
+    with st.expander(f"Special needs column"):
+        if 'data' not in st.session_state:
+            st.error(t.ERROR_DATA)
+        else:
+            df = st.session_state['data'].copy()
+
+            st.write(f"1. The column '{c.ORIGIN}' shows an extreme diversity in describing the same few phenomenons. "
+                     "This can be seen in this table, which shows all unique entries sorted by occurrence.")
+            st.write(df[c.ORIGIN].value_counts())
+
+            st.write("2. Additionally, they are often listed in some sort. A separation can make them easier to count and understand patterns.")
+            df = u.treat_text_column(data=df, columns=[c.ORIGIN], new=True)  # TODO: why?? temp_df == df??
+            info = ", ".join(df[f"{c.ORIGIN} (assist)"])
+            info_list = info.split(", ")
+            st.write(pd.Series(info_list).value_counts())
+
+            st.write("3. Furthermore, the highly various terminology and misspellings can be simplified and corrected. "
+                     "Therefore, the following list of words is checked for misspellings and corrected accordingly.")
+            st.dataframe(t.spell_aim_list)
+
+            st.write("4. Misspellings and their correction can be seen below.")
+            st.dataframe(df[[c.ORIGIN, c.ORIGIN_CLEAN]].value_counts())
+
+            temp_df = df.loc[df[c.ORIGIN_CLEAN] == "extreme rain", [c.ORIGIN, c.ORIGIN_CLEAN]]
+            origin_val_num = len(temp_df[c.ORIGIN].unique())
+            st.write(f"5. This correction and homogenisation means, that a number of {origin_val_num} unique values can be "
+                     f"simplified to one - just in the case of 'extreme rainfall'.")
+            st.dataframe(temp_df.value_counts())
+
+            st.write("6. The same is true for other phenomenons.")
+            origin_merge_list = []
+            for val in df[c.ORIGIN_CLEAN].value_counts().index:
+                temp_df = df.loc[df[c.ORIGIN_CLEAN] == val, [c.ORIGIN, c.ORIGIN_CLEAN]]
+                origin_val_num = len(temp_df[c.ORIGIN].unique())
+                if origin_val_num >= 3:
+                    origin_merge_list.append((val, origin_val_num))
+            st.dataframe(origin_merge_list, height=120, column_config={"0": "phenomenon", "1": "original spelling variance"})
+
+            st.write("7. But still a lot of terms describe similar events/origins. This is why labels are developed.")
+            info = "; ".join(df[c.ORIGIN_LABEL])
+            info_list = info.split("; ")
+            st.write("; ".join(pd.Series(info_list).unique()))
+
 
 with st.container(border=True):
     st.write(':blue[Step 4]')
@@ -60,7 +101,7 @@ with st.container(border=True):
             df = df.loc[df[c.CONTINENT_R] == chosen_continent]
 
             st.write(f"""
-            Here an example over five years over {target} ({chosen_continent}):  
+            Here an example over five years ({df[c.YEAR_START].max() - 5}-{df[c.YEAR_START].max()}) over {target} ({chosen_continent}):  
             - {df[target].count()} entries,
             - {len(df)} entries missing,
             - only {round(df[target].count()/len(df), 2) * 100}% have existing data!
@@ -73,7 +114,8 @@ with st.container(border=True):
                 x=c.DATE_START,
                 y=target,
                 title=f"{target} in {chosen_continent} ({df[c.YEAR_START].max() - 5} to {df[c.YEAR_START].max()})",
-                subtitle="data gaps filled with 0 for visualisation")
+                subtitle="data gaps filled with 0 for visualisation",
+                hover_data=[c.DIS_SUBTYPE, c.COUNTRY])
             col1.plotly_chart(target_scatter)
 
             target_scatter = px.scatter(
@@ -81,7 +123,8 @@ with st.container(border=True):
                 x=c.DATE_START,
                 y=target,
                 title=f"{target} in {chosen_continent} ({df[c.YEAR_START].max() - 5} to {df[c.YEAR_START].max()})",
-                subtitle="data gaps NOT filled")
+                subtitle="data gaps NOT filled",
+                hover_data=[c.DIS_SUBTYPE, c.COUNTRY])
             col2.plotly_chart(target_scatter)
 
 

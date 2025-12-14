@@ -63,8 +63,8 @@ info_dict = {
     c.UN_M49_C: "Code of the sovereign country where the disaster occurred (UN M49 standard).",
     c.ISO_A2: "The International Organization for Standardization (ISO) 2-letter code referring to the country. The ISO 3166 norm is used.",
     c.ISO_A3: "The International Organization for Standardization (ISO) 3-letter code referring to the country. The ISO 3166 norm is used.",
-    # c.ORIGIN_CLEAN: "'Origin'-Column treated for spelling and meaning.",
-    # c.ORIGIN_LABEL: "'Origin'-Column reduced to specific labels.",
+    c.ORIGIN_CLEAN: "'Origin'-Column treated for spelling and meaning.",
+    c.ORIGIN_LABEL: "'Origin'-Column reduced to specific labels.",
 }
 
 explain_dict = {
@@ -83,8 +83,8 @@ explain_dict = {
     c.UN_M49_C: "This column shows only countries that are in the most recent version of the M49 standard.",
     c.ISO_A2: "The codes given by the International Organization for Standardization (ISO) are globally used and allow easy recognition of regions.",
     c.ISO_A3: "The codes given by the International Organization for Standardization (ISO) are globally used and allow easy recognition of regions.",
-    # c.ORIGIN_CLEAN: "",
-    # c.ORIGIN_LABEL: "",
+    c.ORIGIN_CLEAN: "As explained in 'The Process' the column Origin is treated to allow better analysis. This is a clean version, but still containing very detailed information.",
+    c.ORIGIN_LABEL: "As explained in 'The Process' the column Origin is treated to allow better analysis. This column contains labels.",
 }
 
 TEXT_INTRO = '''
@@ -93,7 +93,7 @@ DAT database. Other uploads will generate errors.
 
 The database EM-DAT is compiled from various sources, including UN agencies,
 non-governmental organizations, reinsurance companies, research institutes,
-and press agencies. The Centre for Research on the Epidemiology of Disasters
+and press agencies [1]. The Centre for Research on the Epidemiology of Disasters
 (CRED) distributes the data in open access for non-commercial use.
 
 EM-DAT globally records at the country level human and economic
@@ -101,7 +101,7 @@ losses for disasters with at least one of the following criteria:
 - 10 fatalities;
 - 100 affected people;
 - a declaration of state of emergency;
-- a call for international assistance.
+- a call for international assistance. [1]
 
 This app only allows analysis and display of disasters with a natural disaster agent.
 '''
@@ -109,7 +109,7 @@ This app only allows analysis and display of disasters with a natural disaster a
 TEXT_ABOUT = '''
 This app has been developed to allow an insightful analysis of disaster data. This app has
 been developed in 2025/2026 and is inspired by the first app for EM-DAT visualisation by
-Damien Delforge.
+Damien Delforge. [1]
 
 Thanks go to all the experts who participated in the design process and contributed valuable input/feedback through
 survey and/or interview. All contributors are if not wished otherwise listed below.
@@ -127,64 +127,106 @@ HELP - How to find my way around?
 '''
 
 help_dict = {
+    'HELP_START': '''
+    This page allows you to upload the EM-DAT data.
+    
+    1. Please access the data via the official website of the CRED.
+    2. You will need to register with the CRED to be able to access the data.
+    3. Download the full dataset to avoid any complications.
+    4. Upload the excel file as it is at the end of this page and wait for the green massage of success stating:
+    File upload successful! This application will only work with this particular data set.
+    5. You then can move on to the analysing parts of this application.
+    
+    Enjoy!
+    ''',
+
     'HELP_DIS_TYPE': '''
-    to be filled
+    This page allows you to analyse disaster occurrence and impact through the classification of disasters.
+    
+    This page is split into four parts. The first is global settings, the second is an overview, the third is a deeper
+    analysis, and the last is a comparison.
+    
+    1. Global settings allow to choose scope, and timespan.
+    2. The overview allows you to choose a parameter which will be used as y-axis in the following plot. A definition of
+    the chosen parameter will be provided directly below. Data gaps, as omnipresent as they are, are filled with 0 to
+    make the event itself visible in the plot. Before referring to those events stating 0 as a value, please check with
+    the Disaster Number of the event.
+    3. The deeper analysis allows you to choose specific classifications you deem interesting. Each of them will open in
+    a separate tab. In each tab you can choose multiple parameters to explore. They will all open in the order chosen
+    below. Switching between tabs is possible and the selection will remain. Changes in the global settings will lead to
+    a reset in the selected classifications and parameters.
+    4. The comparison allows you to choose multiple classifications to compare. Those will be visible in three tabs
+    each visualizing the same information. One time in box plots, one in a histogram, and one in a table. Please be
+    cautious using the comparison mechanism for magnitudes. If unsure about the unit of magnitude please look up the
+    classifications in question in part 3.
+    
+    All plots will can be downloaded using the camera icon appearing in the upper right corner if the cursor is moved
+    over the plot. All separate colors in the legend on the right side in the plots can be separated by double click.
+    This can be reversed by double clicking again. Disabling or enabling separate colors in the legend on the right side
+    can be done with single clicks. Tables can be saved as CSV by using the download button in the upper right corner
+    of the table.
     ''',
 
     'HELP_REGION': '''
-    *Country*  
-    The term "Country" is not as neutral as one could wish, which is why multiple definitions are available
-    here.    
-    :blue[UN Sovereign Countries] - The dataset is reduced to the 193 states of the UN council from 2025. The territories
-    are as described by the UN (source: ...)  
-    :blue[EM-DAT Countries] - The dataset is not manipulated and the labels as given by the CRED are used. (source: ...)  
-    :blue[Administrative Regions] - Regions which have special administrative status, are under occupation, or are overseas
-    territory are separated from their main land to allow individual analysis. (source: ...)  
-    :blue[UN M49 Countries] - Countries are defined as in the most recent UN M49 standard. (source: ...)
+    This page allows you to analyse disaster occurrence and impact through the region of occurrence of disasters.
     
-    *Subregion*  
-    Based on "Countries" "Subregions" can be diverged. These are subjective groupings for broader pattern analysis.
-    Two groupings are provided.  
-    :blue[Geographical Subregions] - The aim is to group countries by shared geographical traits, locations, and/or water
-    sources. (source: ...)  
-    :blue[UN M49 Subregions] - Subregions are defined as in the UN M49 standard. (source: ...)
+    This page is split into four parts. The first is global settings, the second is an overview, the third is a deeper
+    analysis, and the last is a comparison.
     
-    *Region*  
-    Based on "Subregions" "Regions" can be diverged. These are subjective groupings for broader pattern analysis.
-    Two groupings are provided.  
-    :blue[Continents] - The aim is to group countries by shared geographical traits, locations, and/or water
-    sources.  
-    :blue[UN M49 Regions] - Regions are defined as in the UN M49 standard. (source: ...)
+    1. Global settings allow to choose scope, grouping, and timespan.
+    2. The overview allows you to choose a parameter which will be used as y-axis in the following plot. A definition of
+    the chosen parameter will be provided directly below. Data gaps, as omnipresent as they are, are filled with 0 to
+    make the event itself visible in the plot. Before referring to those events stating 0 as a value, please check with
+    the Disaster Number of the event.
+    3. The deeper analysis allows you to choose specific regions you deem interesting. Each of them will open in
+    a separate tab. In each tab you can choose multiple parameters to explore. They will all open in the order chosen
+    below. Switching between tabs is possible and the selection will remain. Changes in the global settings will lead to
+    a reset in the selected regions and parameters.
+    4. The comparison allows you to choose multiple regions to compare per Disaster Type. Those regions will be visible
+    in three tabs each visualizing the same information. One time in box plots, one in a histogram, and one in a table.
+    Please be cautious using the comparison mechanism for magnitudes. If unsure about the unit of magnitude please
+    look up the classifications in question in part 3.
     
-    All of these definitions should support representation of human beings and their suffering through disasters.
-    If important definitions are missing or active definitions are lacking or offending, please do not hesitate to
-    inform the developer and provide data and/or sources to further improve this web tool.
+    All plots will can be downloaded using the camera icon appearing in the upper right corner if the cursor is moved
+    over the plot. All separate colors in the legend on the right side in the plots can be separated by double click.
+    This can be reversed by double clicking again. Disabling or enabling separate colors in the legend on the right side
+    can be done with single clicks. Tables can be saved as CSV by using the download button in the upper right corner
+    of the table.
     ''',
 
     'HELP_TABLE': '''
-    to be filled
+    This page allows you to access the full data set as it would be in an excel file.
+    
+    This page is split into two parts. The first gives you specific disasters, if you provide the exact Disaster Number.
+    The second allows you to filter the data and download the table as an excel file.
     ''',
 
     'HELP_EXPLORE': '''
-    to be filled
+    This page allows you to filter the data as you need it and build your own plots. It is definitely more possible,
+    than what is useful.
+    
+    All plots will can be downloaded using the camera icon appearing in the upper right corner if the cursor is moved
+    over the plot. All separate colors in the legend on the right side in the plots can be separated by double click.
+    This can be reversed by double clicking again. Disabling or enabling separate colors in the legend on the right side
+    can be done with single clicks.
     '''
 }
 
 HEADER = ":red[Beta:] :blue[DisTrack - International Disaster Analysis]"
 
-SELECT_REGION = '''Choose Region'''  # 🌍
+SELECT_REGION = '''Choose Region'''
 
-SELECT_SUBREGION = '''Choose Subregion'''  # 🌍
+SELECT_SUBREGION = '''Choose Subregion'''
 
-SELECT_COUNTRY = '''Choose Country'''  # 🌍
+SELECT_COUNTRY = '''Choose Country'''
 
-SELECT_LOCAL = '''Choose Focus Regions'''  # 📍
+SELECT_LOCAL = '''Choose Focus Regions'''
 
-SELECT_DIS_SCOPE = '''Choose Scope'''  # 🔍
+SELECT_DIS_SCOPE = '''Choose Scope'''
 
-SELECT_TIME = '''Choose Timespan of Interest'''  # ⏱️
+SELECT_TIME = '''Choose Timespan of Interest'''
 
-SELECT_GROUPING = '''Choose Grouping'''  # 🧩
+SELECT_GROUPING = '''Choose Grouping'''
 
 SELECT_PARAM_OV = '''Choose Parameter for Overview'''
 
@@ -193,11 +235,6 @@ SELECT_PARAM_COM = '''Choose Parameter for Comparison'''
 ERROR_DATA = '''🚨 Please, upload your dataset first on the start page!'''
 
 ERROR_VALUE = '''Not enough data for insightful display...'''
-
-emoji_dict = {
-    'EMOJI_HEADER': '🦖',
-    'EMOJI_SUBHEADER': '🦖'  # 🪳🦥🦖🐢
-}
 
 month_dict = {
     "1": "January",
@@ -334,7 +371,8 @@ rain_descriptor_lst = [
 ]
 
 complex_label_lst = [
-    ["sanitation", "sanitary", "hygien", "dirty water", "drinking water", "safe water", "contaminat", "clean water"],  # sanitation/hygiene/safe water
+    ["sanitation", "sanitary", "hygien", "dirty water", "drinking water", "safe water", "contaminat", "clean water"],
+    # sanitation/hygiene/safe water
     ["rainstorm", "monsoon", "mei-yu"],  # rain event
     ["drought", "dry", "low rain"],  # drought/insufficient rain
     ["heat", "hot", "high temper"],  # heat/high temperatures
@@ -349,13 +387,15 @@ complex_label_lst = [
 # historic labels comparable in borders
 country_label_dict = {
     "Czech Republic": "Czechia",
+    # "China, Hong Kong Special Administrative Region": "Hong Kong",
+    # "China, Macao Special Administrative Region": "Macao",
     "German Democratic Republic": "Germany",
     "Germany Federal Republic": "Germany",
     "Kosovo": "Kosovo*",
     "People's Democratic Republic of Yemen": "Yemen",
     "Taiwan (Province of China)": "Taiwan",
     "Yemen Arab Republic": "Yemen",
-    # "State of Palestine": "Palestine*",
+    # "State of Palestine": "Palestine",
     "Czechoslovakia": "Czechoslovakia (historic)",
     "Netherlands Antilles": "Netherlands Antilles (historic)",  # caribbean
     "Serbia Montenegro": "Serbia Montenegro (historic)",  # southern europe

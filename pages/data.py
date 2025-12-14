@@ -20,7 +20,7 @@ else:
         df = df.loc[df[c.YEAR_START] >= start]
         df = df.loc[df[c.YEAR_START] <= end]
 
-    # with st.container(border=True):  # TODO
+    # with st.container(border=True):  # TODO??
     #     for reg in df[c.REGION].unique():
     #         list_reg = df.loc[df[c.REGION] == reg][c.COUNTRY].value_counts()[0:7]
     #         st.write(reg)
