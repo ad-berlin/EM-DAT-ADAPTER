@@ -20,7 +20,7 @@ with st.container(border=True):
     """)
 
     st.link_button(
-        ":red[please document your results as good as possible here in this survey]",
+        "please document your results as good as possible here in this survey",
         url="https://diazberlin.limesurvey.net/distrack_beta_eval?lang=en&newtest=Y",
         use_container_width=True)
 
@@ -28,7 +28,7 @@ with st.container(border=True):
     st.write(t.TEXT_INTRO)
 
 st.link_button(
-    "access EM-DAT for download",
+    ":blue[access EM-DAT for download]",
     url="https://public.emdat.be/",
     use_container_width=True)
 

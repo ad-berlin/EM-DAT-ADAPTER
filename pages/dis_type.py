@@ -20,7 +20,7 @@ else:
     m.write_help(page_in_capitals='DIS_TYPE')
 
     with st.container(border=True):
-        st.write(t.SELECT_DIS_SCOPE)
+        st.write(f":blue[{t.SELECT_DIS_SCOPE}]")
         st.radio(
             label="scope",
             options=[c.DIS_SUBGROUP, c.DIS_TYPE, c.DIS_SUBTYPE],

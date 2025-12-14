@@ -16,19 +16,19 @@ start_page = st.Page(  # data upload, general information about EM-DAT, useful t
 dis_type_page = st.Page(  # visualisation per classification with different scopes (group, subgroup, type, or subtype)
     page="pages/dis_type.py",
     title="Per Classification",
-    icon=":material/modeling:",
+    icon=":material/category:",  # /modeling, /schema, /category
     default=False)
 
 region_page = st.Page(  # visualisation per region with different scopes (region, subregion, country, or location)
     page="pages/region.py",
     title="Per Region",
-    icon=":material/captive_portal:",
+    icon=":material/public:",  # /captive_portal, /public
     default=False)
 
 explore_page = st.Page(  # allow self conducted exploration based of free selection of column(s) and search terms
     page="pages/explore.py",
     title="Explore Further",
-    icon=":material/star:",
+    icon=":material/star:",  # /star, /search, /travel_explore
     default=False)
 
 table_page = st.Page(  # view full table and restrict columns if needed
@@ -40,34 +40,38 @@ table_page = st.Page(  # view full table and restrict columns if needed
 data_page = st.Page(  # page for data quality e.g. show nans, compare nans per region etc.
     page="pages/data.py",
     title="Data Quality",
+    icon=":material/fact_check:",
     default=False)
 
 sources_page = st.Page(  # page listing all sources in full length
     page="pages/sources.py",
     title="Sources",
+    icon=":material/link:",  # /link, /library_books
     default=False)
 
 process_page = st.Page(  # page explaining the process
     page="pages/process.py",
     title="The Process",
+    icon=":material/route:",  # /route, /manufacturing
     default=False)
 
 about_page = st.Page(  # page explaining the intention and vision
     page="pages/about.py",
     title="About",
+    icon=":material/verified:",  # /science, /verified
     default=False)
 
 policy_page = st.Page(  # page explaining the situation with the countries and regions
     page="pages/policy.py",
     title="Definitions and Terminology",
+    icon=":material/menu_book:",
     default=False)
 
 part_page = st.Page(  # page inviting to participate in the project, maybe linking to reddit
     page="pages/part.py",
     title="Participate",
+    icon=":material/groups:",  # /groups, /handshake
     default=False)
-
-# st.logo("images/logo.png")  # TODO: fix logo sizing
 
 # navigation and page-order
 pg = st.navigation(
@@ -81,9 +85,9 @@ pg = st.navigation(
         ],
         "Meta Data": [
             data_page,  # add page for data quality e.g. show nans, compare nans per region etc.
-            sources_page,  # add page listing all sources in full length
             process_page,  # add page explaining the process
-            policy_page # add page explaining the situation with the countries and regions
+            policy_page, # add page explaining the situation with the countries and regions
+            sources_page,  # add page listing all sources in full length
         ],
         "About DisTrack": [
             about_page,  # add page explaining the intention and vision
@@ -105,3 +109,5 @@ st.sidebar.link_button(
     "EM-DAT Documentation",
     url="https://doc.emdat.be/",
     use_container_width=True)
+
+# st.sidebar.image(image="images/logo_ver_1.png", width=250)  # TODO: fix logo sizing

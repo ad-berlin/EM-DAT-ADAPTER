@@ -44,7 +44,7 @@ else:
 
     with st.container(border=True):
         col1, col2 = st.columns(2)
-        col1.write(t.SELECT_DIS_SCOPE)
+        col1.write(f":blue[{t.SELECT_DIS_SCOPE}]")
         col1.radio(
             label="decision dis_type scope",
             options=[c.REGION, c.SUBREGION, c.COUNTRY],
@@ -52,7 +52,7 @@ else:
             horizontal=True,
             key="dis_region_scope")
 
-        col2.write(t.SELECT_GROUPING)
+        col2.write(f":blue[{t.SELECT_GROUPING}]")
         if target == c.REGION:
             spec = col2.radio(
                 label="decision region",

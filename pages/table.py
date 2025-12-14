@@ -5,7 +5,6 @@ from utils import constants as c
 from utils import modules as m
 from utils import ut as u
 from text import text_info as t
-from utils.constants import regions_list
 
 st.subheader(t.HEADER, divider="grey")
 

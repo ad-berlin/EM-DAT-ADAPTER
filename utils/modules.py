@@ -2,6 +2,7 @@ import streamlit as st
 import plotly.express as px
 import numpy as np
 import pandas as pd
+from unidecode import unidecode
 
 from text import text_info as t
 from utils import constants as c
@@ -23,7 +24,7 @@ def write_time(data):
     earliest_year = data[c.YEAR_START].min()
     all_years = sorted(data[c.YEAR_START].unique())
 
-    st.write(t.SELECT_TIME)
+    st.write(f":blue[{t.SELECT_TIME}]")
     start, end = st.select_slider(label=t.SELECT_TIME,
                                   options=all_years,
                                   value=(earliest_year, latest_year),
@@ -255,22 +256,25 @@ def write_compare(target, data, start, end, filter=False):  # TODO: probably bre
 
 
 def build_filter(data):
-
     info = []
     filter_params = st.multiselect(label="params for filter",
                                    options=sorted(c.filter_list),
                                    label_visibility="collapsed",
                                    placeholder="Choose parameters for filter options")
     for param in filter_params:
-        st.write(f"Filter {param}")
+        st.write(f"Filter :blue[{param}]")
 
         if param is c.ORIGIN_LABEL:
             options_list = "; ".join(data[param])
             options_list = pd.Series(options_list.split("; ")).unique()
-            # st.write(options_list)  # TODO: why needed??
             argument = st.multiselect(label=f"{param} to filter",
                                       options=options_list,
                                       label_visibility="collapsed")
+
+            for i, arg in enumerate(argument):
+                if "(" in arg:
+                    argument[i] = arg.split(" ")[0]
+
             pattern = "|".join(argument)
             data = data.loc[data[param].str.contains(pattern, na=False)]  # na=False: treat NaN as False
             info.append((param, ', '.join(argument)))
@@ -296,10 +300,10 @@ def build_filter(data):
         elif param in c.text_field_list:
             data = u.treat_text_column(data=data, columns=[param], new=True)
 
-            argument = st.text_input(label=f"Please spell without 'special' letters and use the closest standard latin letters to replace. E.g. ä to a, ß to ss, ç to c, é to e.",
+            argument = st.text_input(label=f"{param} to filter",
                                      placeholder="Please type what you look for",
-                                     key=f"{param}_text_input")
-            argument = argument.lower()
+                                     label_visibility="collapsed")
+            argument = unidecode(argument.lower())
             data = data.loc[data[f"{param} (assist)"].str.contains(argument, na=False)]  # na=False: treat NaN as False
             data = data.drop(columns=[f"{param} (assist)"])
             info.append((param, f"cell contains {argument}"))
@@ -308,6 +312,11 @@ def build_filter(data):
             argument = st.multiselect(label=f"{param} to filter",
                                       options=data[param].unique(),
                                       label_visibility="collapsed")
+
+            for i, arg in enumerate(argument):
+                if "(" in arg:
+                    argument[i] = arg.split(" ")[0]
+
             pattern = "|".join(argument)
             data = data.loc[data[param].str.contains(pattern, na=False)]  # na=False: treat NaN as False
             info.append((param, ', '.join(argument)))

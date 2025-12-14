@@ -324,7 +324,7 @@ mapping_origin_labels = {
     "surge": "storm surge",
     "ice": "ice jam",
     "earthquake": "earthquake/seismic activity",
-    "weather": "weather (unspecified)",
+    "weather": "weather unspecified",
     "unclear": "unclear origin (check with original sources)"
 }
 
