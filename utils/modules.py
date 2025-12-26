@@ -60,17 +60,15 @@ def write_overview(target, data, start, end, hover_list) -> None:
         st.plotly_chart(target_scatter)
 
 
-def write_dig_deep(target, data, start, end, filter=False):  # TODO: probably break down
-    if target != "Country":
+def write_dig_deep(target, data, start, end, filter=False, filter_cat=None):
+    if target != c.OPT_COUNTRY:
         target_plural = f"{target}s"
     else:
-        target_plural = "Countries"
+        target_plural = "EM-DAT Countries"
 
-    st.write(f":blue[I want to find out more about certain {target_plural}]")
-
-    if filter:  # TODO: remove to page text and specialize to toggl
+    if filter and filter_cat:
         added_filter = st.selectbox(label="subgroup for box comparison",
-                                    options=sorted(data[c.DIS_TYPE].fillna("no data").unique()),
+                                    options=sorted(data[filter_cat].fillna("no data").unique()),
                                     placeholder=f"Choose {c.DIS_TYPE}s for comparison",
                                     label_visibility="collapsed",
                                     key="dis_type select deep analysis")
@@ -85,7 +83,7 @@ def write_dig_deep(target, data, start, end, filter=False):  # TODO: probably br
 
         for ix, dis_target in enumerate(selected_subtargets):
             with tabs[ix]:
-                target_df = data
+                target_df = data.copy()
                 target_df = target_df.loc[target_df[target] == dis_target]
 
                 selected_parameter = st.multiselect(label=f"params for exploration",
@@ -131,17 +129,24 @@ def write_dig_deep(target, data, start, end, filter=False):  # TODO: probably br
                                     hover_data=[c.YEAR_START, c.NUM, c.DIS_SUBTYPE])
                                 col2.plotly_chart(fig_scatter)
 
+                        if parameter == c.MONTH_START:
+                            info = target_df[c.MONTH_START].value_counts()
+                            info.index = info.index.map(lambda x: t.month_dict.get(x, x))
+                            st.dataframe(
+                                data=info,
+                                column_config={"count": st.column_config.NumberColumn(label="Value Count"),
+                                               c.MONTH_START: st.column_config.TextColumn(label=parameter,
+                                                                               width="large")},
+                                use_container_width=True)
+
                         if parameter in c.info_list:  # TODO: fix presentation
-                            target_df = u.treat_text_column(data=target_df, columns=[parameter])  # drop nan
+                            target_df = u.treat_text_column(data=target_df, columns=[parameter])
                             info = f"{', '.join(target_df[parameter])}"
                             info = pd.Series(info.split(', ')).value_counts()
 
-                            if parameter == c.MONTH_START:
-                                info.index = info.index.map(lambda x: t.month_dict.get(x, x))
-
                             st.dataframe(
                                 data=info,
-                                column_config={"count": st.column_config.NumberColumn(label="value count"),
+                                column_config={"count": st.column_config.NumberColumn(label="Value Count"),
                                                "": st.column_config.TextColumn(label=parameter,
                                                                                width="large")},
                                 use_container_width=True)
@@ -154,21 +159,25 @@ def write_dig_deep(target, data, start, end, filter=False):  # TODO: probably br
                             info = target_df[parameter].value_counts()
                             st.dataframe(
                                 data=info,
-                                column_config={"count": st.column_config.NumberColumn(label="value count"),
+                                column_config={"count": st.column_config.NumberColumn(label="Value Count"),
                                                "": st.column_config.TextColumn(label=parameter,
                                                                                width="large")},
                                 use_container_width=True)
 
 
                         st.write(f"*{t.info_dict.get(parameter)}")
-        return selected_subtargets
+    return target
 
 
-def write_compare(target, data, start, end, filter=False):  # TODO: probably break down
-    st.write(f":blue[I want to compare {target}s per chosen parameter]")
-    if filter:
+def write_compare(target, data, start, end, filter=False, filter_cat=None):
+    if target != c.OPT_COUNTRY:
+        target_plural = f"{target}s"
+    else:
+        target_plural = "EM-DAT Countries"
+
+    if filter and filter_cat:
         added_filter = st.selectbox(label="subgroup for box comparison",
-                                    options=sorted(data[c.DIS_TYPE].fillna("no data").unique()),
+                                    options=sorted(data[filter_cat].fillna("no data").unique()),
                                     placeholder=f"Choose {c.DIS_TYPE}s for Comparison",
                                     label_visibility="collapsed",
                                     key="dis_type select compare")
@@ -176,7 +185,7 @@ def write_compare(target, data, start, end, filter=False):  # TODO: probably bre
 
     request_subgroups = st.multiselect(label="subgroup for box comparison",
                                        options=sorted(data[target].fillna("no data").unique()),
-                                       placeholder=f"Choose {target}s for Comparison",
+                                       placeholder=f"Choose {target_plural} for Comparison",
                                        label_visibility="collapsed",
                                        key="subgroup select")
 
@@ -253,6 +262,8 @@ def write_compare(target, data, start, end, filter=False):  # TODO: probably bre
                     5: st.column_config.NumberColumn(
                         label="median",
                         format="localized")})
+
+    return target
 
 
 def build_filter(data):

@@ -15,7 +15,7 @@ else:
     df = st.session_state['data'].copy()
     un_ctr = u.get_m49_dict(file="data/UNSD.xlsx")
 
-    frame = pd.DataFrame(df[c.COUNTRY].unique())
+    frame = pd.DataFrame(df[c.OPT_COUNTRY].unique())
     frame.columns = [c.OPT_COUNTRY]
     frame[c.ADMIN_C] = frame[c.OPT_COUNTRY].map(lambda x: t.country_label_dict.get(x, x))
     frame[c.SOVEREIGN_C] = frame[c.ADMIN_C].map(lambda x: un_ctr.get(c.SOVEREIGN_C).get(x, "no UN member (2025)"))
@@ -65,6 +65,18 @@ else:
         """)
         with st.expander("Exact mapping of regions"):
             st.dataframe(frame[[c.ADMIN_C, c.OPT_REGION, c.CONTINENT_R]], hide_index=True)
+
+    for sub_cat in df[c.DIS_SUBGROUP].unique():
+        with st.container(border=True):
+            st.write(f"""
+            *Subgroup {sub_cat} Disasters*  
+            This {c.DIS_SUBGROUP} contains multiple {c.DIS_TYPE}s, which contain again {c.DIS_SUBTYPE}s.
+            """)
+            with st.expander(f"Exact mapping of {c.DIS_TYPE}s and {c.DIS_SUBTYPE}s (incl. number of occurence in data set)"):
+                target_df = df.loc[df[c.DIS_SUBGROUP] == sub_cat]
+                for sub_sub_cat in target_df[c.DIS_TYPE].unique():
+                    st.write(f"Disaster Type: {sub_sub_cat}")
+                    st.write(target_df.loc[target_df[c.DIS_TYPE] == sub_sub_cat][c.DIS_SUBTYPE].value_counts())
 
     with st.container(border=True):
         st.write("""

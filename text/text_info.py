@@ -11,9 +11,9 @@ info_dict = {
     c.EXT_ID: "List of identifiers pointing to external services and resources, such as the disaster Global Identifier (GLIDE) number.",
     c.NAME: "Short specification for disaster identification, e.g., storm names (e.g., ’Mitch’) plane type in air crash (e.g., ’Boeing 707’), disease name (e.g., ’Cholera’), or volcano name (e.g., ’Etna’).",
     c.ISO: "The International Organization for Standardization (ISO) 3-letter code referring to the Country. The ISO 3166 norm is used.",
-    c.COUNTRY: "Country where the disaster occurred and had an impact using names from the UN M49 Standard.",
-    c.SUBREGION: "Subregion where the disaster occurred based on UN M49 standard.",
-    c.REGION: "Region where the disaster occurred based on UN M49 standard.",
+    c.OPT_COUNTRY: "Country where the disaster occurred and had an impact using names from the UN M49 Standard.",
+    c.OPT_SUBREGION: "Subregion where the disaster occurred based on UN M49 standard.",
+    c.OPT_REGION: "Region where the disaster occurred based on UN M49 standard.",
     c.LOCATION: "Geographical location name as specified in the sources, e.g., city, village department, province, state, or district.",
     c.ORIGIN: "Additional specifications on the contextual factors that led to the event, e.g., ’heavy rains’ for floods or ’drought’ for a forest fire.",
     c.ASS_TYPES: "List of secondary disaster types cascading from or co-occurring aside from the main type, e.g., a landslide following a flood or an explosion after an earthquake.",
@@ -237,18 +237,18 @@ ERROR_DATA = '''🚨 Please, upload your dataset first on the start page!'''
 ERROR_VALUE = '''Not enough data for insightful display...'''
 
 month_dict = {
-    "1": "January",
-    "2": "February",
-    "3": "March",
-    "4": "April",
-    "5": "May",
-    "6": "June",
-    "7": "July",
-    "8": "August",
-    "9": "September",
-    "10": "October",
-    "11": "November",
-    "12": "December"
+    1: "January",
+    2: "February",
+    3: "March",
+    4: "April",
+    5: "May",
+    6: "June",
+    7: "July",
+    8: "August",
+    9: "September",
+    10: "October",
+    11: "November",
+    12: "December"
 }
 
 ### area for spelling preprocessing

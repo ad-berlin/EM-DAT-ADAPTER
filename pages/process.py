@@ -61,7 +61,7 @@ with st.container(border=True):
             temp_df = df.loc[df[c.ORIGIN_CLEAN] == "extreme rain", [c.ORIGIN, c.ORIGIN_CLEAN]]
             origin_val_num = len(temp_df[c.ORIGIN].unique())
             st.write(f"5. This correction and homogenisation means, that a number of {origin_val_num} unique values can be "
-                     f"simplified to one - just in the case of 'extreme rainfall'.")
+                     f"simplified to one - just in the case of 'extreme rain'.")
             st.dataframe(temp_df.value_counts())
 
             st.write("6. The same is true for other phenomenons.")
@@ -115,7 +115,7 @@ with st.container(border=True):
                 y=target,
                 title=f"{target} in {chosen_continent} ({df[c.YEAR_START].max() - 5} to {df[c.YEAR_START].max()})",
                 subtitle="data gaps filled with 0 for visualisation",
-                hover_data=[c.DIS_SUBTYPE, c.COUNTRY])
+                hover_data=[c.DIS_SUBTYPE, c.OPT_COUNTRY])
             col1.plotly_chart(target_scatter)
 
             target_scatter = px.scatter(
@@ -124,7 +124,7 @@ with st.container(border=True):
                 y=target,
                 title=f"{target} in {chosen_continent} ({df[c.YEAR_START].max() - 5} to {df[c.YEAR_START].max()})",
                 subtitle="data gaps NOT filled",
-                hover_data=[c.DIS_SUBTYPE, c.COUNTRY])
+                hover_data=[c.DIS_SUBTYPE, c.OPT_COUNTRY])
             col2.plotly_chart(target_scatter)
 
 

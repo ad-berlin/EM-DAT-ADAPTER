@@ -36,9 +36,43 @@ else:
         m.write_overview(target=target, data=df, start=start, end=end, hover_list=[c.NUM])
 
     with st.container(border=True):
-        m.write_dig_deep(target=target, start=start, end=end, data=df)
+        target_plural = f"{target}s"
+        st.write(f":blue[I want to find out more about certain {target_plural}]")
+
+        col1, col2 = st.columns([1,2])
+        trigger_filter_deep = col1.toggle("Apply filter of region", key="toggle_deep")
+
+        if trigger_filter_deep:
+            classification_scope_deep = col2.radio(
+                label="class scope filter deep",
+                options=[c.OPT_REGION, c.OPT_SUBREGION, c.UN_M49_C],
+                label_visibility="collapsed",
+                horizontal=True)
+            target = m.write_dig_deep(target=target, start=start, end=end,
+                             data=df, filter=True, filter_cat=classification_scope_deep)
+
+        else:
+            target = m.write_dig_deep(target=target, start=start, end=end, data=df)
 
     with st.container(border=True):
-        m.write_compare(target=target, data=df, start=start, end=end)
+        target_plural = f"{target}s"
+        st.write(f":blue[I want to compare {target_plural} per chosen parameter]")
+
+        col1, col2 = st.columns([1, 2])
+        trigger_filter_compare = col1.toggle("Apply filter of region", key="toggl_compare")
+
+        if trigger_filter_compare:
+            classification_scope_compare = col2.radio(
+                label="class scope filter compare",
+                options=[c.OPT_REGION, c.OPT_SUBREGION, c.UN_M49_C],
+                label_visibility="collapsed",
+                horizontal=True)
+
+            spec = m.write_compare(target=target, data=df, start=start,
+                                   end=end, filter=True, filter_cat=classification_scope_compare)
+
+        else:
+            spec = m.write_compare(target=target, data=df, start=start, end=end, filter=False)
+
 
 m.write_impressum()

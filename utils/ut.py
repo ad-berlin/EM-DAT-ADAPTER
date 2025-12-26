@@ -9,7 +9,7 @@ from text import text_info as t
 @st.cache_data()
 def get_m49_dict(file) -> dict:
     un_data_ctr = pd.read_excel(file)
-    un_data_ctr = un_data_ctr.set_index("Country/Area")
+    un_data_ctr = un_data_ctr.set_index("Area")
     return un_data_ctr.to_dict()
 
 
@@ -24,24 +24,24 @@ def get_un_data(file) -> pd.DataFrame:
 @st.cache_data()
 def get_data(file) -> pd.DataFrame:
     un_ctr = get_m49_dict(file="data/UNSD.xlsx")
-    un_pop = get_un_data(file="data/UN_DEMOGRAPH.csv")
+    # un_pop = get_un_data(file="data/UN_DEMOGRAPH.csv")
 
     data = pd.read_excel(file, sheet_name=0)
     data = data.loc[data[c.DIS_NAT_TECH] == 'Natural']
 
     add_col_start = c.DATE_START
-    data[add_col_start] = pd.to_datetime({
-        'year': data[c.YEAR_START],
-        'month': data[c.MONTH_START].fillna(1).astype(int),
-        'day': data[c.DAY_START].fillna(1).astype(int)
-    })
+    data[add_col_start] = pd.to_datetime(
+        data[c.YEAR_START].astype(str) + '-' +
+        data[c.MONTH_START].fillna(1).astype(int).astype(str) + '-' +
+        data[c.DAY_START].fillna(1).astype(int).astype(str)
+    )
 
     add_col_end = c.DATE_END
-    data[add_col_end] = pd.to_datetime({
-        'year': data[c.YEAR_END],
-        'month': data[c.MONTH_END].fillna(1).astype(int),
-        'day': data[c.DAY_END].fillna(1).astype(int)
-    })
+    data[add_col_end] = pd.to_datetime(
+        data[c.YEAR_END].astype(str) + '-' +
+        data[c.MONTH_END].fillna(1).astype(int).astype(str) + '-' +
+        data[c.DAY_END].fillna(1).astype(int).astype(str)
+    )
 
     add_col_duration = c.DIS_DURATION
     data[add_col_duration] = (data[add_col_end] - data[add_col_start]).dt.days + 1
@@ -88,6 +88,8 @@ def get_data(file) -> pd.DataFrame:
 
     add_col_continent = c.CONTINENT_R
     data[add_col_continent] = data[add_col_admin].map(lambda x: un_ctr.get(add_col_continent).get(x, "no data"))
+
+    data = data.rename(columns={c.COUNTRY: c.OPT_COUNTRY, c.SUBREGION: c.OPT_SUBREGION, c.REGION: c.OPT_REGION})
 
     return data
 
