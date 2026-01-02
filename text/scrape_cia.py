@@ -1,24 +1,26 @@
-import requests
+from worldfactbook import WorldFactbook
 import streamlit as st
-from bs4 import BeautifulSoup
 
-def test123():
-    url = "https://www.geeksforgeeks.org/dsa/dsa-tutorial-learn-data-structures-and-algorithms/"
-    response = requests.get(url)
-    print(response.text)
+# https://github.com/lucafrance/cia-factbook-scraper/blob/main/cia_factbook_scaper.py
 
-def soup():
-    # Fetch and parse the page
-    response = requests.get('https://www.cia.gov/the-world-factbook/countries/afghanistan/')
-    soup = BeautifulSoup(response.content, 'html.parser')
+factbook = WorldFactbook(cache_folder="cache", use_cache=True)
 
-    # Find the main content container
-    content_div = soup.find('<div', class_='article--viewer_content')
-    if content_div:
-        for para in content_div.find_all('p'):
-            print(para.text.strip())
-    else:
-        print("No article content found.")
+# Get population data
+populations = factbook.get_populations()
+st.write(populations)
 
-test123()
-soup()
+# Get language distribution
+languages = factbook.get_languages()
+st.write(languages)
+
+# Get country ISO codes
+country_codes = factbook.get_country_codes()
+st.write(country_codes)
+
+# Lower-level API calls
+country_comparison_data = factbook.get_field_country_comparison_data("population")  # Get population comparison data
+st.write(country_comparison_data)
+field_data = factbook.get_field_data("languages")  # Get field data like languages
+st.write(field_data)
+reference_data = factbook.get_reference_data("country-data-codes")  # Get reference data for country codes
+st.write(reference_data)
