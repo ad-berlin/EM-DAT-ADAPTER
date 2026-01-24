@@ -72,7 +72,7 @@ def write_dig_deep(target, data, start, end, filter=False, filter_cat=None):
                                     placeholder=f"Choose {c.DIS_TYPE}s for comparison",
                                     label_visibility="collapsed",
                                     key="dis_type select deep analysis")
-        data = data.loc[data[c.DIS_TYPE] == added_filter]
+        data = data.loc[data[filter_cat] == added_filter]
 
     selected_subtargets = st.multiselect(label=f"certain {target} select",
                                          options=sorted(data[target].fillna("no data").unique()),
@@ -181,7 +181,7 @@ def write_compare(target, data, start, end, filter=False, filter_cat=None):
                                     placeholder=f"Choose {c.DIS_TYPE}s for Comparison",
                                     label_visibility="collapsed",
                                     key="dis_type select compare")
-        data = data.loc[data[c.DIS_TYPE] == added_filter]
+        data = data.loc[data[filter_cat] == added_filter]
 
     request_subgroups = st.multiselect(label="subgroup for box comparison",
                                        options=sorted(data[target].fillna("no data").unique()),

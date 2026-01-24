@@ -17,8 +17,10 @@ st.link_button(
     url="https://public.emdat.be/",
     use_container_width=True)
 
+st.write(":blue[Upload here your EM-DAT xlsx file!]")
 file_upload_em = st.file_uploader(
     ":blue[Upload here your EM-DAT xlsx file!]",
+    label_visibility="collapsed",
     type=['xlsx'])
 
 if file_upload_em:
