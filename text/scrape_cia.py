@@ -61,6 +61,7 @@ with open("country_codes.txt", 'w') as output:
 
 # 4 read proper file
 imp_file = pd.read_csv("country_codes.txt", sep=";")
+st.write(imp_file)
 code_dict = imp_file.to_dict()
 
 # 5 build dict with all countries urls
@@ -73,44 +74,44 @@ for country in imp_file.index:
         countries_complex[country] = {"url": url}
 # st.write(countries_complex)
 
-# 6 scrape soup
-# for country in countries_complex.values():
-url = "https://www.cia.gov/the-world-factbook/countries/afghanistan/"  # country["url"]
-try:
-    response = requests.get(url, timeout=10)
-    response.raise_for_status()
-    soup = BeautifulSoup(response.text, "html.parser")
-    # 6.1 get all HTML text
-    # country["raw_text"] = response.text
-    raw_text = response.text
-
-    # 6.2 get page title (level 1)
-    # country["title"] = soup.find("h1").get_text(strip=True)
-    title = soup.find("h1").get_text(strip=True)
-    st.header(title)
-
-    # 6.3 find all sections (level 2)
-    content = soup.find("div", class_="content-area-content")
-    for section in content.children:
-        h2_tag = section.find("h2")
-        if h2_tag is None:
-            continue
-        section_name = h2_tag.text
-        st.subheader(section_name)
-
-        # 6.4 find all subsections (level 3)
-        for h3_tag in section.find_all("h3"):
-            subsection_name = h3_tag.text
-            st.write(subsection_name)
-
-            # 6.5 try unpacking content of subsections (level 4)
-            content_tag = h3_tag.next_sibling
-            st.write(content_tag)
-            for sibling in h3_tag.find_next_siblings():  # current fail, because of return is empty
-                st.write(sibling.get_text(" ", strip=True))
-
-except Exception as e:
-    st.write("ERROR extracting", url)
+# # 6 scrape soup
+# # for country in countries_complex.values():
+# url = "https://www.cia.gov/the-world-factbook/countries/afghanistan/"  # country["url"]
+# try:
+#     response = requests.get(url, timeout=10)
+#     response.raise_for_status()
+#     soup = BeautifulSoup(response.text, "html.parser")
+#     # 6.1 get all HTML text
+#     # country["raw_text"] = response.text
+#     raw_text = response.text
+#
+#     # 6.2 get page title (level 1)
+#     # country["title"] = soup.find("h1").get_text(strip=True)
+#     title = soup.find("h1").get_text(strip=True)
+#     st.header(title)
+#
+#     # 6.3 find all sections (level 2)
+#     content = soup.find("div", class_="content-area-content")
+#     for section in content.children:
+#         h2_tag = section.find("h2")
+#         if h2_tag is None:
+#             continue
+#         section_name = h2_tag.text
+#         st.subheader(section_name)
+#
+#         # 6.4 find all subsections (level 3)
+#         for h3_tag in section.find_all("h3"):
+#             subsection_name = h3_tag.text
+#             st.write(subsection_name)
+#
+#             # 6.5 try unpacking content of subsections (level 4)
+#             content_tag = h3_tag.next_sibling
+#             st.write(content_tag)
+#             for sibling in h3_tag.find_next_siblings():  # current fail, because of return is empty
+#                 st.write(sibling.get_text(" ", strip=True))
+#
+# except Exception as e:
+#     st.write("ERROR extracting", url)
 
 
 class area():
