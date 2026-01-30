@@ -66,6 +66,8 @@ def write_dig_deep(target, data, start, end, filter=False, filter_cat=None):
     else:
         target_plural = "EM-DAT Countries"
 
+    added_filter = "worldwide"
+
     if filter and filter_cat:
         added_filter = st.selectbox(label="subgroup for box comparison",
                                     options=sorted(data[filter_cat].fillna("no data").unique()),
@@ -100,10 +102,12 @@ def write_dig_deep(target, data, start, end, filter=False, filter_cat=None):
                             if len(target_df[parameter].unique()) < 3:
                                 st.error(t.ERROR_VALUE)
                             else:
+                                hover_data = [c.YEAR_START, c.NUM, c.DIS_SUBTYPE]
                                 if parameter == c.MAG:
                                     agg_mag = target_df.groupby(c.MAG_SCALE).agg(
                                         {c.MAG: ['min', 'max', 'mean', np.median]})
                                     st.write(agg_mag)  # TODO: switch to dataframe and layout number format
+                                    hover_data = [c.YEAR_START, c.NUM, c.DIS_SUBTYPE, c.MAG_SCALE]
 
                                 q_1 = st.slider(label="Select restrictive quantile for better visualisation",
                                                 min_value=0.00, max_value=1.00, value=1.00,
@@ -116,17 +120,17 @@ def write_dig_deep(target, data, start, end, filter=False, filter_cat=None):
                                     data_frame=target_df,
                                     x=parameter,
                                     nbins=30,
-                                    title=f"Distribution of {parameter} of {dis_target} ({start} to {end})",
-                                    subtitle=f"upper {int((1 - q_1) * 100)}% of data points removed")
+                                    title=f"Distribution of {parameter} of {dis_target} ({start}-{end})",
+                                    subtitle=f"upper {int((1 - q_1) * 100)}% of data points removed; {added_filter}")
                                 col1.plotly_chart(fig_hist)
 
                                 fig_scatter = px.scatter(
                                     data_frame=u.build_scatter_data(target_df),
                                     x=c.DATE_START,
                                     y=parameter,
-                                    title=f"{parameter} of {dis_target} ({start} to {end})",
-                                    subtitle=f"data gaps filled with 0 for visualisation; upper {int((1 - q_1) * 100)}% of data points removed",
-                                    hover_data=[c.YEAR_START, c.NUM, c.DIS_SUBTYPE])
+                                    title=f"{parameter} of {dis_target} ({start}-{end})",
+                                    subtitle=f"data gaps filled with 0; upper {int((1 - q_1) * 100)}% of data points removed; {added_filter}",
+                                    hover_data=hover_data)
                                 col2.plotly_chart(fig_scatter)
 
                         if parameter == c.MONTH_START:
@@ -151,20 +155,6 @@ def write_dig_deep(target, data, start, end, filter=False, filter_cat=None):
                                                                                width="large")},
                                 use_container_width=True)
 
-                        # if parameter in c.att_list:
-                        #     info = target_df[parameter].dropna().unique()
-                        #     st.write(f"Attributed {parameter}(s): {', '.join(info)}")
-
-                        if parameter in c.att_list:
-                            info = target_df[parameter].value_counts()
-                            st.dataframe(
-                                data=info,
-                                column_config={"count": st.column_config.NumberColumn(label="Value Count"),
-                                               "": st.column_config.TextColumn(label=parameter,
-                                                                               width="large")},
-                                use_container_width=True)
-
-
                         st.write(f"*{t.info_dict.get(parameter)}")
     return target
 
@@ -174,6 +164,8 @@ def write_compare(target, data, start, end, filter=False, filter_cat=None):
         target_plural = f"{target}s"
     else:
         target_plural = "EM-DAT Countries"
+
+    added_filter = "worldwide"
 
     if filter and filter_cat:
         added_filter = st.selectbox(label="subgroup for box comparison",
@@ -214,8 +206,8 @@ def write_compare(target, data, start, end, filter=False, filter_cat=None):
                 data_frame=df_request,
                 x=target,
                 y=request_parameter,
-                title=f"{request_parameter} per selected {target} ({start} to {end})",
-                subtitle=f"upper {int((1 - q_2) * 100)}% of data points removed")
+                title=f"{request_parameter} per selected {target}s ({start}-{end})",
+                subtitle=f"upper {int((1 - q_2) * 100)}% of data points removed; {added_filter}")
 
             for cat in request_subgroups:
                 fig_box.add_annotation(
@@ -237,12 +229,15 @@ def write_compare(target, data, start, end, filter=False, filter_cat=None):
                 color=target,
                 barmode='group',
                 nbins=30,
-                title=f"Distribution of {request_parameter} per selected {target} ({start} to {end})",
-                subtitle=f"upper {int((1 - q_2) * 100)}% of data points removed")
+                title=f"Distribution of {request_parameter} per selected {target}s ({start}-{end})",
+                subtitle=f"upper {int((1 - q_2) * 100)}% of data points removed; {added_filter}")
             st.plotly_chart(fig_hist)
 
         with table:
-            st.write(f"*upper {int((1 - q_2) * 100)}% of data points removed*")
+            st.write(f"""
+            Statistical parameters of {request_parameter} per selected {target}s ({start}-{end}, {added_filter})  
+            *upper {int((1 - q_2) * 100)}% of data points removed*""")
+            # st.write(f"*upper {int((1 - q_2) * 100)}% of data points removed*")
             agg_table = df_request.groupby(target).agg({request_parameter: ['sum', 'min', 'max', 'mean', np.median]})
             st.dataframe(
                 data=agg_table,

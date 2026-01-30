@@ -48,7 +48,7 @@ else:
         Based on "Countries" "Subregions" can be diverged. These are subjective groupings for broader pattern analysis.
         Two groupings are provided.  
         :blue[Geographical Subregions] - The aim is to group countries by shared geographical traits, locations, and/or water
-        sources.
+        sources.  
         :blue[UN M49 Subregions] - Subregions are defined as in the UN M49 standard. [4]
         """)
         with st.expander("Exact mapping of subregions"):
