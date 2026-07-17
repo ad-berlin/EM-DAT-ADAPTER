@@ -1,8 +1,18 @@
 import streamlit as st
 
+
+dark = st.context.theme.type == "dark"
+suffix = "dark" if dark else "light"
+
+st.logo(
+    image=f"assets/distrack_logo_{suffix}.png",
+    icon_image=f"assets/distrack_icon_{suffix}.png",  # eingeklappte Sidebar
+    size="large",
+)
+
 # setup of entire webpage, global settings
 st.set_page_config(
-    page_title="DisTrack - Visualising Disaster",
+    page_title="DisTrack - Analysing Disaster",
     page_icon="🦖",
     layout='wide')
 
@@ -97,7 +107,6 @@ pg = st.navigation(
 
 pg.run()  # run all pages
 
-
 # add to sidebar: link referring where find the homepage of the EM-DAT project
 st.sidebar.link_button(
     "EM-DAT Project Website",
@@ -110,4 +119,4 @@ st.sidebar.link_button(
     url="https://doc.emdat.be/",
     use_container_width=True)
 
-# st.sidebar.image(image="images/logo_ver_1.png", width=250)  # TODO: fix logo sizing
+st.sidebar.image(image=f"assets/distrack_logo_{suffix}.png", width=250)

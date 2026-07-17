@@ -24,10 +24,12 @@ def get_un_data(file) -> pd.DataFrame:
 @st.cache_data()
 def get_data(file) -> pd.DataFrame:
     un_ctr = get_m49_dict(file="data/UNSD.xlsx")
-    # un_pop = get_un_data(file="data/UN_DEMOGRAPH.csv")
 
     data = pd.read_excel(file, sheet_name=0)
     data = data.loc[data[c.DIS_NAT_TECH] == 'Natural']
+
+    data[c.ENTRY_DATE] = pd.to_datetime(data[c.ENTRY_DATE])
+    data[c.UPDATE_DATE] = pd.to_datetime(data[c.UPDATE_DATE])
 
     add_col_start = c.DATE_START
     data[add_col_start] = pd.to_datetime(
@@ -52,6 +54,9 @@ def get_data(file) -> pd.DataFrame:
 
     add_col_origin_label = c.ORIGIN_LABEL
     data[add_col_origin_label] = data[add_col_origin_clean].map(lambda x: label_origin(string=x))
+
+    add_col_sequence = c.DIS_SEQ
+    data[add_col_sequence] = data[c.NUM].str.extract(r'^\d+-(\d+)-')
 
     add_col_admin = c.ADMIN_C
     data[add_col_admin] = data[c.COUNTRY].map(lambda x: t.country_label_dict.get(x, x))
@@ -91,7 +96,7 @@ def get_data(file) -> pd.DataFrame:
 
     data = data.rename(columns={c.COUNTRY: c.OPT_COUNTRY, c.SUBREGION: c.OPT_SUBREGION, c.REGION: c.OPT_REGION})
 
-    return data
+    return data.reset_index()
 
 
 def remove_outliner(data: pd.DataFrame, q_low, q_high, parameter, target):
@@ -171,7 +176,6 @@ def treat_origin(aim_list: list, string):
                    .replace('.', replacement)
                    .replace('"', replacement)
                    .replace("'", replacement)
-
                    .replace(' of', "_of")
                    .replace(' with', "_with")
                    )

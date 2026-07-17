@@ -65,6 +65,7 @@ info_dict = {
     c.ISO_A3: "The International Organization for Standardization (ISO) 3-letter code referring to the country. The ISO 3166 norm is used.",
     c.ORIGIN_CLEAN: "'Origin'-Column treated for spelling and meaning.",
     c.ORIGIN_LABEL: "'Origin'-Column reduced to specific labels.",
+    c.DIS_SEQ: "A sequential number of 4 digits for each disaster event."
 }
 
 explain_dict = {
@@ -85,6 +86,7 @@ explain_dict = {
     c.ISO_A3: "The codes given by the International Organization for Standardization (ISO) are globally used and allow easy recognition of regions.",
     c.ORIGIN_CLEAN: "As explained in 'The Process' the column Origin is treated to allow better analysis. This is a clean version, but still containing very detailed information.",
     c.ORIGIN_LABEL: "As explained in 'The Process' the column Origin is treated to allow better analysis. This column contains labels.",
+    c.DIS_SEQ: "Reintroduction of a historic column. Each row in the database is one country-level disaster; the sequence number, together with the year, marks which rows were triggered by the same event, therefore allowing grouping of associated disasters. Note that the criteria behind the grouping are not disclosed by the CRED."
 }
 
 TEXT_INTRO = '''
@@ -112,14 +114,14 @@ been developed in 2025/2026 and is inspired by the first app for EM-DAT visualis
 Damien Delforge. [1]
 
 Thanks go to all the experts who participated in the design process and contributed valuable input/feedback through
-survey and/or interview. All contributors are if not wished otherwise listed below.
+survey and/or interview.
 '''
 
 TEXT_IMPRESSUM = '''
 :blue[Declaration of competing interest]  
 The author declares no known competing financial interests or personal relationships that could have appeared to 
 influence the work reported in this project.  
-Diaz, 2025
+Diaz, 2026
 '''
 
 TEXT_HELP = '''
@@ -146,7 +148,7 @@ help_dict = {
     This page is split into four parts. The first is global settings, the second is an overview, the third is a deeper
     analysis, and the last is a comparison.
     
-    1. Global settings allow to choose scope, and timespan.
+    1. Global settings allow to choose scope and timespan.
     2. The overview allows you to choose a parameter which will be used as y-axis in the following plot. A definition of
     the chosen parameter will be provided directly below. Data gaps, as omnipresent as they are, are filled with 0 to
     make the event itself visible in the plot. Before referring to those events stating 0 as a value, please check with
@@ -205,12 +207,50 @@ help_dict = {
     This page allows you to filter the data as you need it and build your own plots. It is definitely more possible,
     than what is useful.
     
-    All plots will can be downloaded using the camera icon appearing in the upper right corner if the cursor is moved
+    All plots can be downloaded using the camera icon appearing in the upper right corner if the cursor is moved
     over the plot. All separate colors in the legend on the right side in the plots can be separated by double click.
     This can be reversed by double clicking again. Disabling or enabling separate colors in the legend on the right side
     can be done with single clicks.
     '''
 }
+
+QUERY_HELP = '''
+| Syntax | Meaning | Example |
+| --- | --- | --- |
+| `word` | cell contains the text | `rain` also finds *rainfall* |
+| `"two words"` | cell contains the phrase | `"heavy rain"` |
+| `=word` | exact word or label | `=rain` does **not** find *rainfall* |
+| `="two words"` | exact multi word label | `="heavy rainfall"` |
+| `word*` | word or label starts with | `mon*` finds *monsoon* |
+| `*word` | word or label ends with | `*melt` finds *snowmelt* |
+| `a AND b`, `a b` | both must match | `heavy rain` |
+| `a OR b` | either matches | `monsoon OR cyclone` |
+| `NOT a` | must not match | `rain NOT snow` |
+| `( ... )` | grouping | `(heavy OR torrential) AND rain*` |
+
+Search is case and accent insensitive. `AND` binds tighter than `OR`.
+'''
+
+COHERENCE_TEXT = '''
+Cases of definition discrepancy can be found between the event variables No. Affected and Total Affected.
+The column definition states Total Affected as “total number of affected people (No. Injured, No. Affected, and
+No. Homeless combined)” [1], whereas the following figure shows the real alignment of both variables. Also, in
+a considerable number of cases No. Affected is left empty (here gray), while some other human impact variables are present.
+Additionally, EM-DAT staff claims to check the appointment between the human impact variables, but also states that
+“CRED directly uses numbers in EM-DAT as they appear in original sources” [2].
+'''
+
+WARNING = f'''
+⚠️ One event, many entries!!
+
+The database records disasters per country, not per hazard. An event affecting several countries is entered once 
+for every country it hit, with all entries sharing the same sequence number ({c.DIS_SEQ}) and {c.YEAR_START}.
+The 2004 Sumatra Earthquake, for example, appears 12 times: these are 12 disasters in 12 countries triggered
+by one magnitude 9.1 earthquake — not 12 earthquakes.
+
+Visualisations in this app currently count rows and do not group by {c.DIS_SEQ}. Counts, frequency distributions and
+magnitude-based charts therefore over-represent events that crossed borders. Keep this in mind when interpreting them.
+'''
 
 HEADER = ":red[Beta:] :blue[DisTrack - International Disaster Analysis]"
 
@@ -371,8 +411,7 @@ rain_descriptor_lst = [
 ]
 
 complex_label_lst = [
-    ["sanitation", "sanitary", "hygien", "dirty water", "drinking water", "safe water", "contaminat", "clean water"],
-    # sanitation/hygiene/safe water
+    ["sanitation", "sanitary", "hygien", "dirty water", "drinking water", "safe water", "contaminat", "clean water"],  # sanitation/hygiene/safe water
     ["rainstorm", "monsoon", "mei-yu"],  # rain event
     ["drought", "dry", "low rain"],  # drought/insufficient rain
     ["heat", "hot", "high temper"],  # heat/high temperatures

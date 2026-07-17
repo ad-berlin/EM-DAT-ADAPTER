@@ -7,11 +7,6 @@ st.subheader(t.HEADER, divider="grey")
 
 st.write(t.TEXT_ABOUT)
 
-with st.expander("List of contributors"):
-    st.write("""
-    List of contributors to come....
-    """)
-
 st.write(":violet[You want to contribute as well? Find out how to participate!]")
 
 m.write_impressum()

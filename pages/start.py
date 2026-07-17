@@ -29,19 +29,19 @@ if file_upload_em:
 if 'data' in st.session_state:
     st.success("File upload successful!")
 
-    with st.container(border=True):
-        st.success("""
-        Dear Beta-User, you have two main tasks:  
-        1) Please, find a way to create graphs that are most useful for your field of research.  
-        2) Please, try to break the app.
-
-        Most gratefully,  
-        The Developer
-        """)
-
-        st.link_button(
-            "please document your results as good as possible here in this survey",
-            url="https://diazberlin.limesurvey.net/distrack_beta_eval?lang=en&newtest=Y",
-            use_container_width=True)
+#     with st.container(border=True):
+#         st.info("""
+#         Dear Beta-User, you have two main tasks:
+#         1) Please, find a way to create graphs that are most useful for your field of research.
+#         2) Please, try to break the app.
+#
+#         Most gratefully,
+#         The Developer
+#         """)
+#
+#         st.link_button(
+#             "please document your results as good as possible here in this survey",
+#             url="https://diazberlin.limesurvey.net/distrack_beta_eval?lang=en&newtest=Y",
+#             use_container_width=True)
 
 m.write_impressum()

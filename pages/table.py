@@ -3,6 +3,7 @@ import streamlit as st
 
 from utils import constants as c
 from utils import modules as m
+from utils import modules_filter as mf
 from utils import ut as u
 from text import text_info as t
 
@@ -26,7 +27,7 @@ else:
 
     with st.container(border=True):
         st.write(":blue[I want to filter certain parameters, ...]")
-        df, info = m.build_filter(data=df)
+        df, info = mf.build_filter(data=df)
 
         st.write(":blue[...see the table, ...]")
         st.dataframe(df, hide_index=True)

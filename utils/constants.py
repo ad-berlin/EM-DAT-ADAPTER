@@ -71,6 +71,7 @@ UN_M49_C = 'M49 Area'
 M49_CODE_C = 'M49 Area Code'
 ISO_A2 = 'ISO-alpha2 Code'
 ISO_A3 = 'ISO-alpha3 Code'
+DIS_SEQ = 'Disaster Sequence'
 
 ORIGIN_CLEAN = 'Origin (clean)'
 ORIGIN_LABEL = 'Origin (label)'
@@ -98,13 +99,15 @@ original_list = [
 
 new_list = [
     DATE_START, DATE_END, DIS_DURATION, CONTINENT_R, M49_CODE_R, GEOGRAPH_SR, M49_CODE_SR, UN_M49_IR,
-    M49_CODE_IR, SOVEREIGN_C, ADMIN_C, UN_M49_C, M49_CODE_C, ISO_A2, ISO_A3, ORIGIN_CLEAN, ORIGIN_LABEL
+    M49_CODE_IR, SOVEREIGN_C, ADMIN_C, UN_M49_C, M49_CODE_C, ISO_A2, ISO_A3, ORIGIN_CLEAN, ORIGIN_LABEL, DIS_SEQ
 ]
 
 int_list = [
     INJURED, AFFECTED, HOMELESS, DEATHS, TOT_AFFECTED, RECONSTRUCTION, RECONSTRUCTION_ADJ, INSURED,
-    INSURED_ADJ, DAMAGE, DAMAGE_ADJ, DIS_DURATION, MAG
+    INSURED_ADJ, DAMAGE, DAMAGE_ADJ, DIS_DURATION, MAG,
 ]
+
+float_list = [LAT, LONG]
 
 date_list = [
     UPDATE_DATE, ENTRY_DATE, YEAR_START
@@ -143,3 +146,24 @@ filter_list = [
     CONTINENT_R, M49_CODE_R, GEOGRAPH_SR, M49_CODE_SR, UN_M49_IR, M49_CODE_IR, SOVEREIGN_C, ADMIN_C,
     UN_M49_C, M49_CODE_C, ISO_A2, ISO_A3, ORIGIN, ORIGIN_CLEAN, ORIGIN_LABEL
 ]
+
+# - - - - - - - - - - -
+# columns searchable by the free text query.
+# value = what a "part" of a cell is: None -> words, string -> split on it
+query_sep = {
+    ORIGIN: None,
+    ORIGIN_CLEAN: None,
+    ORIGIN_LABEL: "; ",  # controlled vocabulary from label_origin()
+    LOCATION: None,
+    RIVER: None,
+    ASS_TYPES: None,
+    NAME: None,
+    EXT_ID: "|",
+}
+
+query_list = list(query_sep)
+
+# columns holding several values per cell -> token multiselect instead of plain
+multi_value_sep = {
+    ORIGIN_LABEL: "; ",
+}

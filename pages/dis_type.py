@@ -35,6 +35,8 @@ else:
     with st.container(border=True):
         m.write_overview(target=target, data=df, start=start, end=end, hover_list=[c.NUM])
 
+    st.warning(t.WARNING)
+
     with st.container(border=True):
         target_plural = f"{target}s"
         st.write(f":blue[I want to find out more about certain {target_plural}]")
@@ -53,6 +55,8 @@ else:
 
         else:
             target = m.write_dig_deep(target=target, start=start, end=end, data=df)
+
+    st.warning(t.WARNING)
 
     with st.container(border=True):
         target_plural = f"{target}s"

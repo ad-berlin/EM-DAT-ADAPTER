@@ -5,6 +5,8 @@ from utils import constants as c
 from utils import modules as m
 from utils import ut as u
 from text import text_info as t
+from utils import modules_filter as mf
+
 
 st.subheader(t.HEADER, divider="grey")
 
@@ -37,7 +39,7 @@ else:
 
         with st.container(border=True):
             st.write(":blue[Filter the data prior to plotting]")
-            df, info_table = m.build_filter(data=df)
+            df, info_table = mf.build_filter(data=df)
 
         target_y = st.selectbox(label="Choose target column for analysis (y-axis)",
                                 options=df.columns,
@@ -97,7 +99,7 @@ else:
     if disable_hover is True:
         hover_list = []
     if disable_color is True:
-        color = c.HIST
+        color = None
         title = f"{target_y} over {target_x}"
         info = "Data before 2000, marked as historic, is to be considered of lesser quality!"
     else:
@@ -143,6 +145,7 @@ else:
                     title=title,
                     subtitle=subtitle)
                 st.plotly_chart(plot)
+
 
             with st.container(border=True):
                 st.write(":blue[Infobox on restrictions regarding the plot]")
